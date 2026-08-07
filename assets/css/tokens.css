@@ -1,0 +1,47 @@
+/* ============================================================
+   AIVORYX — Design tokens
+   Pure black void · single violet accent · amber spark.
+   Hierarchy comes from scale, never from weight.
+   ============================================================ */
+:root{
+  /* palette */
+  --void:#000000;
+  --bone:#ffffff;
+  --ash:#9a9a9a;
+  --mist:#bdbdbd;
+  --iris:#8052ff;
+  --spark:#ffb829;
+  --verdant:#15846e;
+
+  --hair:rgba(255,255,255,.07);
+  --hair-2:rgba(255,255,255,.12);
+
+  /* type */
+  --font:'Inter',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+
+  --t-caption:12px;
+  --t-nav:14px;
+  --t-body:18px;
+  --t-2xs:24px;
+  --t-xs:27px;
+  --t-sm:42px;
+  --t-lg:78px;
+  --t-display:113px;
+
+  --fw-xl:200;   /* signature ultra-light body */
+  --fw-r:400;    /* every headline */
+  --fw-sb:600;   /* nav + labels only */
+
+  /* space */
+  --s6:6px;   --s12:12px; --s18:18px; --s24:24px;
+  --s30:30px; --s36:36px; --s60:60px; --s96:96px; --s120:120px;
+
+  /* shell */
+  --max:1280px;
+  --r-3xl:24px;
+  --r-full:9999px;
+  --nav-h:78px;
+
+  /* one shared easing across the whole page */
+  --ease:cubic-bezier(.22,.85,.24,1);
+}

@@ -1,0 +1,199 @@
+/* ============================================================
+   Reusable pieces: buttons, nav, ticker, frames, forms, WhatsApp
+   ============================================================ */
+
+/* ---------------- Buttons — one filled violet pill per view ---------------- */
+.btn{
+  position:relative;overflow:hidden;
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:var(--t-nav);font-weight:var(--fw-sb);
+  letter-spacing:.025em;text-transform:uppercase;
+  border:0;cursor:pointer;border-radius:var(--r-full);
+  padding:15px 25px;background:var(--iris);color:#fff;
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+  will-change:transform;
+}
+.btn::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(120px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.28),transparent 62%);
+  opacity:0;transition:opacity .4s ease;
+}
+.btn:hover::after{opacity:1}
+.btn:hover{box-shadow:0 0 0 1px rgba(128,82,255,.55),0 18px 46px -14px rgba(128,82,255,.9)}
+.btn > span{position:relative;z-index:1}
+.btn__dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.35)}}
+
+.ghost{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:var(--t-nav);font-weight:var(--fw-r);
+  color:var(--ash);transition:color .3s ease;
+  position:relative;padding-bottom:3px;
+}
+.ghost::before{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:right;
+  transition:transform .55s var(--ease);
+}
+.ghost:hover{color:var(--bone)}
+.ghost:hover::before{transform:scaleX(1);transform-origin:left}
+.ghost i{font-style:normal;transition:transform .45s var(--ease)}
+.ghost:hover i{transform:translateX(5px)}
+
+/* ---------------- Scroll progress + navigation ---------------- */
+.progress{
+  position:fixed;top:0;left:0;right:0;height:2px;z-index:200;
+  background:linear-gradient(90deg,var(--iris),var(--spark));
+  transform:scaleX(0);transform-origin:left;
+}
+
+.nav{
+  position:fixed;inset:0 0 auto 0;z-index:150;padding-block:var(--s24);
+  transition:padding .45s var(--ease),background .45s ease,backdrop-filter .45s ease,box-shadow .45s ease;
+}
+.nav.is-stuck{
+  padding-block:14px;background:rgba(0,0,0,.6);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  box-shadow:0 1px 0 var(--hair);
+}
+.nav__inner{display:flex;align-items:center;justify-content:space-between;gap:var(--s24)}
+
+/* logo */
+.brand{display:inline-flex;align-items:center;gap:11px}
+.brand__mark{width:30px;height:30px;flex:none;overflow:visible}
+.brand__shard{transform-origin:50% 72%;transition:transform .7s var(--ease)}
+.brand:hover .brand__shard{transform:translateY(-7px) rotate(-9deg)}
+.brand__body{transition:transform .7s var(--ease)}
+.brand:hover .brand__body{transform:translateY(1.5px)}
+.brand__word{font-size:21px;font-weight:var(--fw-r);letter-spacing:-0.045em;color:var(--bone)}
+.brand__word b{font-weight:var(--fw-r);color:var(--iris)}
+
+/* links with sliding pill indicator */
+.nav__links{position:relative;display:flex;align-items:center;gap:4px}
+.nav__pill{
+  position:absolute;top:0;left:0;height:100%;border-radius:var(--r-full);
+  background:rgba(255,255,255,.07);opacity:0;pointer-events:none;
+  transition:transform .55s var(--ease),width .55s var(--ease),opacity .35s ease;
+}
+.nav__link{
+  position:relative;z-index:1;padding:10px 15px;border-radius:var(--r-full);
+  font-size:var(--t-nav);font-weight:var(--fw-sb);
+  letter-spacing:.025em;text-transform:uppercase;
+  color:var(--ash);transition:color .3s ease;
+}
+.nav__link:hover,.nav__link.is-active{color:var(--bone)}
+.nav__link.is-active::after{
+  content:"";position:absolute;left:50%;bottom:2px;
+  width:4px;height:4px;margin-left:-2px;border-radius:50%;
+  background:var(--iris);animation:dotIn .45s var(--ease) both;
+}
+@keyframes dotIn{from{transform:scale(0)}to{transform:scale(1)}}
+
+.nav__right{display:flex;align-items:center;gap:12px}
+.nav__cta{padding:12px 21px}
+.burger{display:none;background:none;border:0;padding:9px;cursor:pointer;position:relative;z-index:160}
+.burger span{display:block;width:21px;height:1.5px;background:#fff;margin:5px 0;transition:transform .45s var(--ease),opacity .3s ease}
+.nav.is-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav.is-open .burger span:nth-child(2){opacity:0}
+.nav.is-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* ---------------- Ticker ---------------- */
+.ticker{
+  padding-block:var(--s30);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+}
+.ticker__track{display:flex;width:max-content;animation:slide 52s linear infinite}
+.ticker:hover .ticker__track{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.ticker__row{display:flex;align-items:center;gap:var(--s30);padding-right:var(--s30)}
+.ticker__item{
+  font-size:var(--t-nav);font-weight:var(--fw-sb);
+  letter-spacing:.025em;text-transform:uppercase;
+  color:var(--ash);white-space:nowrap;transition:color .3s ease;
+}
+.ticker__item:hover{color:var(--bone)}
+.ticker__sep{width:5px;height:5px;border-radius:50%;background:var(--iris);flex:none}
+
+/* ---------------- Browser frame mock ---------------- */
+.frame{
+  position:relative;border-radius:var(--r-3xl);overflow:hidden;padding:1px;
+  background:linear-gradient(155deg,rgba(128,82,255,.4),rgba(21,132,110,.16) 48%,rgba(255,255,255,.05));
+  transition:transform .8s var(--ease),box-shadow .8s var(--ease);will-change:transform;
+}
+.frame__inner{
+  border-radius:calc(var(--r-3xl) - 1px);background:#050505;
+  padding:var(--s18);aspect-ratio:16/11;display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+}
+.frame__sheen{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.07) 50%,transparent 62%);
+  transform:translateX(-120%);
+}
+@keyframes sheen{to{transform:translateX(120%)}}
+.frame__bar{display:flex;align-items:center;gap:6px;padding-bottom:var(--s18)}
+.frame__dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.16)}
+.frame__url{margin-left:10px;font-size:var(--t-caption);color:var(--ash);background:rgba(255,255,255,.05);padding:5px 13px;border-radius:var(--r-full)}
+.frame__body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:var(--s18)}
+.frame__kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s12)}
+.frame__kpi b{display:block;font-size:clamp(20px,2.5vw,31px);font-weight:var(--fw-r);letter-spacing:-0.035em;line-height:1}
+.frame__kpi span{display:block;font-size:11px;color:var(--ash);margin-top:7px;letter-spacing:.05em}
+.frame__lines{display:flex;flex-direction:column;gap:9px}
+.frame__line{height:5px;border-radius:99px;background:rgba(255,255,255,.08);width:0;transition:width 1.3s var(--ease) var(--d,0s)}
+.frame__line--accent{background:linear-gradient(90deg,var(--iris),rgba(128,82,255,0))}
+
+/* ---------------- Contact channels ---------------- */
+.channels{display:flex;flex-direction:column;margin-top:var(--s36)}
+.channel{
+  display:flex;align-items:center;gap:var(--s18);
+  padding-block:var(--s18);border-bottom:1px solid var(--hair);
+  transition:padding-left .5s var(--ease);
+}
+.channel:hover{padding-left:12px}
+.channel__ico{
+  width:36px;height:36px;flex:none;border-radius:50%;
+  background:rgba(128,82,255,.14);display:grid;place-items:center;color:var(--iris);
+  transition:background .4s ease,color .4s ease,transform .5s var(--ease);
+}
+.channel:hover .channel__ico{background:var(--iris);color:#fff;transform:scale(1.06)}
+.channel__k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);display:block;margin-bottom:3px}
+.channel__v{font-size:16px;font-weight:var(--fw-xl);color:#fff}
+
+/* ---------------- Form ---------------- */
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s24)}
+.field{display:flex;flex-direction:column;gap:10px;position:relative}
+.field--full{grid-column:1/-1}
+.field label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);transition:color .3s ease}
+.field:focus-within label{color:var(--spark)}
+.field input,.field select,.field textarea{
+  background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.16);
+  padding:12px 0;font-size:16px;font-weight:var(--fw-xl);color:#fff;border-radius:0;
+}
+.field select{cursor:pointer}
+.field select option{background:#0a0a0a;color:#fff}
+.field textarea{resize:vertical;min-height:84px}
+.field__bar{position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--iris);transform:scaleX(0);transform-origin:left;transition:transform .55s var(--ease)}
+.field:focus-within .field__bar{transform:scaleX(1)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:0}
+.field input::placeholder,.field textarea::placeholder{color:#4a4a4a}
+.field.is-bad input,.field.is-bad select,.field.is-bad textarea{border-bottom-color:#ff6b6b}
+.field__err{font-size:11px;letter-spacing:.06em;color:#ff8f8f;display:none}
+.field.is-bad .field__err{display:block}
+.form__submit{grid-column:1/-1;display:flex;align-items:center;gap:var(--s24);flex-wrap:wrap;margin-top:var(--s12)}
+
+/* ---------------- Floating WhatsApp ---------------- */
+.wa{
+  position:fixed;right:22px;bottom:22px;z-index:140;
+  display:flex;align-items:center;gap:10px;
+  padding:14px 19px;border-radius:var(--r-full);
+  background:var(--iris);color:#fff;
+  font-size:13px;font-weight:var(--fw-sb);letter-spacing:.03em;
+  box-shadow:0 16px 44px -14px rgba(128,82,255,.95);
+  transform:translateY(130px);transition:transform .6s var(--ease);
+}
+.wa.is-in{transform:translateY(0)}
+.wa.is-in:hover{transform:translateY(-4px)}

@@ -1,0 +1,79 @@
+/* ============================================================
+   Reset, document base, typography roles, shared utilities
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--void);color:var(--bone);
+  font-family:var(--font);font-size:var(--t-body);
+  font-weight:var(--fw-xl);line-height:1.5;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+img,canvas,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+ul{list-style:none}
+::selection{background:var(--iris);color:#fff}
+:focus-visible{outline:2px solid var(--spark);outline-offset:4px;border-radius:4px}
+
+section[id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
+
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:#000}
+::-webkit-scrollbar-thumb{background:#1c1c1c;border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:#2b2b2b}
+
+/* skip link — keyboard users land past the nav */
+.skip{
+  position:absolute;left:-9999px;top:12px;z-index:300;
+  padding:12px 18px;border-radius:var(--r-full);
+  background:var(--iris);color:#fff;font-size:var(--t-nav);font-weight:var(--fw-sb);
+}
+.skip:focus{left:18px}
+
+.wrap{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:var(--s30)}
+.section{padding-block:var(--s120)}
+
+/* ---------------- Typography roles ---------------- */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:var(--t-nav);font-weight:var(--fw-sb);
+  letter-spacing:.025em;text-transform:uppercase;
+  color:var(--spark);line-height:1.2;
+}
+.eyebrow::before{
+  content:"";width:22px;height:1px;background:currentColor;opacity:.6;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .9s var(--ease) .1s;
+}
+.is-in .eyebrow::before{transform:scaleX(1)}
+.eyebrow--muted{color:var(--ash)}
+
+h1,h2,h3,h4{font-weight:var(--fw-r);letter-spacing:-0.04em}
+.display{font-size:clamp(42px,8.2vw,var(--t-display));line-height:1.01}
+.h-lg{font-size:clamp(34px,5.8vw,var(--t-lg));line-height:1.06}
+.h-md{font-size:clamp(29px,4.2vw,var(--t-sm));line-height:1.14}
+
+.lede{font-size:var(--t-body);font-weight:var(--fw-xl);max-width:52ch}
+.muted{color:var(--mist)}
+.caption{font-size:var(--t-caption);line-height:1.5;color:var(--ash)}
+.amber{color:var(--spark)}
+
+/* ---------------- Motion primitives ---------------- */
+
+/* Masked line reveal — the page's core headline motion */
+.line{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.line > span{
+  display:block;transform:translateY(105%);
+  transition:transform 1.05s var(--ease);transition-delay:var(--d,0s);
+}
+.is-in .line > span{transform:translateY(0)}
+
+/* Fade-up used inside an already-revealed block */
+.fade{opacity:0;transform:translateY(20px);transition:opacity 1s var(--ease),transform 1s var(--ease);transition-delay:var(--d,0s)}
+.is-in .fade{opacity:1;transform:none}
+
+/* Generic reveal — element observes itself */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .95s var(--ease) var(--d,0s),transform .95s var(--ease) var(--d,0s)}
+.rv.is-in{opacity:1;transform:none}
