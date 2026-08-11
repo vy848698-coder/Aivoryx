@@ -15,6 +15,7 @@
 /* ---------------- Tablet ---------------- */
 @media (max-width:1024px){
   :root{--s120:96px}
+  .phero{padding-top:calc(var(--nav-h) + var(--s60));padding-bottom:var(--s60)}
   .hero{min-height:auto;padding-top:calc(var(--nav-h) + 30px)}
   .hero__grid{grid-template-columns:1fr;gap:var(--s30)}
   .hero__canvasWrap{order:-1;aspect-ratio:5/4;max-width:500px;margin-inline:auto}
@@ -28,6 +29,7 @@
   .plans{grid-template-columns:1fr;gap:var(--s36)}
   .plan__note{margin-top:var(--s36)}
   .contact{grid-template-columns:1fr;gap:var(--s60)}
+  .close__grid{grid-template-columns:1fr;gap:var(--s60)}
   .why{gap:var(--s36)}
   .footer__cols{gap:var(--s36)}
 }
@@ -61,6 +63,22 @@
   .nav__link.is-active::after{display:none}
   .burger{display:block}
   .nav__cta{padding:11px 17px;font-size:12px}
+
+  /* strip: label sits above the marquee instead of beside it */
+  .strip{grid-template-columns:1fr;background:none}
+  .strip__label{padding:var(--s24) 20px 0;gap:12px}
+  .strip__label::after{height:1px;flex:1;width:auto}
+  .ticker{
+    padding-block:var(--s18) var(--s24);
+    -webkit-mask-image:linear-gradient(90deg,#000 0,#000 86%,transparent);
+    mask-image:linear-gradient(90deg,#000 0,#000 86%,transparent);
+  }
+  .ticker__track{animation-duration:46s}
+
+  /* shared sub-page shell */
+  .demo__pad{padding:var(--s24) var(--s18)}
+  .demo__bar{padding:var(--s12) var(--s18)}
+  .out{grid-template-columns:1fr}
 
   .hero__canvasWrap{max-width:380px}
   .hero__meta{gap:var(--s24);margin-top:var(--s36)}
@@ -103,6 +121,8 @@
   .frame__kpi span{font-size:10px}
   .plan__list li{font-size:14px}
   .form__submit .btn{width:100%;justify-content:center}
+  .chip{font-size:12px;padding:8px 13px}
+  .demo__cta .btn{width:100%;justify-content:center}
   .footer__bottom{flex-direction:column;align-items:flex-start;gap:var(--s12)}
 }
 
@@ -126,11 +146,15 @@
   .rv,.fade,.step,.plan,.svc__row,.work__tag{opacity:1;transform:none}
   .line > span{transform:none}
   .frame__line{width:var(--w)}
+
+  /* the marquee stops moving, so let people scroll it by hand instead */
+  .ticker{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
+  .ticker__track{animation:none!important;transform:none!important}
 }
 
 /* ---------------- Print ---------------- */
 @media print{
-  .nav,.progress,.wa,.ticker,.scrollcue,.hero__canvasWrap,.form{display:none}
+  .nav,.progress,.wa,.strip,.scrollcue,.hero__canvasWrap,.form{display:none}
   body{background:#fff;color:#000}
   .rv,.fade,.step,.plan,.svc__row,.work__tag,.line > span{opacity:1;transform:none}
 }

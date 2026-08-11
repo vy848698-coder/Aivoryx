@@ -1,0 +1,418 @@
+/* ============================================================
+   SERVICES PAGE
+   The device: a scope builder that answers "what will this cost"
+   on the page, instead of hiding it behind a contact form.
+   Page hero, demo panel, chips and output cells come from
+   components.css.
+
+   Colour carries meaning here, it is not decoration. Each service
+   inherits --c from its category: amber for the everyday build,
+   violet for custom scope, verdant for the two add-ons. The hero
+   board, the detail cards and the glyph tiles all read from it.
+   ============================================================ */
+
+/* ============================================================
+   Hero price board
+   Six services, six numbers, above the fold. The page claims most
+   agencies won't tell you the price — so the price is the first
+   thing on it, before a single word of sales copy.
+   ============================================================ */
+.board{margin-top:var(--s60);border-top:1px solid var(--hair-2)}
+.board__row{
+  display:grid;
+  grid-template-columns:36px minmax(0,1fr) minmax(0,1.45fr) 132px 108px;
+  align-items:center;gap:var(--s24);
+  padding-block:var(--s18);border-bottom:1px solid var(--hair);
+  position:relative;isolation:isolate;
+  opacity:0;transform:translateY(16px);
+  transition:
+    opacity .8s var(--ease) var(--d,0s),
+    transform .8s var(--ease) var(--d,0s),
+    padding-left .5s var(--ease);
+}
+.is-in .board__row{opacity:1;transform:none}
+.board__row::before{
+  content:"";position:absolute;left:0;top:-1px;height:1px;width:0;
+  background:var(--c);transition:width .65s var(--ease);
+}
+.board__row:hover::before{width:100%}
+.board__row::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(90deg,rgba(255,255,255,.05),transparent 62%);
+  opacity:0;transition:opacity .4s ease;
+}
+.board__row:hover::after{opacity:1}
+.board__row:hover{padding-left:var(--s12)}
+
+.board__ix{font-size:var(--t-caption);letter-spacing:.14em;color:#3d3d3d;font-variant-numeric:tabular-nums;transition:color .35s ease}
+.board__row:hover .board__ix{color:var(--c)}
+.board__t{font-size:19px;font-weight:var(--fw-r);letter-spacing:-0.03em;color:#fff;transition:transform .5s var(--ease)}
+.board__row:hover .board__t{transform:translateX(5px)}
+.board__d{font-size:14px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.5;transition:color .35s ease}
+.board__row:hover .board__d{color:var(--mist)}
+.board__p{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5a5a5a;text-align:right;white-space:nowrap}
+.board__p b{
+  display:block;margin-top:5px;
+  font-size:21px;font-weight:var(--fw-r);letter-spacing:-0.035em;
+  color:#fff;text-transform:none;font-variant-numeric:tabular-nums;
+}
+.board__w{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--c);text-align:right;white-space:nowrap}
+.board__foot{
+  display:flex;align-items:center;gap:var(--s24);flex-wrap:wrap;
+  margin-top:var(--s24);
+  opacity:0;transform:translateY(14px);
+  transition:opacity .8s var(--ease) 1.3s,transform .8s var(--ease) 1.3s;
+}
+.is-in .board__foot{opacity:1;transform:none}
+
+/* ============================================================
+   Scope builder
+   ============================================================ */
+.build{border-top:1px solid var(--hair);padding-block:var(--s120)}
+.build__grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:var(--s60);align-items:start}
+.build__col{position:sticky;top:calc(var(--nav-h) + var(--s30))}
+
+.step__label{
+  display:flex;align-items:center;gap:12px;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--spark);margin-bottom:var(--s18);
+}
+.step__label b{
+  width:22px;height:22px;flex:none;border-radius:50%;
+  display:grid;place-items:center;font-size:10px;font-weight:var(--fw-sb);
+  background:rgba(255,184,41,.12);color:var(--spark);
+}
+.step + .step{margin-top:var(--s36)}
+
+/* feature toggles — a two-column ledger of options with their price */
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.opt{
+  display:flex;align-items:center;gap:14px;text-align:left;
+  font-family:inherit;cursor:pointer;
+  padding:15px 17px;border-radius:14px;
+  background:rgba(255,255,255,.035);border:1px solid transparent;
+  transition:background .3s ease,border-color .3s ease,transform .4s var(--ease);
+}
+.opt:hover{background:rgba(255,255,255,.07)}
+.opt__box{
+  width:19px;height:19px;flex:none;border-radius:6px;
+  border:1px solid rgba(255,255,255,.22);position:relative;
+  transition:background .3s ease,border-color .3s ease;
+}
+.opt__box::after{
+  content:"";position:absolute;left:6px;top:2px;
+  width:5px;height:10px;border:solid #fff;border-width:0 1.5px 1.5px 0;
+  transform:rotate(45deg) scale(0);transition:transform .3s var(--ease);
+}
+.opt[aria-pressed="true"]{background:rgba(128,82,255,.14);border-color:rgba(128,82,255,.5)}
+.opt[aria-pressed="true"] .opt__box{background:var(--iris);border-color:var(--iris)}
+.opt[aria-pressed="true"] .opt__box::after{transform:rotate(45deg) scale(1)}
+.opt__t{display:block;font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.35}
+.opt[aria-pressed="true"] .opt__t{color:#fff}
+.opt__p{display:block;font-size:11px;letter-spacing:.05em;color:#5f5f5f;margin-top:4px}
+.opt[disabled]{opacity:.35;cursor:not-allowed}
+
+/* the running quote */
+.quote__spec{
+  display:flex;flex-direction:column;gap:9px;
+  padding:var(--s18) 0 var(--s24);min-height:96px;
+}
+.quote__spec li{
+  display:flex;justify-content:space-between;gap:var(--s18);
+  font-size:14px;font-weight:var(--fw-xl);color:var(--mist);
+  animation:specIn .42s var(--ease) both;
+}
+@keyframes specIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.quote__spec li b{font-weight:var(--fw-r);color:#fff}
+.quote__spec li span{color:#6a6a6a;white-space:nowrap}
+.quote__spec .empty{
+  display:block;color:#5a5a5a;font-size:14px;line-height:1.6;
+  padding:var(--s18);border-radius:12px;
+  border:1px dashed var(--hair-2);animation:none;
+}
+.quote__total{
+  font-size:clamp(30px,4.4vw,44px);font-weight:var(--fw-r);
+  letter-spacing:-0.045em;line-height:1;color:#fff;
+  font-variant-numeric:tabular-nums;
+}
+.quote__total small{display:block;font-size:13px;letter-spacing:0;color:var(--ash);margin-top:11px;font-variant-numeric:normal}
+.quote__total.is-bump{animation:bump .55s var(--ease)}
+@keyframes bump{0%{transform:translateY(0)}28%{transform:translateY(-5px)}100%{transform:translateY(0)}}
+
+/* where the quote lands against the three published tiers —
+   the panel's one piece of graphics, and a check on our own pricing */
+.tier{margin-top:var(--s24);padding-top:var(--s24);border-top:1px solid var(--hair)}
+.tier__k{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);margin-bottom:var(--s30)}
+.tier__track{
+  position:relative;height:3px;border-radius:99px;margin-bottom:14px;
+  background:linear-gradient(90deg,rgba(128,82,255,.4),rgba(255,184,41,.4));
+}
+.tier__tick{position:absolute;top:-5px;width:1px;height:13px;background:var(--hair-2);transform:translateX(-50%)}
+.tier__mark{
+  position:absolute;top:50%;left:0;width:13px;height:13px;border-radius:50%;
+  background:#fff;box-shadow:0 0 0 5px rgba(128,82,255,.3);
+  transform:translate(-50%,-50%);opacity:0;
+  transition:left .85s var(--ease),opacity .45s ease;
+}
+.tier.is-set .tier__mark{opacity:1}
+.tier__keys{position:relative;height:15px}
+.tier__keys span{
+  position:absolute;transform:translateX(-50%);white-space:nowrap;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5a5a5a;
+  transition:color .4s ease;
+}
+.tier__keys span.is-near{color:var(--spark)}
+
+/* ============================================================
+   Service detail cards
+   ============================================================ */
+.svcs{border-top:1px solid var(--hair);padding-block:var(--s120)}
+.card{
+  display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:var(--s60);align-items:start;
+  padding-block:var(--s60);border-top:1px solid var(--hair);
+  position:relative;scroll-margin-top:calc(var(--nav-h) + var(--s30));
+}
+.card::after{
+  content:"";position:absolute;top:-1px;left:0;height:1px;width:0;
+  background:var(--c);transition:width 1.3s var(--ease);
+}
+.card.is-in::after{width:100%}
+.card:first-of-type{border-top:0;padding-top:0}
+.card:first-of-type::after{display:none}
+
+.card__top{display:flex;align-items:center;gap:var(--s18);margin-bottom:var(--s24)}
+.card__glyph{
+  width:54px;height:54px;flex:none;border-radius:17px;
+  display:grid;place-items:center;color:var(--c);
+  border:1px solid var(--hair-2);background:rgba(255,255,255,.03);
+  transition:background .45s ease,border-color .45s ease,transform .6s var(--ease);
+}
+.card:hover .card__glyph{
+  background:rgba(255,255,255,.06);border-color:var(--c);
+  transform:translateY(-3px) rotate(-5deg);
+}
+.card__n{display:block;font-size:var(--t-caption);letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.card__ix{display:block;font-size:11px;letter-spacing:.22em;color:#3d3d3d;margin-top:7px;font-variant-numeric:tabular-nums}
+.card__t{font-size:clamp(26px,3.4vw,var(--t-sm));font-weight:var(--fw-r);letter-spacing:-0.04em;line-height:1.1;margin-bottom:var(--s18)}
+
+/* the line that tells someone in one sentence whether to read on */
+.card__best{
+  font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;
+  padding:13px var(--s18);border-radius:12px;margin-bottom:var(--s24);
+  background:rgba(255,255,255,.028);border-left:2px solid var(--c);
+}
+.card__best b{
+  display:block;margin-bottom:6px;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--c);font-weight:var(--fw-sb);
+}
+.card__d{font-size:16px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;max-width:42ch}
+.card__facts{display:flex;gap:var(--s30);flex-wrap:wrap;margin-top:var(--s30);padding-top:var(--s24);border-top:1px solid var(--hair)}
+.card__fact b{display:block;font-size:var(--t-2xs);font-weight:var(--fw-r);letter-spacing:-0.03em;color:#fff;margin-bottom:3px}
+.card__fact span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ash)}
+
+/* a ghost link that is really a button — it drives the builder above */
+button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family:inherit}
+.card__price{margin-top:var(--s30)}
+.card__price i{transition:transform .45s var(--ease)}
+.card__price:hover i{transform:translateY(-4px)}
+
+.card__lists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s36)}
+.list__k{
+  display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ash);margin-bottom:var(--s18);padding-bottom:10px;border-bottom:1px solid var(--hair);
+}
+.list__k--no{color:#6a6a6a}
+.list{display:flex;flex-direction:column;gap:11px}
+.list li{display:flex;gap:12px;align-items:flex-start;font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.5}
+.list li::before{content:"";width:5px;height:5px;flex:none;margin-top:8px;border-radius:50%;background:var(--c)}
+.list--no li{color:#7a7a7a}
+.list--no li::before{background:#5a5a5a;border-radius:0;width:7px;height:1px;margin-top:11px}
+
+/* ============================================================
+   Deliverables — a handover manifest, not a card grid.
+   The section is about legal ownership, so it's styled as a
+   document being signed over: ruled rows, an index column, and a
+   seal that closes on each line.
+   ============================================================ */
+.ledger{border-top:1px solid var(--hair);padding-block:var(--s120)}
+
+.manifest{
+  border-radius:var(--r-3xl);padding:1px;
+  background:
+    linear-gradient(155deg,rgba(128,82,255,.45),rgba(255,184,41,.14) 42%,rgba(255,255,255,.05) 72%);
+}
+.manifest__inner{
+  border-radius:calc(var(--r-3xl) - 1px);
+  background:radial-gradient(120% 80% at 0% 0%,#0d0b14 0%,#060606 55%);
+  overflow:hidden;position:relative;
+}
+/* a single sheet-of-paper highlight along the top edge */
+.manifest__inner::before{
+  content:"";position:absolute;top:0;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
+}
+
+.manifest__head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:var(--s24);
+  flex-wrap:wrap;padding:var(--s30) var(--s36);border-bottom:1px solid var(--hair);
+}
+.manifest__kicker{
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--spark);
+}
+.manifest__count{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5f5f5f}
+
+.manifest__list{list-style:none}   /* base.css only resets ul */
+.mrow{
+  display:grid;grid-template-columns:64px minmax(0,1fr) 44px;
+  align-items:start;gap:var(--s24);
+  padding:var(--s30) var(--s36);
+  border-bottom:1px solid var(--hair);
+  position:relative;isolation:isolate;
+  opacity:0;transform:translateY(14px);
+  transition:opacity .8s var(--ease) var(--d,0s),transform .8s var(--ease) var(--d,0s);
+}
+.manifest.is-in .mrow{opacity:1;transform:none}
+.mrow::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(90deg,rgba(128,82,255,.10),transparent 55%);
+  opacity:0;transition:opacity .45s ease;
+}
+.mrow:hover::after{opacity:1}
+.mrow:last-child{border-bottom:0}
+
+.mrow__n{
+  font-size:var(--t-caption);letter-spacing:.18em;color:#4a4a4a;
+  padding-top:6px;transition:color .35s ease;
+  font-variant-numeric:tabular-nums;
+}
+.mrow:hover .mrow__n{color:var(--spark)}
+
+.mrow__body{transition:transform .55s var(--ease)}
+.mrow:hover .mrow__body{transform:translateX(6px)}
+.mrow__t{
+  font-size:clamp(19px,2.1vw,23px);font-weight:var(--fw-r);
+  letter-spacing:-0.035em;line-height:1.2;margin-bottom:9px;
+}
+.mrow__d{font-size:15px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.6;max-width:62ch}
+
+/* the seal: an open ring that closes into a tick on hover */
+.mrow__seal{
+  justify-self:end;width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;flex:none;margin-top:2px;
+  border:1px solid var(--hair-2);color:#4a4a4a;
+  transition:border-color .45s ease,color .45s ease,background .45s ease,transform .55s var(--ease);
+}
+.mrow:hover .mrow__seal{
+  border-color:rgba(21,132,110,.75);background:rgba(21,132,110,.14);
+  color:#8fd8c7;transform:rotate(-8deg) scale(1.06);
+}
+
+.manifest__foot{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:var(--s24) var(--s36);
+  background:rgba(255,255,255,.015);border-top:1px solid var(--hair);
+}
+.manifest__sig{font-size:13px;font-weight:var(--fw-xl);color:var(--mist)}
+.manifest__sig b{color:#fff;font-weight:var(--fw-r)}
+.manifest__stamp{
+  margin-left:auto;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--verdant);padding:7px 14px;border-radius:var(--r-full);
+  border:1px solid rgba(21,132,110,.35);background:rgba(21,132,110,.08);
+}
+
+/* ============================================================
+   Wrong fit — each objection carries the alternative we'd point
+   you at, so the section is useful rather than merely candid.
+   ============================================================ */
+.fit{border-top:1px solid var(--hair);padding-block:var(--s120)}
+.fit__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s24)}
+.fit__item{
+  padding:var(--s30);border-radius:18px;
+  background:rgba(255,255,255,.022);border:1px solid var(--hair);
+  transition:border-color .45s ease,background .45s ease,transform .55s var(--ease);
+}
+.fit__item:hover{
+  border-color:rgba(255,184,41,.28);background:rgba(255,184,41,.028);
+  transform:translateY(-4px);
+}
+.fit__n{display:block;font-size:11px;letter-spacing:.2em;color:var(--spark);margin-bottom:var(--s18)}
+.fit__t{font-size:var(--t-2xs);font-weight:var(--fw-r);letter-spacing:-0.035em;margin-bottom:var(--s12)}
+.fit__d{font-size:15px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.6}
+.fit__alt{
+  margin-top:var(--s24);padding-top:var(--s18);border-top:1px solid var(--hair);
+  font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;
+}
+.fit__alt b{
+  display:block;margin-bottom:6px;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--spark);font-weight:var(--fw-sb);
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width:1280px){
+  .board__row{grid-template-columns:34px minmax(0,1fr) minmax(0,1.2fr) 118px 96px;gap:var(--s18)}
+}
+
+@media (max-width:1024px){
+  /* the one-line description is the first thing to go */
+  .board__row{grid-template-columns:34px minmax(0,1fr) 118px 96px;gap:var(--s18)}
+  .board__d{display:none}
+
+  .build__grid{grid-template-columns:1fr;gap:var(--s60)}
+  .build__col{position:static}
+  .card{grid-template-columns:1fr;gap:var(--s36)}
+  .card__d{max-width:none}
+}
+
+@media (max-width:760px){
+  /* board rows fold into two lines: name over price, term on the right */
+  .board__row{
+    grid-template-columns:30px minmax(0,1fr) auto;
+    gap:var(--s12) var(--s18);padding-block:var(--s18);
+  }
+  .board__ix{grid-column:1;grid-row:1/3;align-self:start;padding-top:4px}
+  .board__t{grid-column:2/-1;grid-row:1}
+  .board__p{
+    grid-column:2;grid-row:2;text-align:left;
+    display:flex;align-items:baseline;gap:10px;
+  }
+  .board__p b{margin-top:0;font-size:19px}
+  .board__w{grid-column:3;grid-row:2;align-self:baseline}
+  .board__row:hover{padding-left:0}
+
+  .opts{grid-template-columns:1fr}
+  .fit__grid{grid-template-columns:1fr}
+  .fit__item{padding:var(--s24)}
+
+  /* manifest: drop the index column, tuck the seal beside the title */
+  .manifest__head,.manifest__foot{padding-inline:var(--s24)}
+  .mrow{grid-template-columns:minmax(0,1fr) 30px;gap:var(--s18);padding:var(--s24)}
+  .mrow__n{
+    grid-column:1/-1;padding-top:0;margin-bottom:-8px;
+    font-size:11px;letter-spacing:.2em;color:var(--spark);
+  }
+  .mrow__seal{width:28px;height:28px}
+  .mrow:hover .mrow__body{transform:none}
+  .manifest__stamp{margin-left:0}
+  .card__lists{grid-template-columns:1fr;gap:var(--s30)}
+  .card__facts{gap:var(--s24)}
+  .card__glyph{width:46px;height:46px;border-radius:14px}
+}
+
+@media (max-width:480px){
+  .board__t{font-size:17px}
+  .tier__keys span{font-size:9px}
+}
+
+@media (hover:none){
+  .board__row:hover{padding-left:0}
+  .card:hover .card__glyph{transform:none}
+  .fit__item:hover{transform:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .mrow,.board__row,.board__foot{opacity:1;transform:none}
+  .quote__spec li,.quote__total.is-bump{animation:none}
+}

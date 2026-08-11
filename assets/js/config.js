@@ -7,13 +7,13 @@ window.AX = window.AX || {};
 
 window.AX.config = {
   /* WhatsApp number in international format, digits only (no + or spaces) */
-  whatsapp: '910000000000',
+  whatsapp: '919399593499',
 
   /* Phone: the dial value and the way it is shown on screen */
-  phone: '+910000000000',
-  phoneDisplay: '+91 00000 00000',
+  phone: '+919399593499',
+  phoneDisplay: '+91 93995 93499',
 
-  email: 'hello@aivoryx.com',
+  email: 'pradeep952025@gmail.com',
 
   /* Prefilled first line when someone taps WhatsApp */
   waGreeting: "Hi Aivoryx, I'd like to discuss a project",

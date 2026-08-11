@@ -35,23 +35,32 @@ AX.module(function reveal(){
   $$('.rv, .step, .steps, .plan, .svc__row, .work__item, .why__item, .secHead')
     .forEach(function(el){ io.observe(el); });
 
-  /* Hero plays immediately on load */
+  /* Whatever a page marks as its hero plays immediately, no observer */
   requestAnimationFrame(function(){
-    var hero = $('#heroCopy');
-    if(hero) hero.classList.add('is-in');
+    $$('[data-hero-copy]').forEach(function(el){ el.classList.add('is-in'); });
   });
 
-  /* ---------------- Ticker ---------------- */
-  var items = ['Business websites','Web apps','Mobile apps','Online stores','Landing pages',
-               'Calculators','AI chat assistants','CMS & blogs','SEO foundations',
-               'Speed optimisation','WhatsApp lead capture','Ongoing support'];
+  /* ---------------- "Who we build for" strip ----------------
+     Trades, not services — the Services section already lists what we make.
+     Two identical rows make the loop seamless at translateX(-50%). */
+  var segments = [
+    'Cafés & restaurants','Clinics & dental practices','Coaching institutes',
+    'Solar installers','Staffing agencies','Real estate builders',
+    'Gyms & fitness studios','Boutiques & D2C brands','Interior designers',
+    'Event planners','Manufacturing & B2B','Early-stage startups'
+  ];
+
   var track = $('#tickerTrack');
   if(track){
-    var row = items.map(function(t){
+    var row = segments.map(function(t){
       return '<span class="ticker__item">'+t+'</span><i class="ticker__sep"></i>';
     }).join('');
     track.innerHTML = '<div class="ticker__row">'+row+'</div><div class="ticker__row">'+row+'</div>';
   }
+
+  /* The marquee itself is aria-hidden — give screen readers the plain list */
+  var list = $('#stripList');
+  if(list) list.textContent = 'We build for ' + segments.join(', ') + '.';
 
   /* ---------------- Magnetic buttons — subtle pull toward the cursor ---------------- */
   if(!reduce && AX.canHover){

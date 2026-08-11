@@ -1,0 +1,173 @@
+/* ============================================================
+   WORK PAGE
+   The device: each case study carries a working rebuild of the one
+   mechanism that made the project worth doing.
+
+   The page hero, demo panel, chips and output cells are shared with
+   services.html and live in components.css.
+   ============================================================ */
+
+/* the three projects as a jump index — an honest table of contents */
+.jump{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:0;margin-top:var(--s96);border-top:1px solid var(--hair-2);
+}
+.jump__item{
+  display:block;padding:var(--s30) var(--s24) var(--s30) 0;
+  border-right:1px solid var(--hair);position:relative;
+  transition:padding-left .5s var(--ease);
+}
+.jump__item:last-child{border-right:0}
+.jump__item::before{
+  content:"";position:absolute;top:-1px;left:0;height:1px;width:0;
+  background:var(--iris);transition:width .7s var(--ease);
+}
+.jump__item:hover::before{width:100%}
+.jump__item:hover{padding-left:var(--s12)}
+.jump__n{font-size:var(--t-caption);letter-spacing:.14em;color:var(--iris);display:block;margin-bottom:var(--s12)}
+.jump__t{font-size:var(--t-2xs);font-weight:var(--fw-r);letter-spacing:-0.035em;margin-bottom:6px}
+.jump__s{font-size:13px;color:var(--ash);font-weight:var(--fw-xl)}
+.jump__item:hover .jump__t{color:#fff}
+
+/* ---------------- Case study shell ---------------- */
+.case{border-top:1px solid var(--hair);padding-block:var(--s120)}
+.case__head{margin-bottom:var(--s60)}
+.case__eyebrow{
+  display:flex;align-items:baseline;gap:var(--s18);flex-wrap:wrap;
+  font-size:var(--t-caption);letter-spacing:.14em;text-transform:uppercase;color:var(--iris);
+}
+.case__eyebrow em{font-style:normal;color:var(--ash)}
+.case__name{margin-block:var(--s18) var(--s12)}
+.case__meta{display:flex;align-items:center;gap:var(--s18);flex-wrap:wrap}
+.case__url{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:var(--t-caption);letter-spacing:.04em;
+  padding:8px 16px;border-radius:var(--r-full);
+  background:rgba(255,255,255,.05);color:var(--mist);
+  transition:background .35s ease,color .35s ease,transform .5s var(--ease);
+}
+.case__url:hover{background:rgba(128,82,255,.2);color:#fff;transform:translateY(-2px)}
+.case__live{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--verdant);
+}
+.case__live i{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 2.4s ease-in-out infinite}
+
+.case__body{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:var(--s96)}
+
+/* narrative column */
+.beat{margin-bottom:var(--s60)}
+.beat:last-child{margin-bottom:0}
+.beat__k{
+  display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--spark);margin-bottom:var(--s18);
+  padding-bottom:var(--s12);border-bottom:1px solid var(--hair);
+}
+.beat__k--muted{color:var(--ash)}
+.beat p{font-size:16px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.65}
+.beat p + p{margin-top:var(--s18)}
+.beat strong{font-weight:var(--fw-r);color:#fff}
+
+.inside{display:flex;flex-direction:column;gap:12px}
+.inside li{
+  display:flex;gap:14px;align-items:flex-start;
+  font-size:15px;font-weight:var(--fw-xl);color:var(--mist);
+}
+.inside li::before{
+  content:"";width:6px;height:6px;flex:none;margin-top:8px;
+  background:var(--iris);transform:rotate(45deg);
+}
+
+/* demo column — sticks while the narrative scrolls past it */
+.case__demoCol{position:sticky;top:calc(var(--nav-h) + var(--s30));align-self:start}
+
+/* ---------------- Demo 01: the WhatsApp message preview ---------------- */
+.preview{
+  border-radius:14px;background:#0c0c0c;border:1px solid var(--hair);
+  padding:var(--s18);font-size:13px;line-height:1.75;color:var(--mist);
+  white-space:pre-wrap;word-break:break-word;min-height:132px;
+}
+.preview b{color:#fff;font-weight:var(--fw-sb)}
+.preview .ph{color:#5a5a5a}
+
+/* ---------------- Demo 02: the calculator ---------------- */
+.calc__bill{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s18);margin-bottom:var(--s12)}
+.calc__amt{font-size:clamp(30px,4vw,42px);font-weight:var(--fw-r);letter-spacing:-0.04em;line-height:1}
+.calc__amt small{font-size:13px;color:var(--ash);letter-spacing:0;margin-left:8px}
+
+input[type=range].slider{
+  -webkit-appearance:none;appearance:none;width:100%;height:26px;
+  background:transparent;cursor:pointer;margin-bottom:var(--s30);
+}
+input[type=range].slider::-webkit-slider-runnable-track{
+  height:3px;border-radius:99px;
+  background:linear-gradient(90deg,var(--iris) var(--fill,40%),rgba(255,255,255,.12) var(--fill,40%));
+}
+input[type=range].slider::-moz-range-track{height:3px;border-radius:99px;background:rgba(255,255,255,.12)}
+input[type=range].slider::-moz-range-progress{height:3px;border-radius:99px;background:var(--iris)}
+input[type=range].slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:18px;height:18px;border-radius:50%;margin-top:-7.5px;
+  background:#fff;box-shadow:0 0 0 5px rgba(128,82,255,.24);
+  transition:box-shadow .3s ease,transform .3s var(--ease);
+}
+input[type=range].slider:hover::-webkit-slider-thumb{box-shadow:0 0 0 8px rgba(128,82,255,.3);transform:scale(1.08)}
+input[type=range].slider::-moz-range-thumb{
+  width:18px;height:18px;border:0;border-radius:50%;
+  background:#fff;box-shadow:0 0 0 5px rgba(128,82,255,.24);
+}
+
+/* ---------------- Demo 03: the dual-path switch ---------------- */
+.switch{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;padding:5px;background:rgba(255,255,255,.04);border-radius:var(--r-full);margin-bottom:var(--s30)}
+.switch__btn{
+  font-family:inherit;font-size:13px;font-weight:var(--fw-sb);letter-spacing:.03em;
+  padding:12px 10px;border:0;border-radius:var(--r-full);cursor:pointer;
+  background:transparent;color:var(--ash);transition:background .4s var(--ease),color .3s ease;
+}
+.switch__btn[aria-pressed="true"]{background:var(--iris);color:#fff}
+
+.lane{display:flex;flex-direction:column;gap:var(--s18)}
+.lane[hidden]{display:none}   /* display:flex would otherwise beat the attribute */
+.lane__head{font-size:var(--t-2xs);font-weight:var(--fw-r);letter-spacing:-0.035em;line-height:1.2}
+.lane__list{display:flex;flex-direction:column;gap:11px}
+.lane__list li{font-size:14px;font-weight:var(--fw-xl);color:var(--mist);display:flex;gap:11px;align-items:flex-start}
+.lane__list li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--iris);flex:none;margin-top:8px}
+.lane__route{
+  display:flex;align-items:center;gap:11px;
+  padding:var(--s18);border-radius:12px;
+  background:rgba(21,132,110,.1);border:1px solid rgba(21,132,110,.3);
+  font-size:13px;font-weight:var(--fw-xl);color:#8fd8c7;
+}
+.lane__route b{color:#fff;font-weight:var(--fw-sb)}
+.lane.is-swap{animation:laneIn .45s var(--ease)}
+@keyframes laneIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------------- Closing CTA picker (.close lives in components.css) ---------------- */
+.picker{margin-top:var(--s36)}
+.picker__q{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);display:block;margin-bottom:var(--s18)}
+.picker__out{
+  margin-top:var(--s24);padding:var(--s18);border-radius:14px;
+  background:rgba(128,82,255,.07);border:1px solid rgba(128,82,255,.22);
+  font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;
+}
+.picker__out b{color:#fff;font-weight:var(--fw-sb)}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width:1024px){
+  .jump{grid-template-columns:1fr;margin-top:var(--s60)}
+  .jump__item{border-right:0;border-bottom:1px solid var(--hair);padding-right:0}
+  .jump__item:last-child{border-bottom:0}
+  .case__body{grid-template-columns:1fr;gap:var(--s60)}
+  .case__demoCol{position:static}
+}
+@media (max-width:760px){
+  .case{padding-block:var(--s96)}
+  .beat{margin-bottom:var(--s36)}
+  .case__meta{gap:var(--s12)}
+}
+@media (max-width:480px){
+  .switch{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .lane.is-swap{animation:none}
+}

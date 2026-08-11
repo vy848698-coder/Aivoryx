@@ -11,8 +11,20 @@ AX.module(function nav(){
   var nav = $('#nav'), burger = $('#burger'), navLinks = $('#navLinks'), pill = $('#navPill');
   var progress = $('#progress'), wa = $('#waFloat');
   var links = $$('.nav__link');
-  var sections = links.map(function(l){ return document.querySelector(l.getAttribute('href')); });
   var parallaxEls = $$('[data-parallax]');
+
+  /* On sub-pages the nav points at index.html#foo, which is not a valid
+     selector — only resolve true in-page anchors. */
+  var sections = links.map(function(l){
+    var href = l.getAttribute('href') || '';
+    return href.charAt(0) === '#' ? document.querySelector(href) : null;
+  });
+
+  /* A page that marks its own nav link with aria-current keeps that link lit
+     for the whole visit. Without this, sub-pages carrying a single in-page
+     anchor (#talk) would hand the highlight to Contact half way down. */
+  var pinned = links.some(function(l){ return l.hasAttribute('aria-current'); });
+  var hasSpy = !pinned && sections.some(Boolean);
 
   /* ---------------- Smooth scrolling with a fixed-nav offset ---------------- */
   function easeInOutCubic(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
@@ -97,15 +109,19 @@ AX.module(function nav(){
     nav.classList.toggle('is-stuck', y > 40);
     wa.classList.toggle('is-in', y > 700);
 
-    var mark = y + window.innerHeight * 0.34, current = -1;
-    for(var i = 0; i < sections.length; i++){
-      var s = sections[i];
-      if(!s) continue;
-      var top = s.offsetTop, bottom = top + s.offsetHeight;
-      if(mark >= top && mark < bottom){ current = i; break; }
+    /* No in-page targets (a sub-page) — leave whatever link the markup
+       marked active alone instead of clearing it on every scroll. */
+    if(hasSpy){
+      var mark = y + window.innerHeight * 0.34, current = -1;
+      for(var i = 0; i < sections.length; i++){
+        var s = sections[i];
+        if(!s) continue;
+        var top = s.offsetTop, bottom = top + s.offsetHeight;
+        if(mark >= top && mark < bottom){ current = i; break; }
+      }
+      if(y + window.innerHeight >= max - 4) current = sections.length - 1;
+      setActive(current);
     }
-    if(y + window.innerHeight >= max - 4) current = sections.length - 1;
-    setActive(current);
 
     /* parallax is a desktop nicety — on narrow screens it only costs jank */
     if(!reduce && window.innerWidth > 1024){
@@ -135,4 +151,10 @@ AX.module(function nav(){
   });
 
   onScroll();
+
+  /* With no scroll spy there is nothing to place the pill, so seat it on
+     whatever link the page marked active. Fonts can still be loading, so
+     measure once they settle. */
+  activePill();
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(activePill);
 });
