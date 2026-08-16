@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/components.css">
 <link rel="stylesheet" href="assets/css/sections.css">
+<link rel="stylesheet" href="assets/css/tools.css">
 <link rel="stylesheet" href="assets/css/responsive.css">
 
 <script type="application/ld+json">
@@ -75,9 +76,10 @@
       <span class="nav__pill" id="navPill" aria-hidden="true"></span>
       <a class="nav__link" href="work.html">Work</a>
       <a class="nav__link" href="services.html">Services</a>
+      <a class="nav__link" href="tools.html">Tools</a>
       <a class="nav__link" href="process.html">Process</a>
       <a class="nav__link" href="pricing.html">Pricing</a>
-      <a class="nav__link" href="contact.html">Contact</a>
+      <a class="nav__link" href="#contact" data-scroll>Contact</a>
     </nav>
 
     <div class="nav__right">
@@ -352,6 +354,117 @@
   </div>
 </section>
 
+<!-- ============================ FREE TOOLS ============================
+     The only thing on this site somebody can use before they trust us.
+     It sits directly after the services list on purpose — the moment
+     someone has read what we build is the moment to hand them one.
+     ============================================================ -->
+<section class="section" id="tools">
+  <div class="wrap">
+    <div class="secHead rv">
+      <div>
+        <p class="eyebrow eyebrow--muted">Free tools</p>
+        <h2 class="h-lg secHead__title">
+          <span class="line"><span style="--d:.05s">Five of ours are free.</span></span>
+          <span class="line"><span style="--d:.16s">Go and break one.</span></span>
+        </h2>
+      </div>
+      <p class="lede muted fade" style="--d:.3s">
+        Live, hand-built and open right now &mdash; no trial, no seat count, no card. The
+        quickest way to find out whether we can build is to use something we
+        <span class="amber">already did</span>.
+      </p>
+    </div>
+
+    <div class="rack rack--teaser rv">
+      <a class="tool" href="https://fileshare.aivoryx.com/" target="_blank" rel="noopener" style="--c:#8052ff;--d:.02s">
+        <div class="tool__top">
+          <span class="tool__glyph" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 16V3M12 3L8 7.2M12 3l4 4.2"/><path d="M4 14v5.5A1.5 1.5 0 005.5 21h13a1.5 1.5 0 001.5-1.5V14"/>
+            </svg>
+          </span>
+        </div>
+        <h3 class="tool__t">Secure file sharing</h3>
+        <p class="tool__d">A link that expires when you say it does.</p>
+        <div class="tool__foot">
+          <span class="tool__cost"><b>Free</b>No sign-up</span>
+          <span class="tool__go">Open <i>&rarr;</i></span>
+        </div>
+      </a>
+
+      <a class="tool" href="https://secret.aivoryx.com/" target="_blank" rel="noopener" style="--c:#8052ff;--d:.08s">
+        <div class="tool__top">
+          <span class="tool__glyph" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.8v3.9l2.6 2.2M9.4 2.2h5.2"/>
+            </svg>
+          </span>
+        </div>
+        <h3 class="tool__t">Self-destructing secrets</h3>
+        <p class="tool__d">Send a password once. Then it's gone.</p>
+        <div class="tool__foot">
+          <span class="tool__cost"><b>Free</b>No sign-up</span>
+          <span class="tool__go">Open <i>&rarr;</i></span>
+        </div>
+      </a>
+
+      <a class="tool" href="https://vault.aivoryx.com/login" target="_blank" rel="noopener" style="--c:#8052ff;--d:.14s">
+        <div class="tool__top">
+          <span class="tool__glyph" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21.5s7.6-3.8 7.6-9.5V5.2L12 2.4 4.4 5.2v6.8c0 5.7 7.6 9.5 7.6 9.5z"/><path d="M9.2 11.9l2 2 3.6-3.9"/>
+            </svg>
+          </span>
+        </div>
+        <h3 class="tool__t">AI-protected vault</h3>
+        <p class="tool__d">Flags the reused, weak and already-leaked.</p>
+        <div class="tool__foot">
+          <span class="tool__cost"><b>Free</b>Account needed</span>
+          <span class="tool__go">Open <i>&rarr;</i></span>
+        </div>
+      </a>
+
+      <a class="tool" href="https://jsonbeautifier.aivoryx.com/" target="_blank" rel="noopener" style="--c:#4fd1b0;--d:.20s">
+        <div class="tool__top">
+          <span class="tool__glyph" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 4.5L4 12l5 7.5M15 4.5l5 7.5-5 7.5"/>
+            </svg>
+          </span>
+        </div>
+        <h3 class="tool__t">JSON beautifier</h3>
+        <p class="tool__d">Format, validate, minify and diff payloads.</p>
+        <div class="tool__foot">
+          <span class="tool__cost"><b>Free</b>No sign-up</span>
+          <span class="tool__go">Open <i>&rarr;</i></span>
+        </div>
+      </a>
+
+      <a class="tool" href="https://gstreply.aivoryx.com/" target="_blank" rel="noopener" style="--c:#ffb829;--d:.26s">
+        <div class="tool__top">
+          <span class="tool__glyph" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.2 2.5H6.4A1.4 1.4 0 005 3.9v16.2a1.4 1.4 0 001.4 1.4h11.2a1.4 1.4 0 001.4-1.4V7.3z"/>
+              <path d="M14.2 2.5v4.8H19M8.4 13h7.2M8.4 17h4.6"/>
+            </svg>
+          </span>
+        </div>
+        <h3 class="tool__t">GST notice reply</h3>
+        <p class="tool__d">Reads the notice, drafts the reply, cites the sections.</p>
+        <div class="tool__foot">
+          <span class="tool__cost"><b>Free</b>To analyse</span>
+          <span class="tool__go">Open <i>&rarr;</i></span>
+        </div>
+      </a>
+    </div>
+
+    <div class="rv" style="margin-top:var(--s36)">
+      <a class="ghost" href="tools.html">What each one does &mdash; and what it doesn't <i>&rarr;</i></a>
+    </div>
+  </div>
+</section>
+
 <!-- ============================ WHY ============================ -->
 <section class="section" id="why">
   <div class="wrap">
@@ -474,7 +587,7 @@
       <div class="plan" style="--d:.05s">
         <span class="plan__tag">Starter</span>
         <h3 class="plan__name">Get online properly</h3>
-        <p class="plan__price">&#8377;14,999<small>one-time &middot; about 7 days</small></p>
+        <p class="plan__price">&#8377;7,999<small>one-time &middot; about 7 days</small></p>
         <ul class="plan__list">
           <li>Up to 5 pages, custom designed</li>
           <li>Mobile-first, fast-loading build</li>
@@ -489,7 +602,7 @@
       <div class="plan plan--featured" style="--d:.17s">
         <span class="plan__tag">Growth &middot; full build</span>
         <h3 class="plan__name">Compete and convert</h3>
-        <p class="plan__price">&#8377;34,999<small>one-time &middot; about 2&ndash;3 weeks</small></p>
+        <p class="plan__price">&#8377;14,999<small>one-time &middot; about 2&ndash;3 weeks</small></p>
         <ul class="plan__list">
           <li>Up to 12 pages with custom animation</li>
           <li>One interactive tool &mdash; calculator or quote engine</li>
@@ -505,7 +618,7 @@
       <div class="plan" style="--d:.29s">
         <span class="plan__tag">Custom</span>
         <h3 class="plan__name">Apps &amp; platforms</h3>
-        <p class="plan__price">From &#8377;79,999<small>quoted per scope</small></p>
+        <p class="plan__price">From &#8377;24,999<small>quoted per scope</small></p>
         <ul class="plan__list">
           <li>Web apps, dashboards &amp; admin panels</li>
           <li>Android &amp; iOS mobile apps</li>
@@ -579,26 +692,30 @@
 
     <form class="form rv" id="quoteForm" style="--d:.12s" novalidate>
       <div class="field">
-        <label for="f-name">Your name</label>
-        <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Full name" required>
+        <label for="f-name">Your name <i aria-hidden="true">*</i></label>
+        <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Full name"
+               required aria-required="true" aria-describedby="f-name-err">
         <span class="field__bar"></span>
-        <span class="field__err">Please tell us your name.</span>
+        <span class="field__err" id="f-name-err">Please tell us your name.</span>
       </div>
       <div class="field">
-        <label for="f-phone">Phone</label>
-        <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91" required>
+        <label for="f-phone">Phone <i aria-hidden="true">*</i></label>
+        <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210"
+               required aria-required="true" aria-describedby="f-phone-err">
         <span class="field__bar"></span>
-        <span class="field__err">A number we can reach you on.</span>
+        <span class="field__err" id="f-phone-err">At least 10 digits, please.</span>
       </div>
       <div class="field field--full">
-        <label for="f-email">Email</label>
-        <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com">
+        <label for="f-email">Email <i aria-hidden="true">*</i></label>
+        <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com"
+               required aria-required="true" aria-describedby="f-email-err">
         <span class="field__bar"></span>
-        <span class="field__err">That email doesn't look right.</span>
+        <span class="field__err" id="f-email-err">That email doesn't look right.</span>
       </div>
       <div class="field">
-        <label for="f-need">What you need</label>
-        <select id="f-need" name="need">
+        <label for="f-need">What you need <i aria-hidden="true">*</i></label>
+        <select id="f-need" name="need" required aria-required="true" aria-describedby="f-need-err">
+          <option value="" disabled selected>Choose one</option>
           <option>Business website</option>
           <option>Web application</option>
           <option>Mobile app</option>
@@ -609,26 +726,37 @@
           <option>Not sure yet</option>
         </select>
         <span class="field__bar"></span>
+        <span class="field__err" id="f-need-err">Pick whichever is closest.</span>
       </div>
       <div class="field">
-        <label for="f-budget">Budget range</label>
-        <select id="f-budget" name="budget">
-          <option>Under &#8377;15,000</option>
-          <option>&#8377;15,000 &ndash; &#8377;35,000</option>
-          <option>&#8377;35,000 &ndash; &#8377;80,000</option>
-          <option>&#8377;80,000+</option>
+        <label for="f-budget">Budget range <i aria-hidden="true">*</i></label>
+        <select id="f-budget" name="budget" required aria-required="true" aria-describedby="f-budget-err">
+          <option value="" disabled selected>Choose one</option>
+          <option>Under &#8377;8,000</option>
+          <option>&#8377;8,000 &ndash; &#8377;15,000</option>
+          <option>&#8377;15,000 &ndash; &#8377;25,000</option>
+          <option>&#8377;25,000+</option>
           <option>Tell me what's realistic</option>
         </select>
         <span class="field__bar"></span>
+        <span class="field__err" id="f-budget-err">Pick one, or the last option.</span>
       </div>
       <div class="field field--full">
         <label for="f-msg">What are you building?</label>
-        <textarea id="f-msg" name="message" placeholder="A line or two about your business and what the site or app needs to do."></textarea>
+        <textarea id="f-msg" name="message" rows="3" autocomplete="off" placeholder="A line or two about your business and what the site or app needs to do."></textarea>
         <span class="field__bar"></span>
       </div>
+
+      <!-- Off-screen, never shown to a person. Anything that fills it in
+           is a bot, and the submission is dropped without saying so. -->
+      <div class="field field--trap" aria-hidden="true">
+        <label for="f-co">Company</label>
+        <input id="f-co" name="company" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
       <div class="form__submit">
         <button class="btn" type="submit" data-magnetic><span class="btn__dot"></span><span>Send request</span></button>
-        <span class="caption" id="formNote" role="status" aria-live="polite">Opens WhatsApp with your details filled in. We reply the same day.</span>
+        <span class="caption" id="formNote" role="status" aria-live="polite">Goes straight to our inbox. We reply the same day.</span>
       </div>
     </form>
   </div>
@@ -666,9 +794,10 @@
         <div class="footer__col">
           <h4>Company</h4>
           <a href="work.html">Work</a>
+          <a href="tools.html">Free tools</a>
           <a href="process.html">Process</a>
           <a href="pricing.html">Pricing</a>
-          <a href="contact.html">Contact</a>
+          <a href="#contact" data-scroll>Contact</a>
         </div>
         <div class="footer__col">
           <h4>Talk</h4>

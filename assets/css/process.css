@@ -274,7 +274,9 @@
 
 @media (max-width:760px){
   .phase{padding:var(--s24) var(--s18)}
-  .rail__scroll{margin-inline:-20px;padding-inline:20px}
+  /* bleed to the screen edge — must track the wrap gutter exactly,
+     or the rail ends up wider than the viewport */
+  .rail__scroll{margin-inline:calc(var(--wrap-pad) * -1);padding-inline:var(--wrap-pad)}
   .rail__track{min-width:720px}
   .tick{flex:1 0 38px}
   .beat{grid-template-columns:1fr;gap:12px}

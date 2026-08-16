@@ -1,6 +1,7 @@
 /* ============================================================
    Responsive — mobile-first content, desktop-down layout tuning.
    Breakpoints: 1280 · 1024 · 760 · 480
+   The burger takes over at 1024, not 760 — see the nav note there.
    ============================================================ */
 
 /* ---------------- Small desktop / large tablet ---------------- */
@@ -12,9 +13,46 @@
   .footer__cols{gap:var(--s60)}
 }
 
+/* The scroll cue is absolutely positioned over the hero. It only has clear
+   space on a screen that is both wide and tall; anywhere else it lands on
+   top of the hero stats, so it is opt-in rather than opt-out. */
+@media (max-width:1280px),(max-height:820px){
+  .scrollcue{display:none}
+}
+
 /* ---------------- Tablet ---------------- */
 @media (max-width:1024px){
   :root{--s120:96px}
+
+  /* Six links plus the brand and the CTA stop fitting below ~960px: the pill
+     wrapped to two lines and took the whole bar with it. The menu moves to
+     the burger here rather than at 760. */
+  .nav__links{
+    position:fixed;inset:0;flex-direction:column;justify-content:center;gap:var(--s12);
+    padding:var(--s96) var(--s24);
+    background:rgba(0,0,0,.97);backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+    opacity:0;pointer-events:none;transition:opacity .45s ease;
+  }
+  .nav.is-open .nav__links{opacity:1;pointer-events:auto}
+  .nav__pill{display:none}
+  .nav__link{
+    font-size:30px;text-transform:none;letter-spacing:-0.04em;
+    color:#fff;font-weight:var(--fw-r);padding:10px 0;text-align:center;
+    opacity:0;transform:translateY(20px);
+  }
+  .nav.is-open .nav__link{animation:menuIn .6s var(--ease) forwards}
+  .nav.is-open .nav__link:nth-child(3){animation-delay:.06s}
+  .nav.is-open .nav__link:nth-child(4){animation-delay:.12s}
+  .nav.is-open .nav__link:nth-child(5){animation-delay:.18s}
+  .nav.is-open .nav__link:nth-child(6){animation-delay:.24s}
+  .nav.is-open .nav__link:nth-child(7){animation-delay:.30s}
+  @keyframes menuIn{to{opacity:1;transform:none}}
+  .nav__link.is-active::after{display:none}
+  .burger{display:block}
+  /* the overlay is a later sibling, so it paints over the brand and the
+     logo disappears while the menu is open — lift it back out */
+  .nav.is-open .brand{position:relative;z-index:161}
   .phero{padding-top:calc(var(--nav-h) + var(--s60));padding-bottom:var(--s60)}
   .hero{min-height:auto;padding-top:calc(var(--nav-h) + 30px)}
   .hero__grid{grid-template-columns:1fr;gap:var(--s30)}
@@ -36,37 +74,13 @@
 
 /* ---------------- Phone ---------------- */
 @media (max-width:760px){
-  :root{--s120:74px;--s96:56px}
-  .wrap{padding-inline:20px}
+  :root{--s120:74px;--s96:56px;--wrap-pad:20px}
 
-  /* full-screen menu */
-  .nav__links{
-    position:fixed;inset:0;flex-direction:column;justify-content:center;gap:var(--s12);
-    padding:var(--s96) var(--s24);
-    background:rgba(0,0,0,.97);backdrop-filter:blur(22px);
-    -webkit-backdrop-filter:blur(22px);
-    opacity:0;pointer-events:none;transition:opacity .45s ease;
-  }
-  .nav.is-open .nav__links{opacity:1;pointer-events:auto}
-  .nav__pill{display:none}
-  .nav__link{
-    font-size:30px;text-transform:none;letter-spacing:-0.04em;
-    color:#fff;font-weight:var(--fw-r);padding:10px 0;text-align:center;
-    opacity:0;transform:translateY(20px);
-  }
-  .nav.is-open .nav__link{animation:menuIn .6s var(--ease) forwards}
-  .nav.is-open .nav__link:nth-child(3){animation-delay:.06s}
-  .nav.is-open .nav__link:nth-child(4){animation-delay:.12s}
-  .nav.is-open .nav__link:nth-child(5){animation-delay:.18s}
-  .nav.is-open .nav__link:nth-child(6){animation-delay:.24s}
-  @keyframes menuIn{to{opacity:1;transform:none}}
-  .nav__link.is-active::after{display:none}
-  .burger{display:block}
   .nav__cta{padding:11px 17px;font-size:12px}
 
   /* strip: label sits above the marquee instead of beside it */
   .strip{grid-template-columns:1fr;background:none}
-  .strip__label{padding:var(--s24) 20px 0;gap:12px}
+  .strip__label{padding:var(--s24) var(--wrap-pad) 0;gap:12px}
   .strip__label::after{height:1px;flex:1;width:auto}
   .ticker{
     padding-block:var(--s18) var(--s24);
@@ -82,7 +96,6 @@
 
   .hero__canvasWrap{max-width:380px}
   .hero__meta{gap:var(--s24);margin-top:var(--s36)}
-  .scrollcue{display:none}
 
   .work__item{padding-block:var(--s60)}
   .work__desc{max-width:none}
@@ -107,10 +120,14 @@
 
 /* ---------------- Small phone ---------------- */
 @media (max-width:480px){
-  :root{--t-body:17px;--s120:60px;--s96:48px}
-  .wrap{padding-inline:18px}
+  :root{--t-body:17px;--s120:60px;--s96:48px;--wrap-pad:18px}
   .brand__word{font-size:19px}
-  .nav__cta{padding:10px 14px}
+  /* Brand + CTA + burger stop fitting on a small phone. Tighten the row so
+     the burger stays on screen down to 360 (Galaxy/SE territory) instead of
+     being pushed past the right edge, where it cannot be tapped at all. */
+  .nav__inner{gap:var(--s12)}
+  .nav__right{gap:8px}
+  .nav__cta{padding:9px 13px;font-size:11px}
   .hero{padding-bottom:var(--s36)}
   .hero__canvasWrap{aspect-ratio:1/1;max-width:300px}
   .hero__actions{gap:var(--s18)}
@@ -126,11 +143,19 @@
   .footer__bottom{flex-direction:column;align-items:flex-start;gap:var(--s12)}
 }
 
+/* ---------------- Very small phones ----------------
+   Below 360 even the tightened row cannot hold brand + CTA + burger.
+   The burger wins: without it the menu cannot be opened or closed at all.
+   The call to action still reaches the visitor through the menu's Contact
+   link and the floating WhatsApp button. */
+@media (max-width:359px){
+  .nav__cta{display:none}
+}
+
 /* ---------------- Short landscape phones ---------------- */
 @media (max-height:520px) and (orientation:landscape){
   .hero{min-height:auto;padding-block:calc(var(--nav-h) + 24px) var(--s36)}
   .hero__canvasWrap{max-width:260px}
-  .scrollcue{display:none}
 }
 
 /* ---------------- Coarse pointers — drop hover-only motion ---------------- */

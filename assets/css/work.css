@@ -7,9 +7,11 @@
    services.html and live in components.css.
    ============================================================ */
 
-/* the three projects as a jump index — an honest table of contents */
+/* the projects as a jump index — an honest table of contents.
+   auto-fit rather than a fixed count, so entries can be added or
+   retired without the grid needing a rewrite. */
 .jump{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
   gap:0;margin-top:var(--s96);border-top:1px solid var(--hair-2);
 }
 .jump__item{
@@ -28,6 +30,13 @@
 .jump__t{font-size:var(--t-2xs);font-weight:var(--fw-r);letter-spacing:-0.035em;margin-bottom:6px}
 .jump__s{font-size:13px;color:var(--ash);font-weight:var(--fw-xl)}
 .jump__item:hover .jump__t{color:#fff}
+/* the last entry is work in progress, not a case study — amber and a live dot
+   so it reads as ongoing rather than as a fourth finished project */
+.jump__item--wip .jump__n{display:flex;align-items:center;gap:8px;color:var(--spark)}
+.jump__item--wip .jump__n::before{
+  content:"";width:6px;height:6px;border-radius:50%;flex:none;
+  background:var(--spark);animation:pulse 2.6s ease-in-out infinite;
+}
 
 /* ---------------- Case study shell ---------------- */
 .case{border-top:1px solid var(--hair);padding-block:var(--s120)}
@@ -141,6 +150,27 @@ input[type=range].slider::-moz-range-thumb{
 .lane__route b{color:#fff;font-weight:var(--fw-sb)}
 .lane.is-swap{animation:laneIn .45s var(--ease)}
 @keyframes laneIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---------------- In the studio ----------------
+   Ongoing work, stated as states rather than as a count — the page
+   should never read as a finished list. Reuses the .case shell. */
+.studio{display:flex;flex-direction:column;gap:var(--s36);max-width:860px}
+.studio__list{
+  list-style:none;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1px;background:var(--hair);
+  border:1px solid var(--hair);border-radius:14px;overflow:hidden;
+}
+.studio__list li{
+  background:var(--void);padding:var(--s24);
+  display:flex;flex-direction:column;gap:9px;
+}
+.studio__list b{
+  font-size:11px;font-weight:var(--fw-sb);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--iris);
+}
+.studio__list span{font-size:14.5px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6}
+.studio__ask{font-size:15px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.65;max-width:56ch}
 
 /* ---------------- Closing CTA picker (.close lives in components.css) ---------------- */
 .picker{margin-top:var(--s36)}

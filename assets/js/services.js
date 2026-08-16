@@ -5,7 +5,7 @@
    WhatsApp message that already contains the spec. The numbers below
    are the only place pricing lives — edit them here, nowhere else.
 
-   Bases match the homepage pricing tiers (₹14,999 / ₹79,999) so the
+   Bases match the homepage pricing tiers (₹7,999 / ₹24,999) so the
    two pages can never quietly disagree.
    ============================================================ */
 AX.module(function services(){
@@ -13,24 +13,25 @@ AX.module(function services(){
   var $ = AX.$, $$ = AX.$$, reduce = AX.reduce;
 
   var BASE = {
-    site:   { label:'Business website', price:14999, days:7,  covers:[] },
-    store:  { label:'Online store',     price:79999, days:21, covers:['pay'] },
-    webapp: { label:'Web application',  price:79999, days:28, covers:['login'] },
-    app:    { label:'Mobile app',       price:79999, days:35, covers:['login'] }
+    site:   { label:'Business website', price:7999,  days:7,  covers:[] },
+    store:  { label:'Online store',     price:24999, days:21, covers:['pay'] },
+    webapp: { label:'Web application',  price:24999, days:28, covers:['login'] },
+    app:    { label:'Mobile app',       price:24999, days:35, covers:['login'] }
   };
 
-  /* A business website plus the first four comes to ₹30,999, so the quoted
-     range brackets the ₹34,999 Growth tier from below — Growth also carries
+  /* A business website plus the first four comes to ₹14,299, so the quoted
+     range brackets the ₹14,999 Growth tier from below — Growth also carries
      custom animation, lead qualification, speed tuning and 60 days of fixes,
-     which is what the gap pays for. Keep that relationship if you re-price. */
+     which is what the gap pays for. The gap is only ₹700 now that the tiers
+     sit closer together, so re-check it before moving any add-on price. */
   var ADDON = {
-    pages: { label:'More pages (6–12)',        price:5000,  days:4 },
-    cms:   { label:'Blog or CMS you can edit', price:4000,  days:3 },
-    tool:  { label:'Calculator or quote tool', price:5000,  days:4 },
-    seo:   { label:'SEO & analytics setup',    price:2000,  days:1 },
-    pay:   { label:'Payment gateway',          price:6000,  days:4 },
-    login: { label:'User logins & accounts',   price:10000, days:7 },
-    ai:    { label:'AI chat assistant',        price:7000,  days:5 }
+    pages: { label:'More pages (6–12)',        price:2000, days:4 },
+    cms:   { label:'Blog or CMS you can edit', price:1500, days:3 },
+    tool:  { label:'Calculator or quote tool', price:2000, days:4 },
+    seo:   { label:'SEO & analytics setup',    price:800,  days:1 },
+    pay:   { label:'Payment gateway',          price:3000, days:4 },
+    login: { label:'User logins & accounts',   price:5000, days:7 },
+    ai:    { label:'AI chat assistant',        price:3500, days:5 }
   };
 
   /* How far above the base the top of the quoted range sits. 1.3 made even
@@ -40,7 +41,7 @@ AX.module(function services(){
   /* Where the three published tiers sit on the scale bar, as [rupees, %].
      The marker interpolates between them, so the graphic is anchored to the
      same numbers as the homepage rather than to an invented scale. */
-  var ANCHORS = [[14999, 8], [34999, 40], [79999, 76], [160000, 97]];
+  var ANCHORS = [[7999, 8], [14999, 40], [24999, 76], [50000, 97]];
 
   var root = $('#builder');
   if(!root) return;

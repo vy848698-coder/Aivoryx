@@ -63,7 +63,8 @@ AX.module(function nav(){
 
   /* ---------------- Sliding pill + active link ---------------- */
   function movePill(el){
-    if(!el || window.innerWidth <= 760){ pill.style.opacity = 0; return; }
+    /* 1024 matches the CSS: below it the links live in the burger menu */
+    if(!el || window.innerWidth <= 1024){ pill.style.opacity = 0; return; }
     pill.style.width = el.offsetWidth + 'px';
     pill.style.transform = 'translateX(' + el.offsetLeft + 'px)';
     pill.style.opacity = 1;
@@ -145,7 +146,7 @@ AX.module(function nav(){
 
   window.addEventListener('resize', function(){
     lastActive = -2;
-    if(window.innerWidth > 760) closeMenu();
+    if(window.innerWidth > 1024) closeMenu();
     activePill();
     onScroll();
   });

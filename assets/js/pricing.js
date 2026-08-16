@@ -13,9 +13,9 @@ AX.module(function pricing(){
   var $ = AX.$, $$ = AX.$$, reduce = AX.reduce;
 
   var PLANS = {
-    starter: { label:'Starter',       price:14999 },
-    growth:  { label:'Growth',        price:34999 },
-    custom:  { label:'Apps & stores', price:79999 }
+    starter: { label:'Starter',       price:7999 },
+    growth:  { label:'Growth',        price:14999 },
+    custom:  { label:'Apps & stores', price:24999 }
   };
 
   /* Domain + hosting for a hand-coded site, paid to your host, not to us.
@@ -150,7 +150,10 @@ AX.module(function pricing(){
       return '<span style="top:' + l.y + 'px">' + inrShort(l.v) + '</span>';
     }).join('');
 
-    xAxis.innerHTML = [0, 12, 24, 36, 48, 60].map(function(m){
+    /* six ticks need roughly 46px each; below that they collide, so drop to
+       every other year rather than letting the labels run together */
+    var ticks = (x1 / 6) >= 46 ? [0, 12, 24, 36, 48, 60] : [0, 24, 60];
+    xAxis.innerHTML = ticks.map(function(m){
       return '<span style="left:' + X(m) + 'px">' + (m === 0 ? 'Today' : 'Yr ' + (m / 12)) + '</span>';
     }).join('');
 
@@ -195,10 +198,15 @@ AX.module(function pricing(){
       svg.appendChild(el('circle', {
         cx:cx, cy:cy, r:4.5, fill:'#ffb829', stroke:SURFACE, 'stroke-width':2
       }));
+      /* the pill is centred on its left edge (translateX(-50%)), so it has to
+         be clamped by its own half-width — a flat 52px let it hang off the
+         plot and sit on top of the y-axis labels on narrow screens */
       cross.hidden = false;
-      cross.style.left = Math.min(x1 - 4, Math.max(52, cx)) + 'px';
+      /* the long form does not fit beside the y-axis on a small phone */
+      cross.textContent = x1 < 260 ? 'Ahead from here' : 'You\'re ahead from here';
+      var half = cross.offsetWidth / 2;
+      cross.style.left = Math.min(x1 - half, Math.max(half, cx)) + 'px';
       cross.style.top = Math.max(0, cy - 34) + 'px';
-      cross.textContent = 'You\'re ahead from here';
     } else {
       cross.hidden = true;
     }

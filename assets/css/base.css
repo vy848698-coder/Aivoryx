@@ -38,7 +38,7 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
   overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
 }
 
-.wrap{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:var(--s30)}
+.wrap{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:var(--wrap-pad)}
 .section{padding-block:var(--s120)}
 
 /* ---------------- Typography roles ---------------- */

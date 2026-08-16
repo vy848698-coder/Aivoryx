@@ -15,10 +15,15 @@ Aivoryx/
 ├── services.html           Six services + the scope builder that prices your build
 ├── process.html            The fifteen-day build, opened up day by day
 ├── pricing.html            Three tiers, a comparison table and the break-even chart
+├── tools.html              Five free tools, and the service each one demonstrates
 ├── 404.html                Not-found page
 ├── robots.txt
 ├── sitemap.xml
 ├── site.webmanifest
+├── api/                    The only server-side code in the project
+│   ├── send.php            Enquiry endpoint: validates, emails the inbox, auto-replies
+│   ├── mailer.php          Small SMTP client, falling back to the server's mail()
+│   └── config.example.php  Template — copy to config.php ON THE SERVER and fill in
 └── assets/
     ├── css/
     │   ├── tokens.css      Design tokens: colour, type scale, spacing, easing
@@ -36,7 +41,7 @@ Aivoryx/
     │   ├── contact.js      Paints config values into the markup
     │   ├── nav.js          Smooth scroll, sticky nav, scroll spy, progress, parallax
     │   ├── reveal.js       Scroll reveals, counters, ticker, magnetic buttons
-    │   ├── form.js         Quote form validation → WhatsApp handoff
+    │   ├── form.js         Quote form validation → POST to api/send.php
     │   ├── constellation.js  Hero canvas — particles assembling into the logo
     │   ├── work.js         Work page — the live rebuilt demos
     │   ├── services.js     Services page — scope builder and pricing table

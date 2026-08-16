@@ -16,39 +16,6 @@
   --c-them:#c08a1e;  /* series 2 — whatever you pay every month */
 }
 
-/* ---------------- Hero: the three zeros ----------------
-   The page's promise is an absence, so the hero shows the absence
-   rather than describing it. */
-.zeros{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:1px;background:var(--hair);
-  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
-  margin-top:var(--s60);
-}
-.zero{
-  background:#000;padding:var(--s36) var(--s24) var(--s30);
-  position:relative;overflow:hidden;
-  opacity:0;transform:translateY(18px);
-  transition:opacity .9s var(--ease) var(--d,0s),transform .9s var(--ease) var(--d,0s);
-}
-.is-in .zero{opacity:1;transform:none}
-.zero::after{
-  content:"";position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,var(--iris),transparent);
-  transform:scaleX(0);transform-origin:left;
-  transition:transform 1.1s var(--ease) var(--d,0s);
-}
-.is-in .zero::after{transform:scaleX(1)}
-.zero b{
-  display:block;font-size:clamp(46px,7vw,86px);font-weight:var(--fw-xl);
-  letter-spacing:-0.05em;line-height:.9;color:#fff;
-}
-.zero span{display:block;font-size:15px;font-weight:var(--fw-xl);color:var(--mist);margin-top:var(--s18);line-height:1.5}
-.zero em{
-  display:block;font-style:normal;font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--ash);margin-top:10px;
-}
-
 /* ============================================================
    Packages
    ============================================================ */
@@ -373,7 +340,6 @@ input[type=range].slider::-moz-range-thumb{
 
 /* ---------------- Responsive ---------------- */
 @media (max-width:1024px){
-  .zeros{grid-template-columns:1fr}
   .pkgs__grid{grid-template-columns:1fr;gap:var(--s24)}
   .pkg__who{min-height:0}
   .bev__grid{grid-template-columns:1fr;gap:var(--s60)}
@@ -382,7 +348,6 @@ input[type=range].slider::-moz-range-thumb{
 }
 
 @media (max-width:760px){
-  .zero{padding:var(--s30) var(--s24)}
   .chart{grid-template-columns:48px minmax(0,1fr);gap:8px}
   .chart__plot{height:224px}
   .driver{grid-template-columns:minmax(0,1fr) auto;gap:var(--s18)}
@@ -403,7 +368,6 @@ input[type=range].slider::-moz-range-thumb{
 }
 
 @media (prefers-reduced-motion:reduce){
-  .zero{opacity:1;transform:none}
-  .zero::after,.mile::after{transform:none;width:100%}
+  .mile::after{transform:none;width:100%}
   .chart__end{transition:none}
 }

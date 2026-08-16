@@ -89,6 +89,7 @@
       <span class="nav__pill" id="navPill" aria-hidden="true"></span>
       <a class="nav__link" href="work.html">Work</a>
       <a class="nav__link" href="services.html">Services</a>
+      <a class="nav__link" href="tools.html">Tools</a>
       <a class="nav__link is-active" href="process.html" aria-current="page">Process</a>
       <a class="nav__link" href="pricing.html">Pricing</a>
       <a class="nav__link" href="#talk" data-scroll>Contact</a>
@@ -977,26 +978,30 @@
 
     <form class="form rv" id="quoteForm" style="--d:.12s" novalidate>
       <div class="field">
-        <label for="f-name">Your name</label>
-        <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Full name" required>
+        <label for="f-name">Your name <i aria-hidden="true">*</i></label>
+        <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Full name"
+               required aria-required="true" aria-describedby="f-name-err">
         <span class="field__bar"></span>
-        <span class="field__err">Please tell us your name.</span>
+        <span class="field__err" id="f-name-err">Please tell us your name.</span>
       </div>
       <div class="field">
-        <label for="f-phone">Phone</label>
-        <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91" required>
+        <label for="f-phone">Phone <i aria-hidden="true">*</i></label>
+        <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210"
+               required aria-required="true" aria-describedby="f-phone-err">
         <span class="field__bar"></span>
-        <span class="field__err">A number we can reach you on.</span>
+        <span class="field__err" id="f-phone-err">At least 10 digits, please.</span>
       </div>
       <div class="field field--full">
-        <label for="f-email">Email</label>
-        <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com">
+        <label for="f-email">Email <i aria-hidden="true">*</i></label>
+        <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com"
+               required aria-required="true" aria-describedby="f-email-err">
         <span class="field__bar"></span>
-        <span class="field__err">That email doesn't look right.</span>
+        <span class="field__err" id="f-email-err">That email doesn't look right.</span>
       </div>
       <div class="field">
-        <label for="f-need">What you need</label>
-        <select id="f-need" name="need">
+        <label for="f-need">What you need <i aria-hidden="true">*</i></label>
+        <select id="f-need" name="need" required aria-required="true" aria-describedby="f-need-err">
+          <option value="" disabled selected>Choose one</option>
           <option>Business website</option>
           <option>Web application</option>
           <option>Mobile app</option>
@@ -1007,26 +1012,37 @@
           <option>Not sure yet</option>
         </select>
         <span class="field__bar"></span>
+        <span class="field__err" id="f-need-err">Pick whichever is closest.</span>
       </div>
       <div class="field">
-        <label for="f-budget">Budget range</label>
-        <select id="f-budget" name="budget">
-          <option>Under &#8377;15,000</option>
-          <option>&#8377;15,000 &ndash; &#8377;35,000</option>
-          <option>&#8377;35,000 &ndash; &#8377;80,000</option>
-          <option>&#8377;80,000+</option>
+        <label for="f-budget">Budget range <i aria-hidden="true">*</i></label>
+        <select id="f-budget" name="budget" required aria-required="true" aria-describedby="f-budget-err">
+          <option value="" disabled selected>Choose one</option>
+          <option>Under &#8377;8,000</option>
+          <option>&#8377;8,000 &ndash; &#8377;15,000</option>
+          <option>&#8377;15,000 &ndash; &#8377;25,000</option>
+          <option>&#8377;25,000+</option>
           <option>Tell me what's realistic</option>
         </select>
         <span class="field__bar"></span>
+        <span class="field__err" id="f-budget-err">Pick one, or the last option.</span>
       </div>
       <div class="field field--full">
         <label for="f-msg">What are you building?</label>
-        <textarea id="f-msg" name="message" placeholder="A line or two about your business and what the site or app needs to do."></textarea>
+        <textarea id="f-msg" name="message" rows="3" autocomplete="off" placeholder="A line or two about your business and what the site or app needs to do."></textarea>
         <span class="field__bar"></span>
       </div>
+
+      <!-- Off-screen, never shown to a person. Anything that fills it in
+           is a bot, and the submission is dropped without saying so. -->
+      <div class="field field--trap" aria-hidden="true">
+        <label for="f-co">Company</label>
+        <input id="f-co" name="company" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
       <div class="form__submit">
         <button class="btn" type="submit" data-magnetic><span class="btn__dot"></span><span>Start day zero</span></button>
-        <span class="caption" id="formNote" role="status" aria-live="polite">Opens WhatsApp with your details filled in. We reply the same day.</span>
+        <span class="caption" id="formNote" role="status" aria-live="polite">Goes straight to our inbox. We reply the same day.</span>
       </div>
     </form>
   </div>
@@ -1065,6 +1081,7 @@
           <a href="index.html">Home</a>
           <a href="work.html">Work</a>
           <a href="services.html">Services</a>
+          <a href="tools.html">Free tools</a>
           <a href="pricing.html">Pricing</a>
         </div>
         <div class="footer__col">

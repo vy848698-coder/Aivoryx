@@ -38,6 +38,7 @@
 
   /* shell */
   --max:1280px;
+  --wrap-pad:30px;   /* gutter on .wrap — anything bleeding past it must use this */
   --r-3xl:24px;
   --r-full:9999px;
   --nav-h:78px;

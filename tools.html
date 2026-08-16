@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+
+<title>Free Tools &mdash; Aivoryx | Five working tools, no sign-up, no card</title>
+<meta name="description" content="Secure file sharing, self-destructing secrets, an AI-protected password vault, a JSON toolkit and an AI GST notice reply generator. Built and run by Aivoryx, free to use right now.">
+<link rel="canonical" href="https://aivoryx.com/tools.html">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aivoryx.com/tools.html">
+<meta property="og:site_name" content="Aivoryx">
+<meta property="og:title" content="Free Tools &mdash; Aivoryx | We built five. You pay for none of them.">
+<meta property="og:description" content="File sharing, one-time secret links, a password vault, a JSON toolkit and an AI GST notice reply generator. Live, hand-built and free.">
+<meta property="og:image" content="https://aivoryx.com/assets/img/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/sections.css">
+<link rel="stylesheet" href="assets/css/tools.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"ItemList",
+  "name":"Free tools by Aivoryx",
+  "url":"https://aivoryx.com/tools.html",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"item":{
+      "@type":"WebApplication","name":"Aivoryx Secure File Sharing",
+      "url":"https://fileshare.aivoryx.com/","applicationCategory":"UtilitiesApplication","operatingSystem":"Web",
+      "description":"Send a file as a link that expires when you say so, with a password on it if you want one.",
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}},
+    {"@type":"ListItem","position":2,"item":{
+      "@type":"WebApplication","name":"Aivoryx Self-Destructing Secrets",
+      "url":"https://secret.aivoryx.com/","applicationCategory":"SecurityApplication","operatingSystem":"Web",
+      "description":"Share a password or key as a one-time link that destroys itself the moment it is read.",
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}},
+    {"@type":"ListItem","position":3,"item":{
+      "@type":"WebApplication","name":"Aivoryx AI-Protected Vault",
+      "url":"https://vault.aivoryx.com/login","applicationCategory":"SecurityApplication","operatingSystem":"Web",
+      "description":"A password vault that watches for the reused, the weak and the already-leaked.",
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}},
+    {"@type":"ListItem","position":4,"item":{
+      "@type":"WebApplication","name":"Aivoryx JSON Beautifier & Toolkit",
+      "url":"https://jsonbeautifier.aivoryx.com/","applicationCategory":"DeveloperApplication","operatingSystem":"Web",
+      "description":"Format, validate, minify and compare JSON, with a tree view for payloads too deep to read.",
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}},
+    {"@type":"ListItem","position":5,"item":{
+      "@type":"WebApplication","name":"AI GST Notice Reply Generator",
+      "url":"https://gstreply.aivoryx.com/","applicationCategory":"BusinessApplication","operatingSystem":"Web",
+      "description":"Reads a GST notice, names what is actually being asked, and drafts a structured reply with the sections it relies on.",
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}}
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#top">Skip to content</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- ============================ NAV ============================ -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a href="index.html" class="brand" aria-label="Aivoryx home">
+      <svg class="brand__mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="axg" x1="6" y1="4" x2="94" y2="96" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#a684ff"/><stop offset=".55" stop-color="#8052ff"/><stop offset="1" stop-color="#15846e"/>
+          </linearGradient>
+        </defs>
+        <path class="brand__body" d="M50 5 L97 95 L73 95 L50 47 L27 95 L3 95 Z" fill="url(#axg)"/>
+        <path class="brand__shard" d="M31 63 L71 67 L69 81 L27 77 Z" fill="#ffb829"/>
+      </svg>
+      <span class="brand__word">Aivory<b>x</b></span>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Primary">
+      <span class="nav__pill" id="navPill" aria-hidden="true"></span>
+      <a class="nav__link" href="work.html">Work</a>
+      <a class="nav__link" href="services.html">Services</a>
+      <a class="nav__link is-active" href="tools.html" aria-current="page">Tools</a>
+      <a class="nav__link" href="process.html">Process</a>
+      <a class="nav__link" href="pricing.html">Pricing</a>
+      <a class="nav__link" href="#talk" data-scroll>Contact</a>
+    </nav>
+
+    <div class="nav__right">
+      <a class="btn nav__cta" href="#talk" data-scroll data-magnetic><span class="btn__dot"></span><span>Get a quote</span></a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============================ PAGE HERO ============================
+     The claim is that the tools are real, so the tools go first —
+     no sales paragraph standing between the reader and the product.
+     ============================================================ -->
+<section class="phero">
+  <div class="phero__glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div data-hero-copy>
+      <p class="eyebrow fade" style="--d:.05s">Free tools &mdash; five of them, none want your card</p>
+
+      <h1 class="display">
+        <span class="line"><span style="--d:.18s">We built five.</span></span>
+        <span class="line"><span style="--d:.30s">You pay for</span></span>
+        <span class="line"><span style="--d:.42s">none of them.</span></span>
+      </h1>
+
+      <p class="lede fade" style="--d:.58s">
+        Everything below is live right now and hand-built by us, the same way we'd build
+        yours. They exist for one reason: it's easier to hand you working software than
+        to describe it. <span class="amber">If the free ones are any good</span>, you
+        already know what the paid work looks like.
+      </p>
+
+      <!-- Five tiles. Colour is inherited per tool from the service it
+           demonstrates — violet web app, verdant interactive tool, amber AI. -->
+      <div class="rack">
+        <a class="tool" href="https://fileshare.aivoryx.com/" target="_blank" rel="noopener" style="--c:#8052ff;--d:.74s">
+          <div class="tool__top">
+            <span class="tool__glyph" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 16V3M12 3L8 7.2M12 3l4 4.2"/><path d="M4 14v5.5A1.5 1.5 0 005.5 21h13a1.5 1.5 0 001.5-1.5V14"/>
+              </svg>
+            </span>
+            <span class="tool__tag">File transfer</span>
+          </div>
+          <h2 class="tool__t">Secure file sharing</h2>
+          <p class="tool__d">
+            Send a file to someone who has no account and never wants one &mdash; as a
+            link that stops working when you say it does.
+          </p>
+          <ul class="tool__feats">
+            <li>Encrypted on upload, not just in transit</li>
+            <li>Expiry you set, by time or by download</li>
+            <li>Password on any link you choose</li>
+            <li>A log of when it was actually opened</li>
+          </ul>
+          <div class="tool__foot">
+            <span class="tool__cost"><b>Free</b>No sign-up</span>
+            <span class="tool__go">Open <i>&rarr;</i></span>
+          </div>
+        </a>
+
+        <a class="tool" href="https://secret.aivoryx.com/" target="_blank" rel="noopener" style="--c:#8052ff;--d:.82s">
+          <div class="tool__top">
+            <span class="tool__glyph" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.8v3.9l2.6 2.2M9.4 2.2h5.2"/>
+              </svg>
+            </span>
+            <span class="tool__tag">One-time links</span>
+          </div>
+          <h2 class="tool__t">Self-destructing secrets</h2>
+          <p class="tool__d">
+            Paste a password, an API key or a bank detail and get a link back. It works
+            once. After that there's nothing left to leak.
+          </p>
+          <ul class="tool__feats">
+            <li>Destroyed the moment it's read</li>
+            <li>Nothing kept once it's been opened</li>
+            <li>A time limit as well, if you want one</li>
+            <li>Told the second it gets viewed</li>
+          </ul>
+          <div class="tool__foot">
+            <span class="tool__cost"><b>Free</b>No sign-up</span>
+            <span class="tool__go">Open <i>&rarr;</i></span>
+          </div>
+        </a>
+
+        <a class="tool" href="https://vault.aivoryx.com/login" target="_blank" rel="noopener" style="--c:#8052ff;--d:.90s">
+          <div class="tool__top">
+            <span class="tool__glyph" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 21.5s7.6-3.8 7.6-9.5V5.2L12 2.4 4.4 5.2v6.8c0 5.7 7.6 9.5 7.6 9.5z"/><path d="M9.2 11.9l2 2 3.6-3.9"/>
+              </svg>
+            </span>
+            <span class="tool__tag">Password vault</span>
+          </div>
+          <h2 class="tool__t">AI-protected vault</h2>
+          <p class="tool__d">
+            A password manager with a watchdog on top &mdash; it tells you which ones you've
+            reused, which are weak, and which have already turned up in a breach.
+          </p>
+          <ul class="tool__feats">
+            <li>Your own encrypted vault</li>
+            <li>Flags reused and weak passwords</li>
+            <li>Checks them against known breaches</li>
+            <li>Reachable from any device you log in on</li>
+          </ul>
+          <div class="tool__foot">
+            <span class="tool__cost"><b>Free</b>Account needed</span>
+            <span class="tool__go">Open <i>&rarr;</i></span>
+          </div>
+        </a>
+
+        <a class="tool tool--wide" href="https://jsonbeautifier.aivoryx.com/" target="_blank" rel="noopener" style="--c:#4fd1b0;--d:.98s">
+          <div class="tool__top">
+            <span class="tool__glyph" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 4.5L4 12l5 7.5M15 4.5l5 7.5-5 7.5"/>
+              </svg>
+            </span>
+            <span class="tool__tag">Developer toolkit</span>
+          </div>
+          <h2 class="tool__t">JSON beautifier &amp; toolkit</h2>
+          <p class="tool__d">
+            The one every developer opens six times a day. Format it, check it's valid,
+            strip it back down, or put two payloads side by side and find the one field
+            that changed.
+          </p>
+          <ul class="tool__feats">
+            <li>Beautify and minify</li>
+            <li>Validate, with the error pointed at</li>
+            <li>Diff two payloads against each other</li>
+            <li>Tree view for the ones nested too deep to read</li>
+          </ul>
+          <div class="tool__foot">
+            <span class="tool__cost"><b>Free</b>No sign-up</span>
+            <span class="tool__go">Open <i>&rarr;</i></span>
+          </div>
+        </a>
+
+        <a class="tool tool--wide" href="https://gstreply.aivoryx.com/" target="_blank" rel="noopener" style="--c:#ffb829;--d:1.06s">
+          <div class="tool__top">
+            <span class="tool__glyph" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.2 2.5H6.4A1.4 1.4 0 005 3.9v16.2a1.4 1.4 0 001.4 1.4h11.2a1.4 1.4 0 001.4-1.4V7.3z"/>
+                <path d="M14.2 2.5v4.8H19M8.4 13h7.2M8.4 17h4.6"/>
+              </svg>
+            </span>
+            <span class="tool__tag">GST &middot; India</span>
+          </div>
+          <h2 class="tool__t">AI GST notice reply generator</h2>
+          <p class="tool__d">
+            A GST notice lands and the clock starts. Upload it and this reads what's
+            actually being asked, then drafts the reply in the register an officer
+            expects &mdash; so you walk into your CA with a draft, not a panic.
+          </p>
+          <ul class="tool__feats">
+            <li>Reads the notice and names the real issue</li>
+            <li>Drafts a structured, section-by-section reply</li>
+            <li>Cites the provisions it's leaning on</li>
+            <li>Comes out ready to check, edit and file</li>
+          </ul>
+          <div class="tool__foot">
+            <span class="tool__cost"><b>Free to analyse</b>Credits for full replies</span>
+            <span class="tool__go">Open <i>&rarr;</i></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ WHY FREE ============================
+     The rest of the site refuses to hide numbers, so it can't hide a
+     motive either. Say it before anyone has to wonder.
+     ============================================================ -->
+<section class="pledge">
+  <div class="wrap">
+    <div class="secHead rv">
+      <div>
+        <p class="eyebrow eyebrow--muted">The obvious question</p>
+        <h2 class="h-lg secHead__title">
+          <span class="line"><span style="--d:.05s">Nothing is free.</span></span>
+          <span class="line"><span style="--d:.16s">So what's the catch?</span></span>
+        </h2>
+      </div>
+      <p class="lede muted fade" style="--d:.3s">
+        There isn't one, and here's the honest reason why &mdash; which is more useful to
+        you than us insisting there's nothing to worry about.
+      </p>
+    </div>
+
+    <div class="pledge__grid">
+      <div class="pledge__item rv">
+        <span class="pledge__n">01</span>
+        <h3 class="pledge__t">It's cheaper than an ad</h3>
+        <p class="pledge__d">
+          We'd rather spend the money building something you can actually use than
+          renting thirty seconds of your attention on someone else's platform.
+        </p>
+      </div>
+      <div class="pledge__item rv" style="--d:.08s">
+        <span class="pledge__n">02</span>
+        <h3 class="pledge__t">It's the only honest portfolio</h3>
+        <p class="pledge__d">
+          Screenshots prove somebody can design. A tool that stays up under real use
+          proves somebody can build. Judge us on the second one.
+        </p>
+      </div>
+      <div class="pledge__item rv" style="--d:.16s">
+        <span class="pledge__n">03</span>
+        <h3 class="pledge__t">They cost us very little to run</h3>
+        <p class="pledge__d">
+          Small, hand-written and boring to host &mdash; which is exactly why the site we
+          build you won't cost you &#8377;3,000 a month to keep alive either.
+        </p>
+      </div>
+      <div class="pledge__item rv" style="--d:.24s">
+        <span class="pledge__n">04</span>
+        <h3 class="pledge__t">No catch you find later</h3>
+        <p class="pledge__d">
+          Nothing here quietly turns into a paywall, and nothing you put into these gets
+          sold on. If that ever has to change, it'll say so on this page first.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ DETAIL ============================ -->
+<section class="kits" id="detail">
+  <div class="wrap">
+    <div class="secHead rv">
+      <div>
+        <p class="eyebrow eyebrow--muted">In detail</p>
+        <h2 class="h-lg secHead__title">
+          <span class="line"><span style="--d:.05s">What each one does.</span></span>
+          <span class="line"><span style="--d:.16s">And what it doesn't.</span></span>
+        </h2>
+      </div>
+      <p class="lede muted fade" style="--d:.3s">
+        The second column is the one worth reading. Anyone will tell you what their
+        software does &mdash; the limits are where you find out whether they're being
+        straight with you.
+      </p>
+    </div>
+
+    <!-- 01 -->
+    <article class="kit rv" id="tool-fileshare" style="--c:#8052ff">
+      <div>
+        <div class="kit__top">
+          <span class="kit__glyph" aria-hidden="true">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 16V3M12 3L8 7.2M12 3l4 4.2"/><path d="M4 14v5.5A1.5 1.5 0 005.5 21h13a1.5 1.5 0 001.5-1.5V14"/>
+            </svg>
+          </span>
+          <span>
+            <span class="kit__n">Free, no sign-up</span>
+            <span class="kit__ix">Tool 01</span>
+          </span>
+        </div>
+        <h3 class="kit__t">Secure file sharing</h3>
+        <p class="kit__best"><b>Best for</b> sending a contract, a design file or a set of scans to a client who will never install anything to receive it.</p>
+        <p class="kit__d">
+          Email bounces anything worth sending and the free lockers turn your file into
+          an advert with a countdown on it. This does the plain version: upload, get a
+          link, decide how long it lives and who gets past it.
+        </p>
+        <span class="kit__url">fileshare.aivoryx.com</span>
+        <div class="kit__cta">
+          <a class="btn" href="https://fileshare.aivoryx.com/" target="_blank" rel="noopener" data-magnetic><span class="btn__dot"></span><span>Open the tool</span></a>
+          <a class="ghost" href="services.html#svc-webapp">The service behind it <i>&rarr;</i></a>
+        </div>
+      </div>
+      <div class="kit__lists">
+        <div>
+          <span class="list__k">What it does</span>
+          <ul class="list">
+            <li>Encrypts the file on upload, not just the connection</li>
+            <li>Link expiry by time or by number of downloads</li>
+            <li>Optional password on any individual link</li>
+            <li>Tells you when it was opened, not just that it was sent</li>
+            <li>Works from a phone browser with nothing installed</li>
+          </ul>
+        </div>
+        <div>
+          <span class="list__k list__k--no">What it isn't</span>
+          <ul class="list list--no">
+            <li>A backup service &mdash; it's a transfer, not a home for the file</li>
+            <li>Unlimited &mdash; there's a sane size cap so it stays free for everyone</li>
+            <li>A signed audit trail for legal disclosure</li>
+            <li>A replacement for your team's shared drive</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- 02 -->
+    <article class="kit rv" id="tool-secret" style="--c:#8052ff">
+      <div>
+        <div class="kit__top">
+          <span class="kit__glyph" aria-hidden="true">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.8v3.9l2.6 2.2M9.4 2.2h5.2"/>
+            </svg>
+          </span>
+          <span>
+            <span class="kit__n">Free, no sign-up</span>
+            <span class="kit__ix">Tool 02</span>
+          </span>
+        </div>
+        <h3 class="kit__t">Self-destructing secrets</h3>
+        <p class="kit__best"><b>Best for</b> handing over a password, an API key or a bank detail without it living in a WhatsApp thread for the next four years.</p>
+        <p class="kit__d">
+          The real problem with sending a password over chat isn't the moment you send
+          it &mdash; it's that the message is still sitting there long after the person has
+          left the company. This gives you a link that works exactly once and then
+          stops existing.
+        </p>
+        <span class="kit__url">secret.aivoryx.com</span>
+        <div class="kit__cta">
+          <a class="btn" href="https://secret.aivoryx.com/" target="_blank" rel="noopener" data-magnetic><span class="btn__dot"></span><span>Open the tool</span></a>
+          <a class="ghost" href="services.html#svc-webapp">The service behind it <i>&rarr;</i></a>
+        </div>
+      </div>
+      <div class="kit__lists">
+        <div>
+          <span class="list__k">What it does</span>
+          <ul class="list">
+            <li>Destroys the secret the moment it's read</li>
+            <li>Keeps nothing readable once the link is spent</li>
+            <li>Expires on a timer even if nobody opens it</li>
+            <li>Notifies you the second it's viewed</li>
+            <li>Leaves the secret out of email and chat history entirely</li>
+          </ul>
+        </div>
+        <div>
+          <span class="list__k list__k--no">What it isn't</span>
+          <ul class="list list--no">
+            <li>A password manager &mdash; it's for handover, not storage</li>
+            <li>Recoverable &mdash; if it's read by the wrong person, it's read</li>
+            <li>Proof of who opened it, only that somebody did</li>
+            <li>A substitute for rotating the key afterwards</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03 -->
+    <article class="kit rv" id="tool-vault" style="--c:#8052ff">
+      <div>
+        <div class="kit__top">
+          <span class="kit__glyph" aria-hidden="true">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21.5s7.6-3.8 7.6-9.5V5.2L12 2.4 4.4 5.2v6.8c0 5.7 7.6 9.5 7.6 9.5z"/><path d="M9.2 11.9l2 2 3.6-3.9"/>
+            </svg>
+          </span>
+          <span>
+            <span class="kit__n">Free, account needed</span>
+            <span class="kit__ix">Tool 03</span>
+          </span>
+        </div>
+        <h3 class="kit__t">AI-protected vault</h3>
+        <p class="kit__best"><b>Best for</b> the small business where four people share one login and nobody can remember who changed it last.</p>
+        <p class="kit__d">
+          Storing passwords is the easy half. The half that actually gets people breached
+          is not knowing which of them you've reused, which are guessable, and which
+          were in a leak two years ago. This watches for all three and tells you.
+        </p>
+        <span class="kit__url">vault.aivoryx.com</span>
+        <div class="kit__cta">
+          <a class="btn" href="https://vault.aivoryx.com/login" target="_blank" rel="noopener" data-magnetic><span class="btn__dot"></span><span>Open the tool</span></a>
+          <a class="ghost" href="services.html#svc-webapp">The service behind it <i>&rarr;</i></a>
+        </div>
+      </div>
+      <div class="kit__lists">
+        <div>
+          <span class="list__k">What it does</span>
+          <ul class="list">
+            <li>Gives you an encrypted vault behind your own login</li>
+            <li>Flags reused passwords across your entries</li>
+            <li>Flags the weak ones before someone else finds them</li>
+            <li>Checks entries against known breach data</li>
+            <li>Available on any device you log in from</li>
+          </ul>
+        </div>
+        <div>
+          <span class="list__k list__k--no">What it isn't</span>
+          <ul class="list list--no">
+            <li>Usable without an account &mdash; a vault has to know it's yours</li>
+            <li>A browser extension that fills forms for you</li>
+            <li>An enterprise product with SSO and audit exports</li>
+            <li>Recoverable if you lose your own master credentials</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 -->
+    <article class="kit rv" id="tool-json" style="--c:#4fd1b0">
+      <div>
+        <div class="kit__top">
+          <span class="kit__glyph" aria-hidden="true">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 4.5L4 12l5 7.5M15 4.5l5 7.5-5 7.5"/>
+            </svg>
+          </span>
+          <span>
+            <span class="kit__n">Free, no sign-up</span>
+            <span class="kit__ix">Tool 04</span>
+          </span>
+        </div>
+        <h3 class="kit__t">JSON beautifier &amp; toolkit</h3>
+        <p class="kit__best"><b>Best for</b> any developer staring at 4,000 characters on one line trying to work out why an API stopped agreeing with them.</p>
+        <p class="kit__d">
+          The tool everyone opens six times a day and nobody bookmarks a good version of.
+          Format it, find out exactly where it stops being valid, strip it back down for
+          shipping, or hold two payloads side by side and find the one field that moved.
+        </p>
+        <span class="kit__url">jsonbeautifier.aivoryx.com</span>
+        <div class="kit__cta">
+          <a class="btn" href="https://jsonbeautifier.aivoryx.com/" target="_blank" rel="noopener" data-magnetic><span class="btn__dot"></span><span>Open the tool</span></a>
+          <a class="ghost" href="services.html#svc-tool">The service behind it <i>&rarr;</i></a>
+        </div>
+      </div>
+      <div class="kit__lists">
+        <div>
+          <span class="list__k">What it does</span>
+          <ul class="list">
+            <li>Beautifies with the indentation you choose</li>
+            <li>Minifies for when it has to go over the wire</li>
+            <li>Validates and points at the character that broke it</li>
+            <li>Diffs two payloads and marks what changed</li>
+            <li>Tree view for objects nested too deep to read raw</li>
+          </ul>
+        </div>
+        <div>
+          <span class="list__k list__k--no">What it isn't</span>
+          <ul class="list list--no">
+            <li>A schema designer or a contract validator</li>
+            <li>An API client &mdash; it formats payloads, it doesn't fetch them</li>
+            <li>Somewhere to keep credentials you've pasted in by accident</li>
+            <li>A converter for every format under the sun</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- 05 -->
+    <article class="kit rv" id="tool-gst" style="--c:#ffb829">
+      <div>
+        <div class="kit__top">
+          <span class="kit__glyph" aria-hidden="true">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.2 2.5H6.4A1.4 1.4 0 005 3.9v16.2a1.4 1.4 0 001.4 1.4h11.2a1.4 1.4 0 001.4-1.4V7.3z"/>
+              <path d="M14.2 2.5v4.8H19M8.4 13h7.2M8.4 17h4.6"/>
+            </svg>
+          </span>
+          <span>
+            <span class="kit__n">Free to analyse</span>
+            <span class="kit__ix">Tool 05</span>
+          </span>
+        </div>
+        <h3 class="kit__t">AI GST notice reply generator</h3>
+        <p class="kit__best"><b>Best for</b> the business owner who has just opened a GST notice, has a deadline on it, and can't reach their CA until Monday.</p>
+        <p class="kit__d">
+          Half the fear in a GST notice is not knowing what it's actually asking. Upload
+          it and this names the issue in plain language, then drafts a reply in the
+          structure an officer expects, with the provisions it relies on written in. You
+          get a draft to check &mdash; not a filing, and not legal advice.
+        </p>
+        <span class="kit__url">gstreply.aivoryx.com</span>
+        <div class="kit__cta">
+          <a class="btn" href="https://gstreply.aivoryx.com/" target="_blank" rel="noopener" data-magnetic><span class="btn__dot"></span><span>Open the tool</span></a>
+          <a class="ghost" href="services.html#svc-ai">The service behind it <i>&rarr;</i></a>
+        </div>
+      </div>
+      <div class="kit__lists">
+        <div>
+          <span class="list__k">What it does</span>
+          <ul class="list">
+            <li>Reads the notice and says what is actually being asked</li>
+            <li>Drafts a structured, point-by-point reply</li>
+            <li>Cites the provisions the argument rests on</li>
+            <li>Comes out ready to edit and hand to your CA</li>
+            <li>Turns a weekend of dread into twenty minutes of checking</li>
+          </ul>
+        </div>
+        <div>
+          <span class="list__k list__k--no">What it isn't</span>
+          <ul class="list list--no">
+            <li>Legal or tax advice &mdash; a professional still signs it off</li>
+            <li>A filing service &mdash; it doesn't submit anything for you</li>
+            <li>Infallible &mdash; every citation is worth checking before it goes</li>
+            <li>Free without limit &mdash; full replies run on credits</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================ BRIDGE ============================
+     The point of the page. Each free tool names the paid service it
+     is a working sample of, and the number that service starts at.
+     ============================================================ -->
+<section class="bridge">
+  <div class="wrap">
+    <div class="secHead rv">
+      <div>
+        <p class="eyebrow eyebrow--muted">The part we'd charge for</p>
+        <h2 class="h-lg secHead__title">
+          <span class="line"><span style="--d:.05s">Every tool above</span></span>
+          <span class="line"><span style="--d:.16s">is a service below.</span></span>
+        </h2>
+      </div>
+      <p class="lede muted fade" style="--d:.3s">
+        None of these were built differently because they were free. Same hands, same
+        stack, same refusal to use a page builder &mdash; so here's what having one of your
+        own actually starts at.
+      </p>
+    </div>
+
+    <div class="rv">
+      <a class="brow" href="services.html#svc-webapp" style="--c:#8052ff">
+        <span class="brow__from">Secure file sharing</span>
+        <span class="brow__arw" aria-hidden="true">&rarr;</span>
+        <span class="brow__to"><b>Web applications</b>Uploads, storage, permissions and links that expire</span>
+        <span class="brow__p">From <b>&#8377;24,999</b></span>
+      </a>
+      <a class="brow" href="services.html#svc-webapp" style="--c:#8052ff">
+        <span class="brow__from">Self-destructing secrets</span>
+        <span class="brow__arw" aria-hidden="true">&rarr;</span>
+        <span class="brow__to"><b>Web applications</b>Encryption, one-time tokens and timed deletion</span>
+        <span class="brow__p">From <b>&#8377;24,999</b></span>
+      </a>
+      <a class="brow" href="services.html#svc-webapp" style="--c:#8052ff">
+        <span class="brow__from">AI-protected vault</span>
+        <span class="brow__arw" aria-hidden="true">&rarr;</span>
+        <span class="brow__to"><b>Web applications</b>Real logins, roles, a database and a dashboard behind them</span>
+        <span class="brow__p">From <b>&#8377;24,999</b></span>
+      </a>
+      <a class="brow" href="services.html#svc-tool" style="--c:#4fd1b0">
+        <span class="brow__from">JSON beautifier &amp; toolkit</span>
+        <span class="brow__arw" aria-hidden="true">&rarr;</span>
+        <span class="brow__to"><b>Interactive tools</b>The calculator or configurator that keeps people on your page</span>
+        <span class="brow__p">From <b>&#8377;2,000</b></span>
+      </a>
+      <a class="brow" href="services.html#svc-ai" style="--c:#ffb829">
+        <span class="brow__from">AI GST notice reply generator</span>
+        <span class="brow__arw" aria-hidden="true">&rarr;</span>
+        <span class="brow__to"><b>AI chat &amp; automation</b>A model pointed at your documents, with guard rails on it</span>
+        <span class="brow__p">From <b>&#8377;3,500</b></span>
+      </a>
+    </div>
+
+    <div class="rv" style="margin-top:var(--s36)">
+      <a class="ghost" href="services.html">See what each service includes &mdash; and price yours <i>&rarr;</i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CLOSING CTA ============================ -->
+<section class="close" id="talk">
+  <div class="wrap contact">
+    <div class="rv">
+      <p class="eyebrow eyebrow--muted">Next step</p>
+      <h2 class="h-lg secHead__title">
+        <span class="line"><span style="--d:.05s">You've used the free ones.</span></span>
+        <span class="line"><span style="--d:.16s">Ask what yours would cost.</span></span>
+      </h2>
+      <p class="lede muted fade" style="--d:.3s;margin-top:var(--s24)">
+        Tell us what you're trying to build and you'll get a straight number the same
+        day &mdash; or price it yourself on the services page without speaking to anyone.
+        Either way, nobody makes you sit through a discovery call to hear a figure.
+      </p>
+
+      <div class="demo__cta" style="margin-top:var(--s36)">
+        <a class="btn" href="services.html#builder" data-magnetic><span class="btn__dot"></span><span>Price your build</span></a>
+        <a class="ghost" href="work.html">See the paid work <i>&rarr;</i></a>
+      </div>
+
+      <div class="channels">
+        <a class="channel" href="https://wa.me/919399593499?text=Hi%20Aivoryx%2C%20I%20used%20your%20free%20tools%20and%20wanted%20to%20ask%20about%20a%20project" data-wa target="_blank" rel="noopener">
+          <span class="channel__ico" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.7 15L2 22l5.2-1.3A10 10 0 1012 2zm0 2a8 8 0 11-4.2 14.8l-.3-.2-2.6.7.7-2.5-.2-.3A8 8 0 0112 4zm4.3 10.6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.8 1.6.6 2.2.7 3 .5.5-.1 1.4-.6 1.6-1.2.2-.6.2-1.1.1-1.2l-.3-.2z"/></svg>
+          </span>
+          <span><span class="channel__k">WhatsApp</span><span class="channel__v">Chat with us now</span></span>
+        </a>
+
+        <a class="channel" href="tel:+919399593499" data-tel>
+          <span class="channel__ico" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 013 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
+          </span>
+          <span><span class="channel__k">Call</span><span class="channel__v" data-phone-text>+91 93995 93499</span></span>
+        </a>
+
+        <a class="channel" href="mailto:pradeep952025@gmail.com" data-mail>
+          <span class="channel__ico" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm9 8L4.4 7.2 4 7v.6l8 6 8-6V7l-.4.2L12 13z"/></svg>
+          </span>
+          <span><span class="channel__k">Email</span><span class="channel__v" data-mail-text>pradeep952025@gmail.com</span></span>
+        </a>
+      </div>
+
+      <p class="caption" style="margin-top:var(--s30);line-height:1.7">
+        Found a bug in one of the tools, or want one that doesn't exist yet? Say so on
+        WhatsApp &mdash; the tools get fixed faster than most paid software, because there's
+        nobody to raise a ticket with but us.
+      </p>
+    </div>
+
+    <form class="form rv" id="quoteForm" style="--d:.12s" novalidate>
+      <div class="field">
+        <label for="f-name">Your name <i aria-hidden="true">*</i></label>
+        <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Full name"
+               required aria-required="true" aria-describedby="f-name-err">
+        <span class="field__bar"></span>
+        <span class="field__err" id="f-name-err">Please tell us your name.</span>
+      </div>
+      <div class="field">
+        <label for="f-phone">Phone <i aria-hidden="true">*</i></label>
+        <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210"
+               required aria-required="true" aria-describedby="f-phone-err">
+        <span class="field__bar"></span>
+        <span class="field__err" id="f-phone-err">At least 10 digits, please.</span>
+      </div>
+      <div class="field field--full">
+        <label for="f-email">Email <i aria-hidden="true">*</i></label>
+        <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com"
+               required aria-required="true" aria-describedby="f-email-err">
+        <span class="field__bar"></span>
+        <span class="field__err" id="f-email-err">That email doesn't look right.</span>
+      </div>
+      <div class="field">
+        <label for="f-need">What you need <i aria-hidden="true">*</i></label>
+        <select id="f-need" name="need" required aria-required="true" aria-describedby="f-need-err">
+          <option value="" disabled selected>Choose one</option>
+          <option>Business website</option>
+          <option>Web application</option>
+          <option>Mobile app</option>
+          <option>Online store</option>
+          <option>Interactive tool or calculator</option>
+          <option>AI chat / automation</option>
+          <option>A tool like the free ones</option>
+          <option>Not sure yet</option>
+        </select>
+        <span class="field__bar"></span>
+        <span class="field__err" id="f-need-err">Pick whichever is closest.</span>
+      </div>
+      <div class="field">
+        <label for="f-budget">Budget range <i aria-hidden="true">*</i></label>
+        <select id="f-budget" name="budget" required aria-required="true" aria-describedby="f-budget-err">
+          <option value="" disabled selected>Choose one</option>
+          <option>Under &#8377;8,000</option>
+          <option>&#8377;8,000 &ndash; &#8377;15,000</option>
+          <option>&#8377;15,000 &ndash; &#8377;25,000</option>
+          <option>&#8377;25,000+</option>
+          <option>Tell me what's realistic</option>
+        </select>
+        <span class="field__bar"></span>
+        <span class="field__err" id="f-budget-err">Pick one, or the last option.</span>
+      </div>
+      <div class="field field--full">
+        <label for="f-msg">What are you building?</label>
+        <textarea id="f-msg" name="message" rows="3" autocomplete="off" placeholder="A line or two about your business and what you want built."></textarea>
+        <span class="field__bar"></span>
+      </div>
+
+      <!-- Off-screen, never shown to a person. Anything that fills it in
+           is a bot, and the submission is dropped without saying so. -->
+      <div class="field field--trap" aria-hidden="true">
+        <label for="f-co">Company</label>
+        <input id="f-co" name="company" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="form__submit">
+        <button class="btn" type="submit" data-magnetic><span class="btn__dot"></span><span>Send request</span></button>
+        <span class="caption" id="formNote" role="status" aria-live="polite">Goes straight to our inbox. We reply the same day.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div style="max-width:34ch">
+        <a href="index.html" class="brand" style="margin-bottom:var(--s18)">
+          <svg class="brand__mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <path class="brand__body" d="M50 5 L97 95 L73 95 L50 47 L27 95 L3 95 Z" fill="url(#axg)"/>
+            <path class="brand__shard" d="M31 63 L71 67 L69 81 L27 77 Z" fill="#ffb829"/>
+          </svg>
+          <span class="brand__word">Aivory<b>x</b></span>
+        </a>
+        <p class="caption" style="line-height:1.7">
+          Custom websites, web apps and mobile apps for local businesses and
+          startups. Built by hand, owned by you.
+        </p>
+      </div>
+
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h4>Free tools</h4>
+          <a href="https://fileshare.aivoryx.com/" target="_blank" rel="noopener">Secure file sharing</a>
+          <a href="https://secret.aivoryx.com/" target="_blank" rel="noopener">Self-destructing secrets</a>
+          <a href="https://vault.aivoryx.com/login" target="_blank" rel="noopener">AI-protected vault</a>
+          <a href="https://jsonbeautifier.aivoryx.com/" target="_blank" rel="noopener">JSON beautifier</a>
+          <a href="https://gstreply.aivoryx.com/" target="_blank" rel="noopener">GST notice reply</a>
+        </div>
+        <div class="footer__col">
+          <h4>Company</h4>
+          <a href="index.html">Home</a>
+          <a href="work.html">Work</a>
+          <a href="services.html">Services</a>
+          <a href="process.html">Process</a>
+          <a href="pricing.html">Pricing</a>
+        </div>
+        <div class="footer__col">
+          <h4>Talk</h4>
+          <a href="https://wa.me/919399593499" data-wa target="_blank" rel="noopener">WhatsApp</a>
+          <a href="tel:+919399593499" data-tel data-phone-text>+91 93995 93499</a>
+          <a href="mailto:pradeep952025@gmail.com" data-mail data-mail-text>pradeep952025@gmail.com</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="caption">&copy; <span id="yr">2026</span> Aivoryx. All rights reserved.</p>
+      <a class="toTop" href="#top" data-scroll>Back to top <span aria-hidden="true">&uarr;</span></a>
+    </div>
+  </div>
+</footer>
+
+<a class="wa" id="waFloat" href="https://wa.me/919399593499?text=Hi%20Aivoryx%2C%20I%20used%20your%20free%20tools%20and%20wanted%20to%20ask%20about%20a%20project" data-wa target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-8.7 15L2 22l5.2-1.3A10 10 0 1012 2zm0 2a8 8 0 11-4.2 14.8l-.3-.2-2.6.7.7-2.5-.2-.3A8 8 0 0112 4zm4.3 10.6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 01-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5c.1-.2.1-.3 0-.5l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.8 1.6.6 2.2.7 3 .5.5-.1 1.4-.6 1.6-1.2.2-.6.2-1.1.1-1.2l-.3-.2z"/></svg>
+  <span>WhatsApp</span>
+</a>
+
+<script src="assets/js/config.js" defer></script>
+<script src="assets/js/utils.js" defer></script>
+<script src="assets/js/contact.js" defer></script>
+<script src="assets/js/nav.js" defer></script>
+<script src="assets/js/reveal.js" defer></script>
+<script src="assets/js/form.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
