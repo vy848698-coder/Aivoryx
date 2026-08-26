@@ -1,0 +1,654 @@
+/* ============================================================
+   MOTION — section choreography
+
+   Nine sections that all fade up the same way read as one long
+   section. Each block below gives a section its own entrance, so
+   scrolling the page is a sequence rather than a loop.
+
+   Two rules kept the implementation honest:
+
+   1. The entrance transforms the section's own .wrap, never the
+      section — a transformed ancestor becomes the containing block
+      for position:sticky and position:fixed descendants, which is
+      exactly what the work deck relies on. Every variant therefore
+      resets to `transform:none` when it lands, and the stack
+      variant transforms nothing at all.
+   2. No filter:blur on a container. It is the cheapest way to look
+      expensive and the fastest way to drop frames on a mid-range
+      Android, and it creates the same containing-block problem.
+   ============================================================ */
+
+:root{
+  /* ease-out-expo — the deceleration curve that reads as "settled"
+     rather than "stopped". Steeper than the site's --ease, which
+     stays in charge of hover and micro-interactions. */
+  --sect-ease:cubic-bezier(.16,1,.3,1);
+}
+
+[data-sect] > .wrap{will-change:opacity}
+
+/* ---------- rise: further and slower than the stock .rv ---------- */
+[data-sect="rise"] > .wrap{
+  opacity:0;transform:translate3d(0,54px,0);
+  transition:opacity 1s var(--sect-ease),transform 1.15s var(--sect-ease);
+}
+
+/* ---------- mask: uncovered from below rather than arriving ---------- */
+[data-sect="mask"] > .wrap{
+  opacity:0;clip-path:inset(18% 0 0 0);transform:translate3d(0,34px,0);
+  transition:opacity .95s var(--sect-ease),clip-path 1.25s var(--sect-ease),
+             transform 1.25s var(--sect-ease);
+}
+
+/* ---------- zoom: settles forward from slightly behind ---------- */
+[data-sect="zoom"] > .wrap{
+  opacity:0;transform:scale(.955) translate3d(0,40px,0);
+  transition:opacity 1s var(--sect-ease),transform 1.3s var(--sect-ease);
+}
+
+/* ---------- slide: enters from the left edge ---------- */
+[data-sect="slide"] > .wrap{
+  opacity:0;transform:translate3d(-46px,0,0);
+  transition:opacity 1s var(--sect-ease),transform 1.2s var(--sect-ease);
+}
+
+/* ---------- split: head and supporting copy converge ---------- */
+[data-sect="split"] > .wrap{opacity:0;transition:opacity .8s var(--sect-ease)}
+[data-sect="split"] .secHead > div{
+  transform:translate3d(-40px,0,0);
+  transition:transform 1.2s var(--sect-ease);
+}
+[data-sect="split"] .secHead > .lede{
+  transform:translate3d(40px,0,0);
+  transition:transform 1.2s var(--sect-ease) .08s;
+}
+[data-sect="split"].is-in .secHead > div,
+[data-sect="split"].is-in .secHead > .lede{transform:none}
+
+/* ---------- pin: opacity only ----------
+   The one variant safe to put around a sticky child. Any transform on
+   the wrap would make it the containing block for position:sticky and
+   the process rail would stop pinning; opacity creates no such block. */
+[data-sect="pin"] > .wrap{
+  opacity:0;transition:opacity 1s var(--sect-ease);
+}
+
+/* ---------- landed ---------- */
+[data-sect].is-in > .wrap{opacity:1;transform:none}
+/* clip-path animates from a percentage inset, so its resting state has to
+   stay a clip or the last frame jumps. Scoped to the one variant that uses
+   it: a clip on the deck would crop the sticky cards to their wrap. */
+[data-sect="mask"].is-in > .wrap{clip-path:inset(0 0 0 0)}
+
+/* Every variant starts hidden, so a browser with scripting off would get
+   a blank page. This is the one case CSS can rescue on its own. */
+@media (scripting: none){
+  [data-sect] > .wrap,
+  [data-sect] .secHead > div,
+  [data-sect] .secHead > .lede{
+    opacity:1!important;transform:none!important;clip-path:none!important;
+  }
+}
+
+/* ============================================================
+   The work deck
+   Three case studies that stack instead of scrolling past. Each
+   card sticks under the nav; the next slides over it and motion.js
+   scales the buried ones back so the pile has depth.
+   ============================================================ */
+[data-sect="stack"] .work__item{
+  position:sticky;
+  background:#050505;
+  border:1px solid var(--hair);
+  border-top:1px solid var(--hair);
+  border-radius:var(--r-3xl);
+  padding:var(--s60);
+  margin-bottom:var(--s30);
+  transform-origin:50% 0;
+  transition:transform .5s var(--sect-ease),opacity .5s var(--sect-ease);
+}
+/* Stepped offsets leave the edge of each buried card visible, which is
+   what tells the reader a deck is forming rather than a card resizing. */
+[data-sect="stack"] .work__item:nth-of-type(1){top:calc(var(--nav-h) + 16px)}
+[data-sect="stack"] .work__item:nth-of-type(2){top:calc(var(--nav-h) + 30px)}
+[data-sect="stack"] .work__item:nth-of-type(3){top:calc(var(--nav-h) + 44px)}
+[data-sect="stack"] .work__item:last-of-type{margin-bottom:0}
+/* the hairline sweep belonged to the old bordered rows */
+[data-sect="stack"] .work__item::after{display:none}
+
+/* ============================================================
+   Reduced motion — everything lands, nothing travels.
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  [data-sect] > .wrap,
+  [data-sect] .secHead > div,
+  [data-sect] .secHead > .lede{
+    opacity:1!important;transform:none!important;
+    clip-path:none!important;transition:none!important;
+  }
+  [data-sect="stack"] .work__item{position:static;transform:none!important}
+}
+
+/* ============================================================
+   Narrow screens
+   A deck needs height to read. Below the two-column breakpoint the
+   cards go back to flowing, which is also where sticky costs the
+   most on a phone.
+   ============================================================ */
+@media (max-width:900px){
+  [data-sect="stack"] .work__item{
+    position:static;padding:var(--s30);transform:none!important;
+  }
+  [data-sect="slide"] > .wrap,
+  [data-sect="rise"] > .wrap,
+  [data-sect="zoom"] > .wrap{transform:translate3d(0,30px,0)}
+}
+
+/* ============================================================
+   Sequence
+   --p runs 0→1 per child as the block crosses the viewport, so
+   these read as continuous travel rather than a triggered fade.
+
+   The doubled attribute is deliberate. Children like .plan and
+   .tool already carry a reveal state whose landed rule (.plan.is-in)
+   scores 0,2,0; a single [data-seq] would lose to it and freeze
+   every child at opacity 1. Matching that weight, from a sheet that
+   loads last, hands the scroll position control instead.
+   ============================================================ */
+[data-seq][data-seq] > *{
+  opacity:calc(.10 + var(--p,0) * .90);
+  transform:translate3d(0,calc((1 - var(--p,0)) * 44px),0);
+  /* A long transition lags behind a value that changes every frame, but
+     zero makes the steps visible on a slow wheel. 140ms linear smooths
+     it without decoupling it from the scroll. */
+  transition:opacity .14s linear,transform .14s linear;
+}
+/* .tool animates its own background and border on hover; redeclare them
+   or the override above drops them from the list. */
+[data-seq][data-seq] > .tool{
+  transition:opacity .14s linear,transform .14s linear,
+             background .45s ease,border-color .45s ease;
+}
+/* the hairline that draws across each "why" item follows the same
+   progress rather than its own fixed delay */
+[data-seq][data-seq] > .why__item::after{
+  width:calc(var(--p,0) * 100%);
+  transition:none;
+}
+/* tools tiles get a touch of scale so a dense grid still reads */
+[data-seq][data-seq] > .tool{
+  transform:translate3d(0,calc((1 - var(--p,0)) * 44px),0)
+            scale(calc(.965 + var(--p,0) * .035));
+}
+
+/* ============================================================
+   The process rail
+   A pinned section where vertical scroll drives horizontal travel.
+   The wrapper's extra height IS the scroll distance — the pin stays
+   on screen for exactly as long as the wrapper is passing.
+   ============================================================ */
+.rail{position:relative;height:330vh}
+.rail__pin{
+  position:sticky;top:0;height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;
+}
+.rail__head{display:flex;align-items:center;gap:var(--s24);margin-bottom:var(--s36)}
+.rail__prog{
+  position:relative;flex:1;height:1px;background:var(--hair-2);overflow:hidden;
+}
+.rail__prog i{
+  position:absolute;inset:0;transform:scaleX(0);transform-origin:left;
+  background:linear-gradient(90deg,var(--iris),var(--spark));
+}
+.rail__count{font-size:var(--t-caption);letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
+.rail__track{
+  display:flex;gap:var(--s30);will-change:transform;
+  padding-right:22vw;
+}
+.rail__track .step{
+  flex:0 0 clamp(300px,26vw,400px);
+  opacity:var(--a,1);
+  transform:none;
+  padding:var(--s30);
+  border-top:0;
+  border:1px solid var(--hair);
+  border-radius:var(--r-3xl);
+  background:rgba(255,255,255,.022);
+  transition:opacity .35s linear,border-color .5s var(--sect-ease);
+}
+.rail__track .step:hover{border-color:rgba(128,82,255,.4)}
+
+@media (max-width:900px){
+  /* pinning a 100vh section on a phone costs more than it returns */
+  .rail{height:auto}
+  .rail__pin{position:static;height:auto;overflow:visible}
+  .rail__track{flex-direction:column;padding-right:0;transform:none!important}
+  .rail__track .step{flex:auto}
+}
+
+@media (prefers-reduced-motion:reduce){
+  [data-seq][data-seq] > *{opacity:1!important;transform:none!important}
+  [data-seq][data-seq] > .why__item::after{width:100%}
+  .rail{height:auto}
+  .rail__pin{position:static;height:auto}
+  .rail__track{flex-direction:column;transform:none!important}
+}
+@media (scripting: none){
+  [data-seq][data-seq] > *{opacity:1!important;transform:none!important}
+  .rail{height:auto}
+  .rail__pin{position:static;height:auto}
+  .rail__track{flex-direction:column;transform:none!important}
+}
+
+/* ============================================================
+   The creed
+   Four claims, one screen, advanced by scroll. Each statement
+   wipes up behind a clip rather than fading, which is the move
+   both reference sites lean on — a fade reads as a slideshow,
+   a wipe reads as something being revealed.
+   ============================================================ */
+.creed{position:relative;height:400vh;margin-top:var(--s36)}
+.creed__pin{
+  position:sticky;top:0;height:100vh;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.creed__meta{display:flex;align-items:center;gap:var(--s30);margin-bottom:var(--s36)}
+.creed__idx b{
+  font-size:clamp(26px,2.8vw,40px);font-weight:var(--fw-r);
+  letter-spacing:-.035em;color:#fff;
+}
+.creed__idx i{
+  font-style:normal;margin-left:9px;color:var(--ash);
+  font-size:var(--t-caption);letter-spacing:.16em;
+}
+.creed__prog{position:relative;flex:1;height:1px;background:var(--hair-2);overflow:hidden}
+.creed__prog i{
+  position:absolute;inset:0;transform:scaleX(0);transform-origin:left;
+  background:linear-gradient(90deg,var(--iris),var(--spark));
+}
+.creed__stack{position:relative;min-height:clamp(230px,36vh,360px)}
+.creed__item{
+  position:absolute;inset:0;
+  opacity:0;transform:translateY(26px);clip-path:inset(0 0 100% 0);
+  transition:opacity .45s var(--sect-ease),transform .75s var(--sect-ease),
+             clip-path .75s var(--sect-ease);
+}
+.creed__item.is-on{opacity:1;transform:none;clip-path:inset(0 0 0 0)}
+.creed__t{
+  font-size:clamp(36px,6.2vw,82px);font-weight:var(--fw-r);
+  letter-spacing:-.042em;line-height:1.02;
+}
+.creed__d{
+  font-size:var(--t-body);font-weight:var(--fw-xl);color:var(--mist);
+  max-width:42ch;margin-top:var(--s24);
+}
+
+/* ============================================================
+   Pricing tiers
+   Six bullets a card was a spec sheet. Three is a decision. The
+   number is the loudest thing on the row and counts up on entry,
+   so the eye lands on price before feature list.
+   ============================================================ */
+.tiers{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--s36);margin-top:var(--s60);
+}
+.tier{
+  display:flex;flex-direction:column;
+  padding-top:var(--s30);border-top:1px solid var(--hair-2);
+}
+.tier--lead{border-top-color:var(--iris)}
+.tier__tag{
+  font-size:var(--t-caption);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ash);
+}
+.tier--lead .tier__tag{color:var(--iris)}
+.tier__price{display:flex;align-items:baseline;gap:5px;margin:var(--s18) 0 7px}
+.tier__price em{font-style:normal;font-size:clamp(15px,1.5vw,21px);color:var(--ash)}
+.tier__price b{
+  font-size:clamp(38px,5.4vw,74px);font-weight:var(--fw-r);
+  letter-spacing:-.048em;line-height:1;color:#fff;
+}
+.tier__meta{font-size:var(--t-caption);color:var(--ash);margin-bottom:var(--s24)}
+.tier__list{list-style:none;margin:0 0 var(--s30);padding:0;display:flex;flex-direction:column;gap:13px}
+.tier__list li{font-size:15px;color:var(--mist);padding-left:19px;position:relative;line-height:1.5}
+.tier__list li::before{
+  content:"";position:absolute;left:0;top:.52em;
+  width:6px;height:6px;border-radius:50%;background:var(--iris);
+}
+.tier > a{margin-top:auto;align-self:flex-start}
+.tiers__note{
+  margin-top:var(--s60);padding-top:var(--s24);
+  border-top:1px solid var(--hair);
+  font-size:15px;color:var(--ash);max-width:76ch;line-height:1.7;
+}
+.tiers__note .ghost{margin-left:10px}
+
+@media (max-width:900px){
+  .creed{height:auto;margin-top:var(--s30)}
+  .creed__pin{position:static;height:auto;overflow:visible}
+  .creed__stack{min-height:0;display:flex;flex-direction:column;gap:var(--s36)}
+  .creed__item{position:static;opacity:1;transform:none;clip-path:none}
+  .tiers{grid-template-columns:1fr;gap:var(--s30)}
+}
+@media (prefers-reduced-motion:reduce){
+  .creed{height:auto}
+  .creed__pin{position:static;height:auto}
+  .creed__item{position:static;opacity:1;transform:none;clip-path:none}
+}
+
+/* ============================================================
+   The tools bento
+   Services is already a num / title / description row list, so a
+   second one directly beneath it read as the same section twice.
+   This is the opposite shape: unequal tiles that arrive scattered
+   and rotated, then converge into alignment as the section is
+   scrolled — the hero's "fragments becoming a finished thing", at
+   the scale of a whole grid.
+
+   The scatter lives in the markup as --dx/--dy/--rot per card, so
+   the arrangement is art-directed rather than random, and --p from
+   the sequence engine drives it home.
+   ============================================================ */
+.bento{
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:var(--s18);margin-top:var(--s60);
+}
+.bento__card{
+  grid-column:span var(--s,4);
+  display:flex;flex-direction:column;
+  padding:var(--s30) var(--s24) var(--s24);
+  border:1px solid var(--hair);border-radius:var(--r-3xl);
+  background:rgba(255,255,255,.026);
+  position:relative;overflow:hidden;isolation:isolate;
+}
+/* the accent exists only on approach, and only for its own tool */
+.bento__card::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(120% 90% at 12% 0%,var(--c),transparent 62%);
+  opacity:0;transition:opacity .6s var(--sect-ease);
+}
+.bento__top{display:flex;align-items:center;justify-content:space-between;gap:var(--s18);margin-bottom:var(--s30)}
+.bento__glyph{
+  width:38px;height:38px;flex:none;border-radius:11px;
+  display:grid;place-items:center;color:var(--c);
+  background:rgba(255,255,255,.05);border:1px solid var(--hair);
+  transition:background .5s var(--sect-ease),color .4s ease;
+}
+.bento__tag{
+  font-size:11px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ash);white-space:nowrap;
+}
+.bento__t{
+  font-size:clamp(19px,1.9vw,25px);font-weight:var(--fw-r);
+  letter-spacing:-.032em;line-height:1.15;margin-bottom:var(--s12);
+}
+.bento__d{
+  font-size:14.5px;line-height:1.62;color:var(--ash);
+  margin-bottom:var(--s30);max-width:52ch;
+}
+.bento__go{
+  margin-top:auto;font-size:13px;letter-spacing:.02em;color:var(--mist);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.bento__go i{font-style:normal;transition:transform .5s var(--sect-ease)}
+
+/* the AI tile carries the most weight, so it gets the most room */
+.bento__card--hero .bento__t{font-size:clamp(21px,2.2vw,29px)}
+/* The wide tile reads across rather than down: mark, then name,
+   then what it actually does. Grid rather than flex-wrap, because
+   wrapping a three-part row leaves the title stranded mid-line. */
+.bento__card--wide{
+  display:grid;grid-template-columns:auto minmax(0,.7fr) minmax(0,1.3fr) auto;
+  align-items:center;gap:var(--s36);
+}
+.bento__card--wide .bento__top{flex-direction:column;align-items:flex-start;gap:11px;margin-bottom:0}
+.bento__card--wide .bento__tag{white-space:normal;max-width:16ch;line-height:1.5}
+.bento__card--wide .bento__t{margin:0}
+.bento__card--wide .bento__d{margin:0;max-width:none}
+.bento__card--wide .bento__go{margin:0;white-space:nowrap}
+
+@media (hover:hover){
+  .bento__card:hover{border-color:var(--c);background:rgba(255,255,255,.045)}
+  .bento__card:hover::before{opacity:.13}
+  .bento__card:hover .bento__glyph{background:var(--c);color:#07070a}
+  .bento__card:hover .bento__go i{transform:translateX(6px)}
+}
+
+/* ---- the convergence ----
+   Overrides the generic sequence transform: these travel in from
+   their own scattered offset and unrotate as they land, instead of
+   rising straight up like every other sequenced block. */
+[data-seq][data-seq] > .bento__card{
+  opacity:calc(.06 + var(--p,0) * .94);
+  transform:
+    translate3d(calc(var(--dx,0px) * (1 - var(--p,0))),
+                calc(var(--dy,0px) * (1 - var(--p,0))),0)
+    rotate(calc(var(--rot,0deg) * (1 - var(--p,0))))
+    scale(calc(.9 + var(--p,0) * .1));
+  transition:opacity .14s linear,transform .14s linear,
+             border-color .5s var(--sect-ease),background .5s var(--sect-ease);
+}
+
+@media (max-width:1024px){
+  .bento__card{grid-column:span 6}
+  .bento__card--wide,.bento__card--hero{grid-column:span 12}
+}
+@media (max-width:760px){
+  .bento{gap:var(--s12)}
+  .bento__card{grid-column:span 12;padding:var(--s24) var(--s18)}
+  .bento__card--wide{flex-direction:column;gap:0}
+  .bento__card--wide .bento__top{flex-direction:row;align-items:center;justify-content:space-between;margin-bottom:var(--s30)}
+  .bento__card--wide .bento__t{margin-top:0}
+  .bento__card--wide .bento__d{margin-bottom:var(--s30)}
+}
+@media (prefers-reduced-motion:reduce){
+  [data-seq][data-seq] > .bento__card{opacity:1!important;transform:none!important}
+}
+@media (scripting: none){
+  [data-seq][data-seq] > .bento__card{opacity:1!important;transform:none!important}
+}
+
+/* ============================================================
+   THE HERO STAGE
+
+   The mark is the subject again. Previously it was dimmed to .42 and
+   blown up to 130% of its box, so the panel sat dead centre in the
+   counter of the A and the only thing that reached the screen was
+   stray particles at the crop line — the logo had effectively been
+   deleted from its own hero.
+
+   Now it assembles at full strength inside an instrument housing:
+   two counter-rotating rings, corner brackets that draw in, a core
+   that breathes. The build panel docks to the foot of the housing
+   instead of the middle of the letter, narrow enough that the feet
+   of the A stay visible either side of it, so the mark frames the
+   panel rather than hiding behind it.
+   ============================================================ */
+/* The panel used to sit in the middle of the letter, which is why the
+   mark stopped reading as a mark. It now hangs in reserved space below
+   the housing and only clips the feet, so the apex, both legs and the
+   amber crossbar all stay on screen. The reserve is a percentage of the
+   stage's own width, so the overlap holds its proportion at every size
+   instead of being tuned for one screen. */
+.hero__stage{
+  --px:0;--py:0;
+  position:relative;width:min(100%,58vh);margin-inline:auto;
+  padding-bottom:38%;
+}
+.stage__mark{position:relative;width:100%;aspect-ratio:1/1}
+
+.stage__mark #constellation{
+  position:absolute;inset:0;width:100%;height:100%;z-index:2;
+  transform:translate3d(calc(var(--px) * 9px),calc(var(--py) * 9px),0);
+}
+
+.stage__core{
+  position:absolute;left:50%;top:50%;z-index:1;
+  width:66%;aspect-ratio:1;margin:-33% 0 0 -33%;
+  border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(128,82,255,.32),rgba(128,82,255,.07) 44%,transparent 70%);
+  animation:breathe 8s ease-in-out infinite;
+}
+
+/* ---- the rings ----
+   Rotation only, on two SVGs. A conic sweep would have cost a paint
+   the size of the stage every frame; a rotating transform costs none. */
+.stage__rings{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  transform:translate3d(calc(var(--px) * 17px),calc(var(--py) * 17px),0);
+}
+.ring{position:absolute;overflow:visible}
+.ring--outer{inset:0;animation:ringSpin 46s linear infinite}
+.ring--inner{inset:13%;animation:ringSpin 30s linear infinite reverse}
+@keyframes ringSpin{to{transform:rotate(360deg)}}
+
+.stage__bracket{
+  position:absolute;z-index:3;width:clamp(16px,4.4%,30px);aspect-ratio:1;
+  border:1px solid rgba(255,255,255,.18);
+  animation:bracketIn .9s var(--sect-ease) .5s both;
+}
+.bracket--tl{top:0;left:0;border-right:0;border-bottom:0}
+.bracket--tr{top:0;right:0;border-left:0;border-bottom:0}
+.bracket--bl{bottom:0;left:0;border-right:0;border-top:0}
+.bracket--br{bottom:0;right:0;border-left:0;border-top:0}
+@keyframes bracketIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:none}}
+
+/* ---- the docked panel ---- */
+.stage__panel{
+  position:absolute;left:50%;bottom:0;z-index:4;
+  width:min(404px,max(100%,356px));
+  transform:translate3d(calc(-50% + var(--px) * -15px),calc(var(--py) * -15px),0);
+}
+
+.build{
+  position:relative;width:100%;overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);border-radius:20px;
+  background:linear-gradient(180deg,rgba(16,16,22,.95),rgba(7,7,10,.92));
+  -webkit-backdrop-filter:blur(20px) saturate(150%);backdrop-filter:blur(20px) saturate(150%);
+  box-shadow:
+    0 44px 96px -36px rgba(0,0,0,.95),
+    0 0 68px -24px rgba(128,82,255,.42),
+    0 0 0 1px rgba(128,82,255,.08) inset;
+  animation:panelIn 1.05s var(--sect-ease) .55s both,
+            panelFloat 7.5s ease-in-out 1.8s infinite;
+  transition:opacity .42s var(--sect-ease);
+}
+/* the lit top edge — the one detail that reads as powered-on */
+.build::before{
+  content:"";position:absolute;top:0;left:14%;right:14%;height:1px;z-index:2;
+  background:linear-gradient(90deg,transparent,rgba(168,132,255,.8),transparent);
+}
+.build.is-wiping{opacity:.25}
+@keyframes panelIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes panelFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+.build__bar{
+  display:flex;align-items:center;gap:7px;
+  padding:13px var(--s18);border-bottom:1px solid rgba(255,255,255,.07);
+}
+.build__dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15)}
+.build__file{
+  margin-left:10px;font-size:12px;color:var(--mist);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+.build__count{margin-left:auto;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ash)}
+
+.build__body{padding:var(--s18) var(--s18) 0}
+.build__code{
+  margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12px;line-height:1.8;color:#d6d6e0;
+  min-height:7.2em;white-space:pre-wrap;word-break:break-word;
+  position:relative;
+}
+.build__line{display:block}
+.build__line.is-typing::after{
+  content:"";display:inline-block;width:7px;height:1.05em;
+  vertical-align:-.18em;background:var(--iris);margin-left:2px;
+  animation:caret 1s steps(1) infinite;
+}
+@keyframes caret{50%{opacity:0}}
+
+/* the colours are deliberately few — it has to read as code at a
+   glance, not pass for an editor theme */
+.t-tag{font-style:normal;color:#c9a5ff}
+.t-attr{font-style:normal;color:#8ad4c4}
+.t-str{font-style:normal;color:#ffb829}
+.t-key{font-style:normal;color:#8052ff}
+.t-num{font-style:normal;color:#ffd08a}
+
+/* ---- the rendered result ---- */
+.build__out{
+  margin:var(--s18) calc(var(--s18) * -1) 0;
+  padding:var(--s18);
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.018);
+  min-height:92px;display:flex;align-items:center;
+}
+.pv{
+  opacity:0;transform:translateY(6px);
+  transition:opacity .4s var(--sect-ease),transform .5s var(--sect-ease);
+  display:flex;align-items:center;gap:11px;
+}
+.pv.is-on{opacity:1;transform:none}
+.pv > *{
+  opacity:0;transform:translateY(7px) scale(.97);
+  transition:opacity .38s var(--sect-ease),transform .48s var(--sect-ease);
+}
+.pv > *.is-on{opacity:1;transform:none}
+
+/* button build */
+.pv--btn{
+  background:var(--iris);border-radius:var(--r-full);
+  padding:11px 20px;color:#fff;
+}
+.pv--btn .pv__dot{width:7px;height:7px;border-radius:50%;background:#fff;display:block}
+.pv--btn b{font-size:13.5px;font-weight:var(--fw-sb);letter-spacing:.01em}
+
+/* price card build */
+.pv--card{flex-direction:column;align-items:flex-start;gap:5px}
+.pv__tag{font-style:normal;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--iris)}
+.pv__price{font-size:29px;font-weight:var(--fw-r);letter-spacing:-.04em;color:#fff;line-height:1}
+.pv__meta{font-style:normal;font-size:12px;color:var(--ash)}
+
+/* calculator build */
+.pv--stat{flex-direction:column;align-items:flex-start;gap:5px}
+.pv__k{font-style:normal;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ash)}
+.pv__v{font-size:29px;font-weight:var(--fw-r);letter-spacing:-.04em;color:var(--spark);line-height:1}
+
+.build__foot{
+  display:flex;align-items:center;justify-content:space-between;gap:var(--s18);
+  padding:11px var(--s18);border-top:1px solid rgba(255,255,255,.07);
+  font-size:11px;color:var(--ash);letter-spacing:.02em;
+}
+.build__ms{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+/* ---- stacked: the panel leaves the housing and takes its own row,
+        so nothing is asked to overlap on a 380px screen ---- */
+/* A short screen has no room for the reserve, so the panel gives up
+   height rather than the mark giving up its crossbar. */
+@media (max-height:820px){
+  .hero__stage{padding-bottom:32%}
+  .build__bar{padding:10px var(--s18)}
+  .build__code{font-size:11.5px;min-height:5em}
+  .build__out{min-height:76px}
+  .build__foot{padding:9px var(--s18)}
+}
+@media (max-width:1024px){
+  .hero__stage{width:min(100%,460px);padding-bottom:0}
+  .stage__mark{max-width:360px;margin-inline:auto}
+  .stage__panel{position:static;width:100%;transform:none;margin-top:calc(var(--s18) * -1)}
+  .build{animation:panelIn 1.05s var(--sect-ease) .55s both}
+}
+@media (max-width:520px){
+  .stage__mark{max-width:280px}
+  .build__code{font-size:11.5px;min-height:8.4em}
+  .build__out{min-height:84px}
+}
+@media (prefers-reduced-motion:reduce){
+  .stage__core,.ring--outer,.ring--inner{animation:none}
+  .build{animation:none}
+  .build__line.is-typing::after{animation:none}
+  .pv,.pv > *{opacity:1!important;transform:none!important}
+}

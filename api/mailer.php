@@ -40,12 +40,42 @@ function ax_addr($email, $name = '') {
 }
 
 
+/* A bare <div> is valid enough for mail clients but filters treat a
+   fragment as a small negative signal, so send a real document. */
+function ax_html_doc($html) {
+  if (preg_match('/^\s*<(!doctype|html)/i', $html)) return $html;
+  return '<!DOCTYPE html><html lang="en"><head>'
+    . '<meta charset="UTF-8">'
+    . '<meta name="viewport" content="width=device-width,initial-scale=1">'
+    . '</head><body style="margin:0;padding:0">' . $html . '</body></html>';
+}
+
+
+/* The logo travels with the message rather than being linked. A
+   remote <img> is blocked by default in most clients, so the mark
+   would be missing exactly when the mail is read for the first
+   time; an inline part with a Content-ID always renders. SVG is
+   not supported in mail, hence the PNG. */
+define('AX_LOGO_CID', 'axlogo');
+
+function ax_logo_file() {
+  $f = dirname(__DIR__) . '/assets/img/icon-192.png';
+  return is_file($f) && is_readable($f) ? $f : null;
+}
+
+
 /* ---------------- Message assembly ----------------
    multipart/alternative: a plain-text part for clients that want
-   it and for spam scoring, and an HTML part for everyone else. */
-function ax_build_message($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName) {
-  $boundary = 'ax' . bin2hex(random_bytes(12));
-  $domain   = substr(strrchr(ax_h($cfg['from']), '@'), 1);
+   it and for spam scoring, and an HTML part for everyone else.
+   When the logo is available the pair is nested inside a
+   multipart/related so the image can be addressed as cid:.
+
+   $auto marks generated mail (the confirmation) with Auto-Submitted,
+   which is what RFC 3834 expects and what stops two autoresponders
+   talking to each other forever. */
+function ax_build_message($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName, $auto = false) {
+  $alt    = 'axa' . bin2hex(random_bytes(10));
+  $domain = substr(strrchr(ax_h($cfg['from']), '@'), 1);
 
   $headers = array(
     'Date: ' . date('r'),
@@ -54,20 +84,41 @@ function ax_build_message($cfg, $to, $toName, $subject, $html, $text, $replyTo, 
     'To: ' . ax_addr($to, $toName),
     'Subject: ' . ax_enc_word($subject),
     'MIME-Version: 1.0',
-    'Content-Type: multipart/alternative; boundary="' . $boundary . '"',
   );
   if ($replyTo) $headers[] = 'Reply-To: ' . ax_addr($replyTo, $replyToName);
+  if ($auto)    $headers[] = 'Auto-Submitted: auto-replied';
 
-  $body =
-    "--$boundary\r\n" .
+  $alternative =
+    "--$alt\r\n" .
     "Content-Type: text/plain; charset=UTF-8\r\n" .
     "Content-Transfer-Encoding: base64\r\n\r\n" .
     chunk_split(base64_encode($text), 76, "\r\n") .
-    "\r\n--$boundary\r\n" .
+    "\r\n--$alt\r\n" .
     "Content-Type: text/html; charset=UTF-8\r\n" .
     "Content-Transfer-Encoding: base64\r\n\r\n" .
-    chunk_split(base64_encode($html), 76, "\r\n") .
-    "\r\n--$boundary--\r\n";
+    chunk_split(base64_encode(ax_html_doc($html)), 76, "\r\n") .
+    "\r\n--$alt--\r\n";
+
+  $logo = ax_logo_file();
+  if (!$logo) {
+    $headers[] = 'Content-Type: multipart/alternative; boundary="' . $alt . '"';
+    return array('headers' => $headers, 'body' => $alternative);
+  }
+
+  $rel = 'axr' . bin2hex(random_bytes(10));
+  $headers[] = 'Content-Type: multipart/related; type="multipart/alternative"; boundary="' . $rel . '"';
+
+  $body =
+    "--$rel\r\n" .
+    "Content-Type: multipart/alternative; boundary=\"$alt\"\r\n\r\n" .
+    $alternative .
+    "\r\n--$rel\r\n" .
+    "Content-Type: image/png; name=\"aivoryx.png\"\r\n" .
+    "Content-Transfer-Encoding: base64\r\n" .
+    "Content-ID: <" . AX_LOGO_CID . ">\r\n" .
+    "Content-Disposition: inline; filename=\"aivoryx.png\"\r\n\r\n" .
+    chunk_split(base64_encode(file_get_contents($logo)), 76, "\r\n") .
+    "\r\n--$rel--\r\n";
 
   return array('headers' => $headers, 'body' => $body);
 }
@@ -96,7 +147,7 @@ function ax_smtp_cmd($fp, $cmd, $expect) {
   return $reply;
 }
 
-function ax_smtp_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName) {
+function ax_smtp_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName, $auto = false) {
   $s      = $cfg['smtp'];
   $secure = isset($s['secure']) ? $s['secure'] : 'tls';
   $target = ($secure === 'ssl' ? 'ssl://' : 'tcp://') . $s['host'] . ':' . (int)$s['port'];
@@ -125,7 +176,7 @@ function ax_smtp_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $rep
     ax_smtp_cmd($fp, 'RCPT TO:<' . ax_h($to) . '>', array(250, 251));
     ax_smtp_cmd($fp, 'DATA', 354);
 
-    $m = ax_build_message($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName);
+    $m = ax_build_message($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName, $auto);
     fwrite($fp, implode("\r\n", $m['headers']) . "\r\n\r\n" . $m['body']);
     ax_smtp_cmd($fp, '.', 250);
 
@@ -138,8 +189,8 @@ function ax_smtp_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $rep
 
 
 /* ---------------- Fallback ---------------- */
-function ax_mail_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName) {
-  $m = ax_build_message($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName);
+function ax_mail_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName, $auto = false) {
+  $m = ax_build_message($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName, $auto);
 
   /* mail() writes its own To and Subject, so drop ours from the list */
   $headers = array();
@@ -154,12 +205,12 @@ function ax_mail_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $rep
 
 /* Try SMTP, fall back to mail(). Returns the route that worked, or
    throws with both failures so the log says what actually happened. */
-function ax_send($cfg, $to, $toName, $subject, $html, $text, $replyTo = null, $replyToName = '') {
+function ax_send($cfg, $to, $toName, $subject, $html, $text, $replyTo = null, $replyToName = '', $auto = false) {
   $smtpErr = null;
 
   if (!empty($cfg['smtp']['enabled'])) {
     try {
-      ax_smtp_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName);
+      ax_smtp_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName, $auto);
       return 'smtp';
     } catch (Exception $e) {
       $smtpErr = $e->getMessage();
@@ -167,7 +218,7 @@ function ax_send($cfg, $to, $toName, $subject, $html, $text, $replyTo = null, $r
     }
   }
 
-  if (ax_mail_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName)) return 'mail';
+  if (ax_mail_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $replyToName, $auto)) return 'mail';
 
   throw new Exception('both routes failed' . ($smtpErr ? ' — SMTP: ' . $smtpErr : ''));
 }

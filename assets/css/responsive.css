@@ -16,7 +16,7 @@
 /* The scroll cue is absolutely positioned over the hero. It only has clear
    space on a screen that is both wide and tall; anywhere else it lands on
    top of the hero stats, so it is opt-in rather than opt-out. */
-@media (max-width:1280px),(max-height:820px){
+@media (max-width:1024px),(max-height:760px){
   .scrollcue{display:none}
 }
 
@@ -56,8 +56,8 @@
   .phero{padding-top:calc(var(--nav-h) + var(--s60));padding-bottom:var(--s60)}
   .hero{min-height:auto;padding-top:calc(var(--nav-h) + 30px)}
   .hero__grid{grid-template-columns:1fr;gap:var(--s30)}
-  .hero__canvasWrap{order:-1;aspect-ratio:5/4;max-width:500px;margin-inline:auto}
   .hero .display{max-width:none}
+  .hero .lede{max-width:60ch}
   .work__item{grid-template-columns:1fr;gap:var(--s36)}
   .work__item:nth-child(even) .work__visual{order:0}
   .secHead{grid-template-columns:1fr;gap:var(--s24);align-items:start}
@@ -94,7 +94,7 @@
   .demo__bar{padding:var(--s12) var(--s18)}
   .out{grid-template-columns:1fr}
 
-  .hero__canvasWrap{max-width:380px}
+  .hud{gap:var(--s24)}
   .hero__meta{gap:var(--s24);margin-top:var(--s36)}
 
   .work__item{padding-block:var(--s60)}
@@ -129,9 +129,13 @@
   .nav__right{gap:8px}
   .nav__cta{padding:9px 13px;font-size:11px}
   .hero{padding-bottom:var(--s36)}
-  .hero__canvasWrap{aspect-ratio:1/1;max-width:300px}
   .hero__actions{gap:var(--s18)}
   .hero__actions .btn{width:100%;justify-content:center}
+  /* three cells no longer fit across a 360px screen without the values
+     shrinking below the point of being worth reading — two up, one under */
+  .hud{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s18) var(--s24);justify-content:stretch}
+  .hud__cell:nth-child(3){grid-column:1/-1}
+  .hud__cell:nth-child(3)::before{display:none}
   .hero__meta{flex-direction:column;gap:var(--s18)}
   .frame__inner{padding:var(--s12);aspect-ratio:16/13}
   .frame__kpis{gap:8px}
@@ -155,7 +159,7 @@
 /* ---------------- Short landscape phones ---------------- */
 @media (max-height:520px) and (orientation:landscape){
   .hero{min-height:auto;padding-block:calc(var(--nav-h) + 24px) var(--s36)}
-  .hero__canvasWrap{max-width:260px}
+  .stage__mark{max-width:230px}
 }
 
 /* ---------------- Coarse pointers — drop hover-only motion ---------------- */
@@ -179,7 +183,7 @@
 
 /* ---------------- Print ---------------- */
 @media print{
-  .nav,.progress,.wa,.strip,.scrollcue,.hero__canvasWrap,.form{display:none}
+  .nav,.progress,.wa,.strip,.scrollcue,.hero__stage,.hero__atmos,.form{display:none}
   body{background:#fff;color:#000}
   .rv,.fade,.step,.plan,.svc__row,.work__tag,.line > span{opacity:1;transform:none}
 }

@@ -35,6 +35,7 @@
 <link rel="stylesheet" href="assets/css/sections.css">
 <link rel="stylesheet" href="assets/css/tools.css">
 <link rel="stylesheet" href="assets/css/responsive.css">
+<link rel="stylesheet" href="assets/css/motion.css">
 
 <script type="application/ld+json">
 {
@@ -95,20 +96,32 @@
 
 <!-- ============================ HERO ============================ -->
 <section class="hero" id="hero">
+
+  <!-- Atmosphere. Four flat layers, no blur filters — see sections.css. -->
+  <div class="hero__atmos" aria-hidden="true">
+    <span class="hero__mesh"></span>
+    <span class="hero__aurora hero__aurora--a"></span>
+    <span class="hero__aurora hero__aurora--b"></span>
+    <span class="hero__scan"></span>
+    <span class="hero__grain"></span>
+  </div>
+
   <div class="wrap hero__grid">
     <div class="hero__copy" id="heroCopy" data-hero-copy>
-      <p class="eyebrow fade" style="--d:.05s">Websites &amp; apps for local businesses and startups</p>
+      <p class="hero__chip fade" style="--d:.05s">
+        <i aria-hidden="true"></i>Websites &amp; apps for local businesses and startups
+      </p>
 
       <h1 class="display">
         <span class="line"><span style="--d:.18s">Built line by line.</span></span>
         <span class="line"><span style="--d:.30s">Never dragged</span></span>
-        <span class="line"><span style="--d:.42s">and dropped.</span></span>
+        <span class="line"><span style="--d:.42s"><em class="grad">and dropped.</em></span></span>
       </h1>
 
       <p class="lede fade" style="--d:.58s">
-        We design and build custom websites, web apps and mobile apps &mdash; hand-coded,
-        fast, and entirely yours to keep. No page builders. No template licences.
-        No monthly fee holding your own site hostage.
+        Custom websites, web apps and mobile apps &mdash; hand-coded, fast, and
+        entirely yours to keep. No page builders. No monthly fee holding your
+        own site hostage.
       </p>
 
       <div class="hero__actions fade" style="--d:.70s">
@@ -116,20 +129,78 @@
         <a class="ghost" href="#work" data-scroll>See our work <i>&rarr;</i></a>
       </div>
 
-      <div class="hero__meta fade" style="--d:.82s">
-        <span><b>2&ndash;3 weeks</b>Typical build time</span>
-        <span><b>100%</b>Code and assets, yours</span>
-        <span><b>Direct</b>Talk to the person building it</span>
-      </div>
+      <!-- The base of the composition, not a footnote to it: mono keys,
+           hairline cells, and a beam that draws across as the hero lands. -->
+      <dl class="hud fade" style="--d:.82s">
+        <div class="hud__cell">
+          <dt>Build time</dt>
+          <dd>2&ndash;3 <span>weeks</span></dd>
+        </div>
+        <div class="hud__cell">
+          <dt>You own</dt>
+          <dd>100<span>%</span></dd>
+        </div>
+        <div class="hud__cell">
+          <dt>You talk to</dt>
+          <dd>The builder</dd>
+        </div>
+      </dl>
     </div>
 
-    <div class="hero__canvasWrap">
-      <div class="hero__glow" aria-hidden="true"></div>
-      <canvas id="constellation" aria-hidden="true"></canvas>
+    <!-- The stage. The mark assembles inside a housing; the panel docks
+         at its foot and writes real markup, rendering the result as each
+         line lands. Everything it builds is something we actually sell. -->
+    <div class="hero__stage" id="heroStage">
+      <div class="stage__mark">
+        <span class="stage__core" aria-hidden="true"></span>
+        <canvas id="constellation" aria-hidden="true"></canvas>
+
+        <div class="stage__rings" aria-hidden="true">
+          <svg class="ring ring--outer" viewBox="0 0 200 200" fill="none">
+            <defs>
+              <linearGradient id="axRingA" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#a684ff"/><stop offset="1" stop-color="#8052ff" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="95" stroke="rgba(255,255,255,.13)" stroke-width=".9" stroke-dasharray="1 6"/>
+            <circle cx="100" cy="100" r="95" stroke="url(#axRingA)" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="70 527"/>
+            <circle cx="195" cy="100" r="2.6" fill="#8052ff"/>
+          </svg>
+          <svg class="ring ring--inner" viewBox="0 0 200 200" fill="none">
+            <circle cx="100" cy="100" r="96" stroke="rgba(255,255,255,.10)" stroke-width=".8" stroke-dasharray="3 11"/>
+            <circle cx="100" cy="4" r="2.2" fill="#ffb829"/>
+          </svg>
+        </div>
+
+        <span class="stage__bracket bracket--tl" aria-hidden="true"></span>
+        <span class="stage__bracket bracket--tr" aria-hidden="true"></span>
+        <span class="stage__bracket bracket--bl" aria-hidden="true"></span>
+        <span class="stage__bracket bracket--br" aria-hidden="true"></span>
+      </div>
+
+      <div class="stage__panel">
+        <div class="build" id="build" aria-hidden="true">
+          <div class="build__bar">
+            <i class="build__dot"></i><i class="build__dot"></i><i class="build__dot"></i>
+            <span class="build__file" data-build-file>quote-button.html</span>
+            <span class="build__count" data-build-count></span>
+          </div>
+
+          <div class="build__body">
+            <pre class="build__code"><code data-build-code></code></pre>
+            <div class="build__out" data-build-out></div>
+          </div>
+
+          <div class="build__foot">
+            <span data-build-note>No framework. No page builder.</span>
+            <span class="build__ms" data-build-ms></span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="scrollcue" aria-hidden="true"><i></i> Scroll</div>
+  <div class="scrollcue" aria-hidden="true">Scroll<i></i></div>
 </section>
 
 <!-- ============================ WHO WE BUILD FOR ============================ -->
@@ -142,7 +213,7 @@
 </section>
 
 <!-- ============================ WORK ============================ -->
-<section class="section" id="work">
+<section class="section" id="work" data-sect="stack">
   <div class="wrap">
     <div class="secHead rv">
       <div>
@@ -186,16 +257,13 @@
             <i class="frame__dot"></i><i class="frame__dot"></i><i class="frame__dot"></i>
             <span class="frame__url">dmarketiq.com</span>
           </div>
-          <div class="frame__body">
-            <div class="frame__kpis">
-              <div class="frame__kpi"><b data-count="7">0</b><span>PAGES</span></div>
-            </div>
-            <p class="frame__what">Qualifies every lead before the call.</p>
-            <div class="frame__lines">
-              <i class="frame__line frame__line--accent" style="--w:72%;--d:.2s"></i>
-              <i class="frame__line" style="--w:54%;--d:.32s"></i>
-              <i class="frame__line" style="--w:38%;--d:.44s"></i>
-            </div>
+          <div class="frame__shot">
+            <img data-media src="assets/img/work/marketiq.webp"
+                 srcset="assets/img/work/marketiq-800.webp 800w, assets/img/work/marketiq.webp 1280w"
+                 sizes="(max-width:900px) 92vw, 46vw"
+                 width="1280" height="880" loading="lazy" decoding="async"
+                 alt="MarketIQ Infotech &mdash; digital marketing agency site">
+            <div class="frame__badge"><b data-count="7">0</b><span>PAGES</span></div>
           </div>
         </div></div>
       </div>
@@ -229,16 +297,13 @@
             <i class="frame__dot"></i><i class="frame__dot"></i><i class="frame__dot"></i>
             <span class="frame__url">clansmachina.com</span>
           </div>
-          <div class="frame__body">
-            <div class="frame__kpis">
-              <div class="frame__kpi"><b data-count="25" data-suffix=" yr">0</b><span>SAVINGS MODELLED</span></div>
-            </div>
-            <p class="frame__what">Turns a monthly bill into a system size.</p>
-            <div class="frame__lines">
-              <i class="frame__line frame__line--accent" style="--w:88%;--d:.2s"></i>
-              <i class="frame__line" style="--w:46%;--d:.32s"></i>
-              <i class="frame__line" style="--w:63%;--d:.44s"></i>
-            </div>
+          <div class="frame__shot">
+            <img data-media src="assets/img/work/clansmachina.webp"
+                 srcset="assets/img/work/clansmachina-800.webp 800w, assets/img/work/clansmachina.webp 1280w"
+                 sizes="(max-width:900px) 92vw, 46vw"
+                 width="1280" height="880" loading="lazy" decoding="async"
+                 alt="Clans Machina &mdash; rooftop solar site with savings calculator">
+            <div class="frame__badge"><b data-count="25" data-suffix=" yr">0</b><span>YEARS MODELLED</span></div>
           </div>
         </div></div>
       </div>
@@ -270,16 +335,13 @@
             <i class="frame__dot"></i><i class="frame__dot"></i><i class="frame__dot"></i>
             <span class="frame__url">odishaworkforce.com</span>
           </div>
-          <div class="frame__body">
-            <div class="frame__kpis">
-              <div class="frame__kpi"><b data-count="2">0</b><span>AUDIENCES, ONE SITE</span></div>
-            </div>
-            <p class="frame__what">Employers and job seekers never cross wires.</p>
-            <div class="frame__lines">
-              <i class="frame__line frame__line--accent" style="--w:60%;--d:.2s"></i>
-              <i class="frame__line" style="--w:76%;--d:.32s"></i>
-              <i class="frame__line" style="--w:42%;--d:.44s"></i>
-            </div>
+          <div class="frame__shot">
+            <img data-media src="assets/img/work/odishaworkforce.webp"
+                 srcset="assets/img/work/odishaworkforce-800.webp 800w, assets/img/work/odishaworkforce.webp 1280w"
+                 sizes="(max-width:900px) 92vw, 46vw"
+                 width="1280" height="880" loading="lazy" decoding="async"
+                 alt="Odisha Workforce Solutions &mdash; recruitment and HR site">
+            <div class="frame__badge"><b data-count="2">0</b><span>AUDIENCES, ONE SITE</span></div>
           </div>
         </div></div>
       </div>
@@ -293,7 +355,7 @@
 </section>
 
 <!-- ============================ SERVICES ============================ -->
-<section class="section" id="services">
+<section class="section" id="services" data-sect="mask">
   <div class="wrap">
     <div class="secHead rv">
       <div>
@@ -359,13 +421,13 @@
      It sits directly after the services list on purpose — the moment
      someone has read what we build is the moment to hand them one.
      ============================================================ -->
-<section class="section" id="tools">
+<section class="section" id="tools" data-sect="zoom">
   <div class="wrap">
     <div class="secHead rv">
       <div>
         <p class="eyebrow eyebrow--muted">Free tools</p>
         <h2 class="h-lg secHead__title">
-          <span class="line"><span style="--d:.05s">Five of ours are free.</span></span>
+          <span class="line"><span style="--d:.05s">Seven of ours are free.</span></span>
           <span class="line"><span style="--d:.16s">Go and break one.</span></span>
         </h2>
       </div>
@@ -376,86 +438,122 @@
       </p>
     </div>
 
-    <div class="rack rack--teaser rv">
-      <a class="tool" href="https://fileshare.aivoryx.com/" target="_blank" rel="noopener" style="--c:#8052ff;--d:.02s">
-        <div class="tool__top">
-          <span class="tool__glyph" aria-hidden="true">
+    <div class="bento" data-seq>
+      <a class="bento__card" href="https://fileshare.aivoryx.com/" target="_blank" rel="noopener"
+         style="--s:5;--c:#8052ff;--dx:-70px;--dy:54px;--rot:-4.5deg">
+        <span class="bento__top">
+          <span class="bento__glyph" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 16V3M12 3L8 7.2M12 3l4 4.2"/><path d="M4 14v5.5A1.5 1.5 0 005.5 21h13a1.5 1.5 0 001.5-1.5V14"/>
             </svg>
           </span>
-        </div>
-        <h3 class="tool__t">Secure file sharing</h3>
-        <p class="tool__d">A link that expires when you say it does.</p>
-        <div class="tool__foot">
-          <span class="tool__cost"><b>Free</b>No sign-up</span>
-          <span class="tool__go">Open <i>&rarr;</i></span>
-        </div>
+          <span class="bento__tag">No sign-up</span>
+        </span>
+        <h3 class="bento__t">Secure file sharing</h3>
+        <p class="bento__d">Encrypted on upload, not just in transit. Set an expiry by time or by
+          download count, put a password on any link, and see exactly when it was opened.</p>
+        <span class="bento__go">Open <i>&rarr;</i></span>
       </a>
 
-      <a class="tool" href="https://secret.aivoryx.com/" target="_blank" rel="noopener" style="--c:#8052ff;--d:.08s">
-        <div class="tool__top">
-          <span class="tool__glyph" aria-hidden="true">
+      <a class="bento__card" href="https://secret.aivoryx.com/" target="_blank" rel="noopener"
+         style="--s:4;--c:#8052ff;--dx:40px;--dy:78px;--rot:3.5deg">
+        <span class="bento__top">
+          <span class="bento__glyph" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.8v3.9l2.6 2.2M9.4 2.2h5.2"/>
             </svg>
           </span>
-        </div>
-        <h3 class="tool__t">Self-destructing secrets</h3>
-        <p class="tool__d">Send a password once. Then it's gone.</p>
-        <div class="tool__foot">
-          <span class="tool__cost"><b>Free</b>No sign-up</span>
-          <span class="tool__go">Open <i>&rarr;</i></span>
-        </div>
+          <span class="bento__tag">One-time</span>
+        </span>
+        <h3 class="bento__t">Self-destructing secrets</h3>
+        <p class="bento__d">Paste a password, an API key or a bank detail and get a link back.
+          It works once. After that there is nothing left to leak.</p>
+        <span class="bento__go">Open <i>&rarr;</i></span>
       </a>
 
-      <a class="tool" href="https://vault.aivoryx.com/login" target="_blank" rel="noopener" style="--c:#8052ff;--d:.14s">
-        <div class="tool__top">
-          <span class="tool__glyph" aria-hidden="true">
+      <a class="bento__card" href="https://vault.aivoryx.com/login" target="_blank" rel="noopener"
+         style="--s:3;--c:#8052ff;--dx:88px;--dy:40px;--rot:5deg">
+        <span class="bento__top">
+          <span class="bento__glyph" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 21.5s7.6-3.8 7.6-9.5V5.2L12 2.4 4.4 5.2v6.8c0 5.7 7.6 9.5 7.6 9.5z"/><path d="M9.2 11.9l2 2 3.6-3.9"/>
             </svg>
           </span>
-        </div>
-        <h3 class="tool__t">AI-protected vault</h3>
-        <p class="tool__d">Flags the reused, weak and already-leaked.</p>
-        <div class="tool__foot">
-          <span class="tool__cost"><b>Free</b>Account needed</span>
-          <span class="tool__go">Open <i>&rarr;</i></span>
-        </div>
+          <span class="bento__tag">Account</span>
+        </span>
+        <h3 class="bento__t">AI-protected vault</h3>
+        <p class="bento__d">Flags which passwords you have reused, which are weak, and which have
+          already turned up in a breach.</p>
+        <span class="bento__go">Open <i>&rarr;</i></span>
       </a>
 
-      <a class="tool" href="https://jsonbeautifier.aivoryx.com/" target="_blank" rel="noopener" style="--c:#4fd1b0;--d:.20s">
-        <div class="tool__top">
-          <span class="tool__glyph" aria-hidden="true">
+      <a class="bento__card" href="https://jsonbeautifier.aivoryx.com/" target="_blank" rel="noopener"
+         style="--s:3;--c:#4fd1b0;--dx:-96px;--dy:-46px;--rot:5.5deg">
+        <span class="bento__top">
+          <span class="bento__glyph" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 4.5L4 12l5 7.5M15 4.5l5 7.5-5 7.5"/>
             </svg>
           </span>
-        </div>
-        <h3 class="tool__t">JSON beautifier</h3>
-        <p class="tool__d">Format, validate, minify and diff payloads.</p>
-        <div class="tool__foot">
-          <span class="tool__cost"><b>Free</b>No sign-up</span>
-          <span class="tool__go">Open <i>&rarr;</i></span>
-        </div>
+          <span class="bento__tag">Dev</span>
+        </span>
+        <h3 class="bento__t">JSON beautifier</h3>
+        <p class="bento__d">Beautify, minify, validate with the error pointed at, and diff two
+          payloads to find the one field that changed.</p>
+        <span class="bento__go">Open <i>&rarr;</i></span>
       </a>
 
-      <a class="tool" href="https://gstreply.aivoryx.com/" target="_blank" rel="noopener" style="--c:#ffb829;--d:.26s">
-        <div class="tool__top">
-          <span class="tool__glyph" aria-hidden="true">
+      <a class="bento__card bento__card--hero" href="https://gstreply.aivoryx.com/" target="_blank" rel="noopener"
+         style="--s:5;--c:#ffb829;--dx:0px;--dy:-84px;--rot:-2.5deg">
+        <span class="bento__top">
+          <span class="bento__glyph" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14.2 2.5H6.4A1.4 1.4 0 005 3.9v16.2a1.4 1.4 0 001.4 1.4h11.2a1.4 1.4 0 001.4-1.4V7.3z"/>
               <path d="M14.2 2.5v4.8H19M8.4 13h7.2M8.4 17h4.6"/>
             </svg>
           </span>
-        </div>
-        <h3 class="tool__t">GST notice reply</h3>
-        <p class="tool__d">Reads the notice, drafts the reply, cites the sections.</p>
-        <div class="tool__foot">
-          <span class="tool__cost"><b>Free</b>To analyse</span>
-          <span class="tool__go">Open <i>&rarr;</i></span>
-        </div>
+          <span class="bento__tag">AI &middot; India</span>
+        </span>
+        <h3 class="bento__t">GST notice reply generator</h3>
+        <p class="bento__d">A GST notice lands and the clock starts. Upload it: this reads what is
+          actually being asked, drafts a section-by-section reply in the register an officer
+          expects, and cites the provisions it leans on.</p>
+        <span class="bento__go">Open <i>&rarr;</i></span>
+      </a>
+
+      <a class="bento__card" href="https://pdf-tools.aivoryx.com/" target="_blank" rel="noopener"
+         style="--s:4;--c:#4fd1b0;--dx:76px;--dy:-58px;--rot:4deg">
+        <span class="bento__top">
+          <span class="bento__glyph" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16.6 2.8H9.4A1.6 1.6 0 007.8 4.4v10.8a1.6 1.6 0 001.6 1.6h7.2a1.6 1.6 0 001.6-1.6V4.4a1.6 1.6 0 00-1.6-1.6z"/>
+              <path d="M4.6 7.4v12.2a1.6 1.6 0 001.6 1.6h8.5"/>
+            </svg>
+          </span>
+          <span class="bento__tag">10 tools</span>
+        </span>
+        <h3 class="bento__t">PDF tools</h3>
+        <p class="bento__d">Merge, split, rotate, watermark, unlock, JPG to PDF, and compress to a
+          target size &mdash; 100KB, 1MB or under an email limit. Nothing is uploaded.</p>
+        <span class="bento__go">Open <i>&rarr;</i></span>
+      </a>
+
+      <a class="bento__card bento__card--wide" href="https://image-tools.aivoryx.com/" target="_blank" rel="noopener"
+         style="--s:12;--c:#ffb829;--dx:-52px;--dy:66px;--rot:-2deg">
+        <span class="bento__top">
+          <span class="bento__glyph" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3.2" y="4.6" width="17.6" height="14.8" rx="2.2"/>
+              <circle cx="8.9" cy="10.1" r="1.5"/><path d="M20.8 15.7l-4.8-4.6-6.6 6.4"/>
+            </svg>
+          </span>
+          <span class="bento__tag">6 tools &middot; on-device AI</span>
+        </span>
+        <h3 class="bento__t">Image tools</h3>
+        <p class="bento__d">Compress JPG, PNG and WebP, resize to a target width, convert HEIC from
+          an iPhone, move between PNG and WebP either way &mdash; and cut the background out with AI
+          that runs on your own machine, not a server.</p>
+        <span class="bento__go">Open <i>&rarr;</i></span>
       </a>
     </div>
 
@@ -466,59 +564,49 @@
 </section>
 
 <!-- ============================ WHY ============================ -->
-<section class="section" id="why">
+<section class="section" id="why" data-sect="pin">
   <div class="wrap">
     <div class="secHead rv">
       <div>
         <p class="eyebrow eyebrow--muted">Why Aivoryx</p>
         <h2 class="h-lg secHead__title">
-          <span class="line"><span style="--d:.05s">Four things most studios</span></span>
-          <span class="line"><span style="--d:.16s">won't put in writing.</span></span>
+          <span class="line"><span style="--d:.05s">Four promises.</span></span>
+          <span class="line"><span style="--d:.16s">All of them testable.</span></span>
         </h2>
       </div>
     </div>
 
-    <div class="why">
-      <div class="why__item rv" style="--d:.02s">
-        <span class="why__k">01 / Written by hand</span>
-        <h3 class="why__t">No page builders, ever</h3>
-        <p class="why__d">
-          Every site is coded from scratch. That means no plugin bloat, no theme
-          licence renewals, and nothing breaks the next time a builder pushes an update.
-        </p>
-      </div>
-      <div class="why__item rv" style="--d:.12s">
-        <span class="why__k">02 / Ownership</span>
-        <h3 class="why__t">It's yours the day it ships</h3>
-        <p class="why__d">
-          Code, domain, hosting, analytics &mdash; all in your name and your accounts.
-          If you ever want to walk away, you take the whole thing with you.
-        </p>
-      </div>
-      <div class="why__item rv" style="--d:.22s">
-        <span class="why__k">03 / Speed</span>
-        <h3 class="why__t">Fast is a feature, not an extra</h3>
-        <p class="why__d">
-          Sites are built lean and tested against Core Web Vitals before launch.
-          On an Indian mobile network, a second of load time is the difference
-          between an enquiry and a bounce.
-        </p>
-      </div>
-      <div class="why__item rv" style="--d:.32s">
-        <span class="why__k">04 / Access</span>
-        <h3 class="why__t">You talk to the builder</h3>
-        <p class="why__d">
-          No account manager, no ticket queue, no handoff to a junior after the
-          contract is signed. The person who answers your message is the person
-          writing the code.
-        </p>
+    <div class="creed" data-creed>
+      <div class="creed__pin">
+        <div class="creed__meta">
+          <span class="creed__idx"><b data-creed-n>01</b><i>/ 04</i></span>
+          <span class="creed__prog" aria-hidden="true"><i></i></span>
+        </div>
+        <div class="creed__stack">
+          <article class="creed__item">
+            <h3 class="creed__t">Hand-coded.<br>Every line.</h3>
+            <p class="creed__d">No builders. No themes. Nothing that breaks when someone else ships an update.</p>
+          </article>
+          <article class="creed__item">
+            <h3 class="creed__t">Yours from<br>day one.</h3>
+            <p class="creed__d">Code, domain, hosting, analytics &mdash; in your name, in your accounts.</p>
+          </article>
+          <article class="creed__item">
+            <h3 class="creed__t">Fast is<br>the default.</h3>
+            <p class="creed__d">Built lean and tested against Core Web Vitals before it ever goes live.</p>
+          </article>
+          <article class="creed__item">
+            <h3 class="creed__t">You talk to<br>the builder.</h3>
+            <p class="creed__d">No account manager, no ticket queue. Whoever answers you wrote the code.</p>
+          </article>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================ PROCESS ============================ -->
-<section class="section" id="process">
+<section class="section" id="process" data-sect="pin">
   <div class="wrap">
     <div class="secHead rv">
       <div>
@@ -531,8 +619,14 @@
       <p class="lede muted fade" style="--d:.3s">A short, honest sequence. You'll always know which step we're on.</p>
     </div>
 
-    <div class="steps" id="steps">
-      <span class="steps__rail" aria-hidden="true"></span>
+    <div class="rail" data-rail>
+      <div class="rail__pin">
+        <div class="rail__head">
+          <span class="rail__count">Four steps</span>
+          <span class="rail__prog" aria-hidden="true"><i></i></span>
+          <span class="rail__count">About two weeks</span>
+        </div>
+        <div class="rail__track" id="steps">
       <div class="step" style="--d:.05s">
         <span class="step__n">STEP 01</span>
         <h3 class="step__t">Talk</h3>
@@ -557,6 +651,8 @@
         <p class="step__d">Domain, hosting, analytics and search setup &mdash; handed over in your accounts, with free fixes after go-live: 30 days on Starter, 60 on Growth.</p>
         <span class="step__when">Day 13&ndash;15</span>
       </div>
+        </div>
+      </div>
     </div>
 
     <div class="rv" style="margin-top:var(--s36);display:flex;align-items:center;gap:var(--s30);flex-wrap:wrap">
@@ -567,7 +663,7 @@
 </section>
 
 <!-- ============================ PRICING ============================ -->
-<section class="section" id="pricing">
+<section class="section" id="pricing" data-sect="mask">
   <div class="wrap">
     <div class="secHead rv">
       <div>
@@ -583,70 +679,54 @@
       </p>
     </div>
 
-    <div class="plans">
-      <div class="plan" style="--d:.05s">
-        <span class="plan__tag">Starter</span>
-        <h3 class="plan__name">Get online properly</h3>
-        <p class="plan__price">&#8377;7,999<small>one-time &middot; about 7 days</small></p>
-        <ul class="plan__list">
+    <div class="tiers" data-seq>
+      <article class="tier">
+        <span class="tier__tag">Starter</span>
+        <p class="tier__price"><em>&#8377;</em><b data-count="7999">0</b></p>
+        <p class="tier__meta">One-time &middot; live in about 7 days</p>
+        <ul class="tier__list">
           <li>Up to 5 pages, custom designed</li>
-          <li>Mobile-first, fast-loading build</li>
-          <li>Enquiry form + WhatsApp button</li>
-          <li>Google Business &amp; basic SEO setup</li>
-          <li>1 year hosting &amp; domain guidance</li>
+          <li>Enquiry form + WhatsApp routing</li>
           <li>30 days of free fixes</li>
         </ul>
-        <a class="ghost" href="#contact" data-scroll>Enquire about Starter <i>&rarr;</i></a>
-      </div>
+        <a class="ghost" href="#contact" data-scroll>Enquire <i>&rarr;</i></a>
+      </article>
 
-      <div class="plan plan--featured" style="--d:.17s">
-        <span class="plan__tag">Growth &middot; full build</span>
-        <h3 class="plan__name">Compete and convert</h3>
-        <p class="plan__price">&#8377;14,999<small>one-time &middot; about 2&ndash;3 weeks</small></p>
-        <ul class="plan__list">
-          <li>Up to 12 pages with custom animation</li>
+      <article class="tier tier--lead">
+        <span class="tier__tag">Growth &middot; most chosen</span>
+        <p class="tier__price"><em>&#8377;</em><b data-count="14999">0</b></p>
+        <p class="tier__meta">One-time &middot; live in 2&ndash;3 weeks</p>
+        <ul class="tier__list">
+          <li>Up to 12 pages, custom animation</li>
           <li>One interactive tool &mdash; calculator or quote engine</li>
-          <li>Blog or CMS you can edit yourself</li>
-          <li>Lead form with qualification + WhatsApp routing</li>
-          <li>Full on-page SEO &amp; analytics dashboard</li>
-          <li>Speed tuned to Core Web Vitals</li>
           <li>60 days of free fixes</li>
         </ul>
         <a class="btn" href="#contact" data-scroll data-magnetic><span class="btn__dot"></span><span>Start with Growth</span></a>
-      </div>
+      </article>
 
-      <div class="plan" style="--d:.29s">
-        <span class="plan__tag">Custom</span>
-        <h3 class="plan__name">Apps &amp; platforms</h3>
-        <p class="plan__price">From &#8377;24,999<small>quoted per scope</small></p>
-        <ul class="plan__list">
-          <li>Web apps, dashboards &amp; admin panels</li>
-          <li>Android &amp; iOS mobile apps</li>
-          <li>Online stores with payment gateways</li>
-          <li>AI chat assistant &amp; automations</li>
-          <li>Logins, databases &amp; integrations</li>
-          <li>Ongoing support retainer available</li>
+      <article class="tier">
+        <span class="tier__tag">Custom</span>
+        <p class="tier__price"><em>from &#8377;</em><b data-count="24999">0</b></p>
+        <p class="tier__meta">Quoted per scope</p>
+        <ul class="tier__list">
+          <li>Web apps, dashboards, admin panels</li>
+          <li>Android &amp; iOS, stores, payments</li>
+          <li>AI assistants &amp; automations</li>
         </ul>
-        <a class="ghost" href="#contact" data-scroll>Request a scoped quote <i>&rarr;</i></a>
-      </div>
-
-      <p class="plan__note rv">
-        <span class="amber">Every price here is negotiable.</span> Early-stage startups
-        and first-time local businesses get flexible terms &mdash; part payment up front,
-        the rest on launch. If the budget is tight, say so on the call and we'll cut
-        scope honestly rather than cut quality quietly.
-      </p>
-
-      <div class="rv" style="grid-column:1/-1;margin-top:var(--s36);display:flex;align-items:center;gap:var(--s30);flex-wrap:wrap">
-        <a class="ghost" href="pricing.html">Compare all three line by line <i>&rarr;</i></a>
-        <p class="caption">Plus a chart for what it costs against paying monthly.</p>
-      </div>
+        <a class="ghost" href="#contact" data-scroll>Get a scoped quote <i>&rarr;</i></a>
+      </article>
     </div>
+
+    <p class="tiers__note rv">
+      <span class="amber">Every price here is negotiable.</span> Tight budget? Say so on
+      the call and we cut scope honestly rather than quality quietly.
+      <a class="ghost" href="pricing.html">Compare all three <i>&rarr;</i></a>
+    </p>
   </div>
 </section>
 
 <!-- ============================ CONTACT ============================ -->
-<section class="section" id="contact">
+<section class="section" id="contact" data-sect="rise">
   <div class="wrap contact">
     <div class="rv">
       <p class="eyebrow eyebrow--muted">Start a project</p>
@@ -828,6 +908,9 @@
 <script src="assets/js/reveal.js" defer></script>
 <script src="assets/js/form.js" defer></script>
 <script src="assets/js/constellation.js" defer></script>
+<script src="assets/js/hero.js" defer></script>
+<script src="assets/js/build.js" defer></script>
+<script src="assets/js/motion.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 </body>
 </html>

@@ -12,6 +12,12 @@
 
 define('AX_MAIL', 1);
 
+/* XAMPP ships date.timezone=Europe/Berlin and shared hosts vary, so the
+   timezone is pinned here rather than inherited. It sets two things that
+   are wrong otherwise: the Date header, which should agree with where the
+   mail actually originates, and the "Received" time the owner reads. */
+date_default_timezone_set('Asia/Kolkata');
+
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('Cache-Control: no-store');
@@ -124,8 +130,39 @@ $when = date('j M Y, g:ia');
 
 function ax_e($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 
-/* A table, not a designed email — this one is read once, on a phone,
-   by someone deciding whether to pick up the call. */
+/* Both emails share one shell: the mark, then the letter, then a
+   quiet footer. Everything is inline-styled and table-based because
+   mail clients strip <style> blocks and collapse flexbox. The logo
+   is the cid: part attached in mailer.php, so it renders without the
+   reader having to unblock remote images. */
+function ax_shell($inner, $site) {
+  return '<div style="margin:0;padding:36px 20px;background:#ffffff;'
+    . 'font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Helvetica,Arial,sans-serif;'
+    . '-webkit-font-smoothing:antialiased">'
+    . '<div style="max-width:520px;margin:0 auto">'
+
+    . '<table cellpadding="0" cellspacing="0" border="0" style="margin:0 0 30px"><tr>'
+    . '<td style="vertical-align:middle;padding-right:11px">'
+    . '<img src="cid:' . AX_LOGO_CID . '" width="34" height="34" alt="Aivoryx"'
+    . ' style="display:block;width:34px;height:34px;border-radius:9px"></td>'
+    . '<td style="vertical-align:middle;font-size:16px;font-weight:600;'
+    . 'letter-spacing:-.01em;color:#0d0d0d">Aivoryx</td>'
+    . '</tr></table>'
+
+    . $inner
+
+    . '<div style="margin:38px 0 0;padding:18px 0 0;border-top:1px solid #ededed;'
+    . 'color:#9b9b9b;font-size:12px;line-height:1.7">'
+    . 'Aivoryx &mdash; custom websites, web apps and mobile apps.'
+    . ($site ? '<br><a href="' . ax_e($site) . '" style="color:#9b9b9b">'
+        . ax_e(preg_replace('~^https?://~', '', $site)) . '</a>' : '')
+    . '</div>'
+
+    . '</div></div>';
+}
+
+/* Read once, on a phone, by someone deciding whether to pick up the
+   call — so it is set like a letter, not dumped like a form. */
 $rows = array(
   'Name'    => $name,
   'Phone'   => $phone,
@@ -141,24 +178,50 @@ $rows = array(
    so add 91 rather than building a link that silently fails. */
 $waNum = strlen($digits) === 10 ? '91' . $digits : $digits;
 
+/* Phone and email are made actionable — on a phone this email is the
+   fastest route to the caller, so tapping the number should dial. */
+$links = array(
+  'Phone' => 'tel:+' . $waNum,
+  'Email' => 'mailto:' . $email,
+);
+
 $rowsHtml = '';
 $rowsText = '';
+$i = 0;
 foreach ($rows as $k => $v) {
+  $i++;
+  $last  = $i === count($rows);
+  $value = nl2br(ax_e($v));
+  if (isset($links[$k])) {
+    $value = '<a href="' . ax_e($links[$k]) . '" style="color:#0d0d0d;text-decoration:none;border-bottom:1px solid #dcdcdc">' . $value . '</a>';
+  }
   $rowsHtml .= '<tr>'
-    . '<td style="padding:9px 16px 9px 0;color:#8a8a8a;font-size:12px;letter-spacing:.08em;text-transform:uppercase;vertical-align:top;white-space:nowrap">' . ax_e($k) . '</td>'
-    . '<td style="padding:9px 0;color:#111;font-size:15px;vertical-align:top">' . nl2br(ax_e($v)) . '</td>'
+    . '<td style="padding:13px 18px 13px 0;color:#a3a3a3;font-size:11px;letter-spacing:.1em;'
+    . 'text-transform:uppercase;vertical-align:top;white-space:nowrap;'
+    . ($last ? '' : 'border-bottom:1px solid #f4f4f4;') . '">' . ax_e($k) . '</td>'
+    . '<td style="padding:13px 0;color:#111111;font-size:15px;line-height:1.6;vertical-align:top;'
+    . ($last ? '' : 'border-bottom:1px solid #f4f4f4;') . '">' . $value . '</td>'
     . '</tr>';
   $rowsText .= str_pad($k . ':', 10) . ' ' . $v . "\n";
 }
 
-$ownerHtml =
-  '<div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:560px">'
-  . '<p style="font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#8052ff;margin:0 0 6px">New enquiry</p>'
-  . '<h1 style="font-size:22px;font-weight:600;margin:0 0 20px;color:#111">' . ax_e($name) . ' &mdash; ' . ax_e($need) . '</h1>'
-  . '<table cellpadding="0" cellspacing="0" border="0" style="width:100%;border-top:1px solid #e6e6e6">' . $rowsHtml . '</table>'
-  . '<p style="margin:22px 0 0"><a href="https://wa.me/' . $waNum . '" style="background:#8052ff;color:#fff;text-decoration:none;padding:11px 20px;border-radius:999px;font-size:14px;display:inline-block">Reply on WhatsApp</a></p>'
-  . '<p style="color:#8a8a8a;font-size:12px;margin:20px 0 0">Hit reply to answer by email &mdash; it goes straight to ' . ax_e($email) . '.</p>'
-  . '</div>';
+$ownerHtml = ax_shell(
+    '<p style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;'
+  . 'color:#8052ff;margin:0 0 10px;font-weight:600">New enquiry</p>'
+  . '<h1 style="font-size:25px;line-height:1.25;font-weight:600;letter-spacing:-.02em;'
+  . 'margin:0 0 4px;color:#0d0d0d">' . ax_e($name) . '</h1>'
+  . '<p style="font-size:16px;color:#6b6b6b;margin:0 0 26px">' . ax_e($need) . '</p>'
+  . '<table cellpadding="0" cellspacing="0" border="0" style="width:100%;border-top:1px solid #ededed">'
+  . $rowsHtml . '</table>'
+  . '<table cellpadding="0" cellspacing="0" border="0" style="margin:28px 0 0"><tr><td'
+  . ' style="background:#0d0d0d;border-radius:999px">'
+  . '<a href="https://wa.me/' . $waNum . '" style="display:inline-block;padding:13px 26px;'
+  . 'color:#ffffff;text-decoration:none;font-size:14px;font-weight:500;letter-spacing:.01em">'
+  . 'Reply on WhatsApp &rarr;</a></td></tr></table>'
+  . '<p style="color:#9b9b9b;font-size:13px;line-height:1.65;margin:20px 0 0">'
+  . 'Or just hit reply &mdash; it goes straight to ' . ax_e($email) . '.</p>',
+  $site
+);
 
 $ownerText = "New enquiry — Aivoryx\n\n" . $rowsText . "\nReply to this email to answer " . $email . ".\n";
 
@@ -181,20 +244,33 @@ if (!empty($cfg['autoreply'])) {
   $first = preg_split('/\s+/', $name);
   $first = $first[0];
 
-  $replyHtml =
-    '<div style="font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:520px;color:#111">'
-    . '<p style="font-size:16px;margin:0 0 16px">Hi ' . ax_e($first) . ',</p>'
-    . '<p style="font-size:16px;line-height:1.6;margin:0 0 16px">Thanks &mdash; your enquiry reached us and a person has it, not an autoresponder queue. We reply the same day, usually within a few hours.</p>'
-    . '<p style="font-size:16px;line-height:1.6;margin:0 0 16px">If it\'s urgent, WhatsApp is faster: <a href="https://wa.me/919399593499" style="color:#8052ff">+91 93995 93499</a>.</p>'
-    . '<table cellpadding="0" cellspacing="0" border="0" style="width:100%;border-top:1px solid #e6e6e6;margin:24px 0 0">'
-    . '<tr><td style="padding:14px 0 0;color:#8a8a8a;font-size:12px;letter-spacing:.08em;text-transform:uppercase">What you sent</td></tr>'
-    . '<tr><td style="padding:8px 0 0;font-size:15px;line-height:1.6">'
-    . ax_e($need) . ' &middot; ' . ax_e($budget)
-    . ($message !== '' ? '<br><span style="color:#555">' . nl2br(ax_e($message)) . '</span>' : '')
+  $replyHtml = ax_shell(
+      '<p style="font-size:17px;line-height:1.6;color:#0d0d0d;margin:0 0 18px">Hi ' . ax_e($first) . ',</p>'
+    . '<p style="font-size:16px;line-height:1.7;color:#333333;margin:0 0 18px">'
+    . 'Thanks &mdash; your enquiry reached us and a person has it, not an autoresponder '
+    . 'queue. We reply the same day, usually within a few hours.</p>'
+    . '<p style="font-size:16px;line-height:1.7;color:#333333;margin:0 0 26px">'
+    . 'If it\'s urgent, WhatsApp is faster: '
+    . '<a href="https://wa.me/919399593499" style="color:#0d0d0d;text-decoration:none;'
+    . 'border-bottom:1px solid #dcdcdc">+91 93995 93499</a>.</p>'
+
+    . '<table cellpadding="0" cellspacing="0" border="0" style="width:100%;border-top:1px solid #ededed">'
+    . '<tr><td style="padding:18px 0 0;color:#a3a3a3;font-size:11px;letter-spacing:.1em;'
+    . 'text-transform:uppercase">What you sent</td></tr>'
+    . '<tr><td style="padding:9px 0 0;font-size:15px;line-height:1.6;color:#0d0d0d">'
+    . ax_e($need) . ' <span style="color:#c8c8c8">&middot;</span> ' . ax_e($budget)
+    . ($message !== '' ? '<br><span style="color:#6b6b6b">' . nl2br(ax_e($message)) . '</span>' : '')
     . '</td></tr></table>'
-    . ($site ? '<p style="margin:24px 0 0;font-size:14px;color:#555">While you wait, everything is published: the <a href="' . ax_e($site) . '/pricing.html" style="color:#8052ff">prices</a>, the <a href="' . ax_e($site) . '/process.html" style="color:#8052ff">day-by-day process</a>, and five <a href="' . ax_e($site) . '/tools.html" style="color:#8052ff">free tools</a> you can use right now.</p>' : '')
-    . '<p style="margin:24px 0 0;font-size:14px;color:#111">&mdash; Aivoryx</p>'
-    . '</div>';
+
+    . ($site ? '<p style="margin:26px 0 0;font-size:15px;line-height:1.7;color:#6b6b6b">'
+        . 'While you wait, everything is published: the '
+        . '<a href="' . ax_e($site) . '/pricing.html" style="color:#8052ff;text-decoration:none">prices</a>, the '
+        . '<a href="' . ax_e($site) . '/process.html" style="color:#8052ff;text-decoration:none">day-by-day process</a>, and seven '
+        . '<a href="' . ax_e($site) . '/tools.html" style="color:#8052ff;text-decoration:none">free tools</a> '
+        . 'you can use right now.</p>' : '')
+    . '<p style="margin:26px 0 0;font-size:15px;color:#0d0d0d">&mdash; Aivoryx</p>',
+    $site
+  );
 
   $replyText =
     "Hi " . $first . ",\n\n"
@@ -202,11 +278,11 @@ if (!empty($cfg['autoreply'])) {
     . "usually within a few hours.\n\n"
     . "If it's urgent, WhatsApp is faster: +91 93995 93499\n\n"
     . "What you sent\n" . $need . " · " . $budget . ($message !== '' ? "\n" . $message : '') . "\n\n"
-    . ($site ? "Prices, the day-by-day process and five free tools are all published at " . $site . "\n\n" : '')
+    . ($site ? "Prices, the day-by-day process and seven free tools are all published at " . $site . "\n\n" : '')
     . "— Aivoryx\n";
 
   try {
-    ax_send($cfg, $email, $name, 'We\'ve got your enquiry — Aivoryx', $replyHtml, $replyText, $cfg['to'], $cfg['to_name']);
+    ax_send($cfg, $email, $name, 'We\'ve got your enquiry — Aivoryx', $replyHtml, $replyText, $cfg['to'], $cfg['to_name'], true);
   } catch (Exception $e) {
     error_log('[aivoryx] auto-reply failed: ' . $e->getMessage());
   }

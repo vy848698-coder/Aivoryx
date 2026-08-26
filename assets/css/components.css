@@ -332,3 +332,39 @@
 }
 .wa.is-in{transform:translateY(0)}
 .wa.is-in:hover{transform:translateY(-4px)}
+
+/* ============================================================
+   Screenshot frames
+   A real screenshot inside the browser chrome we already draw. The
+   clip lives on the wrapper and the motion on the <img>, so motion.js
+   can drive transform without fighting the frame's own hover lift.
+   ============================================================ */
+.frame__shot{
+  position:relative;flex:1;min-height:0;
+  border-radius:calc(var(--r-3xl) - var(--s18));
+  overflow:hidden;background:#0b0b0b;
+}
+.frame__shot img{
+  display:block;width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+  transform:scale(1.05);will-change:transform;
+}
+/* The counters survived the move to real screenshots — they now float
+   over the shot the way a product page pins a metric to an image. */
+.frame__badge{
+  position:absolute;left:var(--s12);bottom:var(--s12);
+  display:flex;align-items:baseline;gap:9px;
+  padding:9px 15px;border-radius:var(--r-full);
+  background:rgba(5,5,5,.74);border:1px solid rgba(255,255,255,.13);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+}
+.frame__badge b{
+  font-size:19px;font-weight:var(--fw-r);letter-spacing:-.03em;
+  line-height:1;color:#fff;
+}
+.frame__badge span{
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);
+}
+@media (prefers-reduced-motion:reduce){
+  .frame__shot img{transform:none!important}
+}

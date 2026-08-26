@@ -110,7 +110,9 @@ AX.module(function form(){
       need:    val('#f-need'),
       budget:  val('#f-budget'),
       message: f.querySelector('#f-msg') ? f.querySelector('#f-msg').value.trim() : '',
-      company: '',
+      /* the honeypot's real value — send.php drops the submission if a bot
+         filled it. Hardcoding '' here meant the trap never fired. */
+      company: f.querySelector('#f-co') ? f.querySelector('#f-co').value.trim() : '',
       page:    document.title
     };
 

@@ -209,9 +209,9 @@
 
 /* ============================================================
    Homepage teaser
-   The same rack, shrunk to a single row of five on the homepage.
+   The same rack, shrunk down for the homepage teaser.
    ============================================================ */
-.rack--teaser{grid-template-columns:repeat(5,minmax(0,1fr));margin-top:0}
+.rack--teaser{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:0}
 .rack--teaser .tool{grid-column:span 1;padding:var(--s24) var(--s18) var(--s18)}
 .rack--teaser .tool__t{font-size:17px;margin-bottom:10px}
 .rack--teaser .tool__d{font-size:13px}
@@ -221,8 +221,8 @@
 /* ============================================================
    Responsive
    ============================================================ */
-/* five teaser tiles across stop being readable before the tiles
-   themselves run out of room — drop to three well before that */
+/* seven teaser tiles sit as four then three; they stop being readable
+   well before the tiles themselves run out of room, so drop to three */
 @media (max-width:1280px){
   .rack--teaser{grid-template-columns:repeat(3,minmax(0,1fr))}
 }

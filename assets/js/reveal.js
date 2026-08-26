@@ -32,7 +32,7 @@ AX.module(function reveal(){
     });
   }, {threshold:0.14, rootMargin:'0px 0px -7% 0px'});
 
-  $$('.rv, .step, .steps, .plan, .svc__row, .work__item, .why__item, .secHead')
+  $$('.rv, .step, .steps, .plan, .tier, .svc__row, .work__item, .why__item, .secHead')
     .forEach(function(el){ io.observe(el); });
 
   /* Whatever a page marks as its hero plays immediately, no observer */
