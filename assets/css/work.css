@@ -3,43 +3,237 @@
    The device: each case study carries a working rebuild of the one
    mechanism that made the project worth doing.
 
-   The page hero, demo panel, chips and output cells are shared with
-   services.html and live in components.css.
+   The scroll story, top to bottom:
+     hero    a dealt deck of the four real sites
+     index   editorial rows, with the site following the cursor
+     cases   each one opens from a card to full width while pinned,
+             then reads down a lit story rail beside its demo
+     bench   what's in the studio, drawn as three working states
+
+   The page hero shell, demo panel, chips and output cells are shared
+   with services.html and live in components.css. The scroll engines
+   (opener, track, sequence) live in motion.js.
    ============================================================ */
 
-/* the projects as a jump index — an honest table of contents.
-   auto-fit rather than a fixed count, so entries can be added or
-   retired without the grid needing a rewrite. */
-.jump{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:0;margin-top:var(--s96);border-top:1px solid var(--hair-2);
+/* ============================================================
+   HERO
+   Same atmosphere and type scale as the homepage hero, so the two
+   pages read as one site; a deck of real work where the homepage
+   has its stage.
+   ============================================================ */
+/* A column: the two-up grid takes whatever height is left and centres
+   in it, and the "built for" strip sits on the floor of the screen —
+   so on a tall monitor the space becomes the frame, not a gap. */
+.phero--split{
+  isolation:isolate;min-height:100svh;
+  display:flex;flex-direction:column;
+  padding-top:calc(var(--nav-h) + clamp(14px,3.4vh,44px));
+  padding-bottom:0;
 }
-.jump__item{
-  display:block;padding:var(--s30) var(--s24) var(--s30) 0;
-  border-right:1px solid var(--hair);position:relative;
-  transition:padding-left .5s var(--ease);
+.phero__grid{
+  position:relative;z-index:2;flex:1;
+  display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
+  align-items:center;gap:clamp(var(--s24),3.6vw,var(--s60));
+  padding-block:clamp(10px,3vh,40px);
 }
-.jump__item:last-child{border-right:0}
-.jump__item::before{
-  content:"";position:absolute;top:-1px;left:0;height:1px;width:0;
-  background:var(--iris);transition:width .7s var(--ease);
-}
-.jump__item:hover::before{width:100%}
-.jump__item:hover{padding-left:var(--s12)}
-.jump__n{font-size:var(--t-caption);letter-spacing:.14em;color:var(--iris);display:block;margin-bottom:var(--s12)}
-.jump__t{font-size:var(--t-2xs);font-weight:var(--fw-r);letter-spacing:-0.035em;margin-bottom:6px}
-.jump__s{font-size:13px;color:var(--ash);font-weight:var(--fw-xl)}
-.jump__item:hover .jump__t{color:#fff}
-/* the last entry is work in progress, not a case study — amber and a live dot
-   so it reads as ongoing rather than as a fourth finished project */
-.jump__item--wip .jump__n{display:flex;align-items:center;gap:8px;color:var(--spark)}
-.jump__item--wip .jump__n::before{
-  content:"";width:6px;height:6px;border-radius:50%;flex:none;
-  background:var(--spark);animation:pulse 2.6s ease-in-out infinite;
+/* three short lines now, so it can take more of the screen; the vh
+   term keeps it from crowding a short laptop */
+.phero--split .display{
+  max-width:none;
+  font-size:min(clamp(42px,6.4vw,104px),11.4vh);
+  line-height:.98;
+  margin-block:0 clamp(14px,2.6vh,28px);
 }
 
-/* ---------------- Case study shell ---------------- */
-.case{border-top:1px solid var(--hair);padding-block:var(--s120)}
+/* ---------------- What we build ----------------
+   The range in the HUD's mono voice: a fixed 3×2 grid rather than a
+   wrapping line, so no width ever leaves a lone item on its own row.
+   Each item carries its own marker and rises a beat after the last. */
+.range{
+  list-style:none;display:grid;justify-content:start;
+  grid-template-columns:repeat(3,auto);gap:12px clamp(22px,2.6vw,40px);
+  margin-bottom:clamp(18px,3vh,30px);
+}
+.range li{
+  display:flex;align-items:center;gap:10px;white-space:nowrap;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);
+  opacity:0;transform:translate3d(0,10px,0);
+  transition:opacity .8s var(--sect-ease) var(--d,0s),transform .8s var(--sect-ease) var(--d,0s),color .3s ease;
+}
+.range li::before{
+  content:"";width:5px;height:5px;flex:none;
+  background:var(--iris);transform:rotate(45deg);
+}
+@media (max-width:480px){
+  .range{grid-template-columns:repeat(2,auto)}
+}
+.is-in .range li{opacity:1;transform:none}
+.range li:hover{color:#fff}
+
+/* ---------------- Hero floor strip ---------------- */
+.pstrip{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;
+  border-top:1px solid var(--hair);
+}
+.pstrip__label{
+  display:flex;align-items:center;gap:var(--s18);
+  padding-left:max(var(--wrap-pad),calc((100vw - var(--max))/2 + var(--wrap-pad)));
+  padding-right:var(--s24);
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--spark);white-space:nowrap;
+}
+.pstrip__label::after{content:"";width:1px;height:24px;background:var(--hair-2);flex:none}
+.pstrip .ticker{padding-block:clamp(14px,2.4vh,24px)}
+.pstrip .ticker__item{font-size:12.5px}
+.pstrip .ticker__track{animation-duration:52s}
+.phero--split .lede{max-width:47ch;color:var(--mist);font-size:clamp(14.5px,1.1vw,var(--t-body));line-height:1.62}
+
+/* the one lit line per section — same sweep as the homepage payoff */
+.phero .grad,.close .grad{
+  font-style:normal;
+  background:linear-gradient(100deg,#fff 0 33%,#c9a5ff 46%,#fff 59% 100%);
+  background-size:300% 100%;background-position:100% 0;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:sheen 8.5s ease-in-out 1.6s infinite;
+}
+
+/* ---------------- The deck ----------------
+   Each card's resting place is art-directed in the markup (--x --y --r
+   --z). Three things then move it, each on its own property so they
+   compose instead of overwriting each other:
+     transform   the deal-in on load
+     translate   pointer depth (--px/--py) and the scroll spread (--s)
+     rotate      the fan opening wider as the hero leaves
+   work.js publishes --px, --py and --s on .fan. */
+/* The box takes its height from its width, so the collage keeps its
+   proportions at every size. Cards are 60% of the column: two side by
+   side overlap by a fifth, enough to read as one pile while each site
+   stays legible without a hover. */
+.fan{
+  --px:0;--py:0;--s:0;
+  position:relative;aspect-ratio:1/.95;
+  opacity:calc(1 - var(--s) * .7);
+}
+.fan__card{
+  position:absolute;left:50%;top:50%;z-index:var(--z);
+  width:60%;aspect-ratio:16/11;margin:-20.6% 0 0 -30%;
+  display:flex;flex-direction:column;
+  border-radius:14px;overflow:hidden;background:#070707;
+  border:1px solid rgba(255,255,255,.13);
+  box-shadow:0 44px 80px -34px rgba(0,0,0,.95);
+  translate:
+    calc(var(--x) * (1 + var(--s) * 1.1) + var(--px) * (8px + var(--i) * 6px))
+    calc(var(--y) + var(--py) * (8px + var(--i) * 6px) + var(--s) * -60px);
+  rotate:calc(var(--r) * (1 + var(--s) * 1.4));
+  transition:scale .6s var(--sect-ease),rotate .6s var(--sect-ease),
+             border-color .4s ease,filter .4s ease;
+  animation:dealIn 1.1s var(--sect-ease) calc(.35s + var(--i) * .12s) backwards;
+}
+@keyframes dealIn{
+  from{opacity:0;transform:translate3d(0,90px,0) rotate(-14deg) scale(.86)}
+  to{opacity:1;transform:none}
+}
+.fan__bar{
+  display:flex;align-items:center;gap:5px;flex:none;
+  padding:8px 11px;background:#0b0b0d;border-bottom:1px solid rgba(255,255,255,.07);
+}
+.fan__bar i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.18)}
+.fan__bar em{
+  font-style:normal;margin-left:7px;font-size:10px;letter-spacing:.02em;color:var(--ash);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+.fan__card img{flex:1;min-height:0;width:100%;object-fit:cover;object-position:top center}
+.fan__cap{
+  position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);
+  white-space:nowrap;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5c5c66;
+  animation:fadeUp .8s var(--sect-ease) 1.2s backwards;
+}
+.fan__cap span{color:var(--spark)}
+@keyframes fadeUp{from{opacity:0;transform:translate(-50%,10px)}}
+
+@media (hover:hover){
+  .fan__card:hover{scale:1.06;rotate:0deg;z-index:9;border-color:rgba(128,82,255,.6)}
+  .fan:hover .fan__card:not(:hover){filter:brightness(.45) saturate(.6)}
+}
+.fan__card:focus-visible{z-index:9;rotate:0deg}
+
+/* ============================================================
+   INDEX
+   ============================================================ */
+.idx{border-top:1px solid var(--hair);padding-block:var(--s96) var(--s120)}
+.idx__head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:var(--s24);flex-wrap:wrap;margin-bottom:var(--s36);
+}
+.idx__list{list-style:none;border-top:1px solid var(--hair-2)}
+.idx__row{
+  position:relative;
+  display:grid;align-items:center;gap:var(--s24);
+  grid-template-columns:56px minmax(0,1.35fr) minmax(0,.6fr) minmax(0,1.15fr) 44px;
+  padding-block:clamp(22px,2.6vw,36px);
+  border-bottom:1px solid var(--hair);
+  transition:padding-left .6s var(--sect-ease);
+}
+/* the underline draws itself across rather than appearing */
+.idx__row::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
+  background:linear-gradient(90deg,var(--iris),var(--spark) 60%,transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .9s var(--sect-ease);
+}
+.idx__n{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12px;letter-spacing:.12em;color:var(--iris);
+}
+.idx__name{
+  font-size:clamp(24px,3.3vw,46px);font-weight:var(--fw-r);
+  letter-spacing:-.045em;line-height:1.04;color:#fff;
+  transition:color .4s ease;
+}
+.idx__sector{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
+.idx__what{font-size:15px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.5}
+.idx__go{
+  justify-self:end;width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;font-size:15px;color:var(--mist);
+  border:1px solid var(--hair-2);
+  transition:background .4s ease,border-color .4s ease,color .3s ease,rotate .6s var(--sect-ease);
+}
+.idx__row--wip .idx__n{color:var(--spark)}
+.idx__row--wip .idx__name{color:var(--mist)}
+.idx__row--wip .idx__sector{display:flex;align-items:center;gap:8px;color:var(--spark)}
+.idx__row--wip .idx__sector::before{
+  content:"";width:6px;height:6px;border-radius:50%;flex:none;
+  background:currentColor;animation:pulse 2.6s ease-in-out infinite;
+}
+
+@media (hover:hover){
+  .idx__row:hover{padding-left:var(--s18)}
+  .idx__row:hover::after{transform:scaleX(1)}
+  .idx__row:hover .idx__go{background:var(--iris);border-color:var(--iris);color:#fff;rotate:-45deg}
+  /* the row you're on stays white; the rest step back */
+  .idx__list:hover .idx__row:not(:hover) .idx__name{color:#4a4a52}
+}
+.idx__row:focus-visible .idx__go{background:var(--iris);border-color:var(--iris);color:#fff}
+
+/* The site under the cursor. Fixed, never in flow, and only ever
+   shown on a device that has a cursor to follow. */
+.peek{
+  position:fixed;left:0;top:0;z-index:60;pointer-events:none;
+  width:clamp(260px,24vw,360px);aspect-ratio:16/11;
+  border-radius:14px;overflow:hidden;background:#070707;
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.95);
+  opacity:0;scale:.55;
+  transition:opacity .35s ease,scale .55s var(--sect-ease);
+}
+.peek.is-on{opacity:1;scale:1}
+.peek img{width:100%;height:100%;object-fit:cover;object-position:top center}
+
+/* ============================================================
+   CASE STUDIES
+   ============================================================ */
+.case{border-top:1px solid var(--hair);padding-bottom:var(--s120)}
 .case__head{margin-bottom:var(--s60)}
 .case__eyebrow{
   display:flex;align-items:baseline;gap:var(--s18);flex-wrap:wrap;
@@ -62,15 +256,118 @@
 }
 .case__live i{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 2.4s ease-in-out infinite}
 
-.case__body{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:var(--s96)}
+/* ---------------- The opener ----------------
+   The wrapper's extra height is the scroll distance; the pin holds
+   the head and the stage on screen while it passes. --e (eased, 0→1)
+   opens the card; --p (raw) times the facts. */
+.open{position:relative;height:220vh;--e:0;--p:0;--tilt:-5deg}
+.open__pin{
+  position:sticky;top:0;height:100vh;
+  display:flex;flex-direction:column;
+  padding-top:calc(var(--nav-h) + clamp(14px,3vh,36px));
+  padding-bottom:clamp(26px,4.5vh,52px);
+}
+.open .case__head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:var(--s30);
+  margin-bottom:clamp(14px,2.6vh,30px);
+}
+/* a pinned screen has a fixed height to share, so the name answers to
+   it as well as to the width */
+.open .case__name{font-size:min(clamp(34px,5.8vw,var(--t-lg)),8.2vh)}
 
-/* narrative column */
-.beat{margin-bottom:var(--s60)}
+/* the outlined numeral rises into place as the card opens */
+.open__num{
+  flex:none;font-size:min(clamp(84px,12vw,184px),19vh);line-height:.78;
+  font-weight:var(--fw-xl);letter-spacing:-.07em;
+  color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.2);
+  transform:translate3d(0,calc((1 - var(--e)) * 40px),0);
+  opacity:calc(.25 + var(--e) * .75);
+}
+
+.open__stage{
+  position:relative;flex:1;min-height:0;
+  display:flex;justify-content:center;align-items:flex-start;
+  container-type:size;
+}
+.open__frame{
+  position:relative;
+  width:100%;width:min(100cqw,calc(100cqh * 1.6));aspect-ratio:16/10;
+  transform-origin:50% 0;
+  transform:
+    translate3d(0,calc((1 - var(--e)) * 6cqh),0)
+    rotate(calc((1 - var(--e)) * var(--tilt)))
+    scale(calc(.4 + var(--e) * .6));
+  will-change:transform;
+}
+.open__frame .frame{height:100%;box-shadow:0 60px 120px -50px rgba(0,0,0,.95)}
+.open__frame .frame__inner{aspect-ratio:auto;height:100%}
+/* the camera pulls back inside the frame while the frame opens */
+.open__frame .frame__shot img{transform:scale(calc(1.22 - var(--e) * .22))}
+
+/* facts pin themselves to the site once it has landed. --k is each
+   fact's own 0→1, from the shared --p and the fact's --t. */
+.open__facts{position:absolute;inset:0;pointer-events:none}
+.fact{
+  --k:clamp(0,calc((var(--p) - var(--t)) * 7),1);
+  position:absolute;z-index:2;
+  display:flex;align-items:center;gap:12px;
+  padding:12px 20px 12px 16px;border-radius:var(--r-full);
+  background:rgba(8,8,11,.82);border:1px solid rgba(255,255,255,.14);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  box-shadow:0 24px 50px -22px rgba(0,0,0,.95);
+  opacity:var(--k);
+  transform:translate3d(0,calc((1 - var(--k)) * 24px),0) scale(calc(.88 + var(--k) * .12));
+}
+.fact b{font-size:clamp(18px,1.7vw,24px);font-weight:var(--fw-r);letter-spacing:-.035em;color:#fff;line-height:1}
+.fact span{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mist);max-width:27ch;line-height:1.45}
+.fact--a{left:-22px;top:20%}
+.fact--b{right:-22px;top:46%}
+.fact--c{left:9%;bottom:-20px}
+.fact--b b{color:var(--spark)}
+
+/* a flipped case tilts the other way, so no two cases in a row open alike */
+.case--flip .open{--tilt:5deg}
+
+/* ---------------- Body ---------------- */
+.case__body{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:var(--s96)}
+/* the demo swaps sides on alternate cases */
+.case--flip .case__body{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr)}
+.case--flip .case__demoCol{order:-1}
+
+/* The story rail. A hairline down the narrative that fills as you read
+   (--p from the track engine), with each beat's marker lighting as the
+   fill reaches it. */
+.story{position:relative;padding-left:var(--s60)}
+.story::before,.story::after{
+  content:"";position:absolute;left:10px;top:7px;bottom:0;width:1px;
+}
+.story::before{background:var(--hair-2)}
+.story::after{
+  background:linear-gradient(180deg,var(--iris),var(--spark));
+  transform:scaleY(var(--p,0));transform-origin:top;
+}
+
+.beat{position:relative;margin-bottom:var(--s60)}
 .beat:last-child{margin-bottom:0}
+.beat::before{
+  content:"";position:absolute;top:1px;left:calc(var(--s60) * -1 + 4px);
+  width:13px;height:13px;border-radius:50%;
+  background:var(--void);border:1px solid rgba(255,255,255,.22);
+  transition:background .5s var(--sect-ease),border-color .5s ease,box-shadow .6s var(--sect-ease);
+}
+.beat.is-lit::before{
+  background:var(--iris);border-color:var(--iris);
+  box-shadow:0 0 0 5px rgba(128,82,255,.16),0 0 22px rgba(128,82,255,.75);
+}
 .beat__k{
-  display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  display:flex;align-items:baseline;gap:12px;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--spark);margin-bottom:var(--s18);
   padding-bottom:var(--s12);border-bottom:1px solid var(--hair);
+}
+.beat__k b{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-weight:var(--fw-r);letter-spacing:.06em;color:var(--ash);
 }
 .beat__k--muted{color:var(--ash)}
 .beat p{font-size:16px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.65}
@@ -89,6 +386,48 @@
 
 /* demo column — sticks while the narrative scrolls past it */
 .case__demoCol{position:sticky;top:calc(var(--nav-h) + var(--s30));align-self:start}
+
+/* the panel powers on as it arrives: rises, settles, and its top edge lights */
+.case__demoCol .demo.rv{transform:translate3d(0,46px,0) scale(.965)}
+.case__demoCol .demo.rv.is-in{transform:none}
+.demo__inner{position:relative}
+.demo__inner::before{
+  content:"";position:absolute;top:0;left:12%;right:12%;height:1px;z-index:2;
+  background:linear-gradient(90deg,transparent,rgba(168,132,255,.85),transparent);
+  transform:scaleX(0);transition:transform 1.4s var(--sect-ease) .35s;
+}
+.demo.is-in .demo__inner::before{transform:scaleX(1)}
+.demo__bar{flex-wrap:wrap}
+
+/* "this is a working thing" — said once, then gone after the first touch */
+.demo__hint{
+  margin-left:auto;display:inline-flex;align-items:center;gap:9px;
+  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);
+  transition:opacity .45s ease,transform .45s var(--sect-ease);
+}
+.demo__hint i{position:relative;width:7px;height:7px;border-radius:50%;background:var(--spark);flex:none}
+.demo__hint i::after{
+  content:"";position:absolute;inset:-4px;border-radius:50%;
+  border:1px solid var(--spark);animation:ping 2.2s ease-out infinite;
+}
+.demo.is-used .demo__hint{opacity:0;transform:translateX(8px)}
+
+/* an output that just changed says so */
+.is-bump{animation:bump .42s var(--sect-ease)}
+@keyframes bump{from{opacity:.3;transform:translate3d(0,6px,0)}to{opacity:1;transform:none}}
+
+/* ---------------- Rolling button label ----------------
+   The label is drawn twice — the copy is a text-shadow one line down —
+   and the pair slides up on hover, so the button answers the pointer
+   without changing what it says. */
+.roll{display:inline-block;overflow:hidden;height:1.3em;line-height:1.3;vertical-align:middle}
+.roll > span{
+  display:block;text-shadow:0 1.3em 0 currentColor;
+  transition:transform .55s var(--sect-ease);
+}
+@media (hover:hover){
+  .btn:hover .roll > span{transform:translate3d(0,-1.3em,0)}
+}
 
 /* ---------------- Demo 01: the WhatsApp message preview ---------------- */
 .preview{
@@ -151,28 +490,101 @@ input[type=range].slider::-moz-range-thumb{
 .lane.is-swap{animation:laneIn .45s var(--ease)}
 @keyframes laneIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-/* ---------------- In the studio ----------------
-   Ongoing work, stated as states rather than as a count — the page
-   should never read as a finished list. Reuses the .case shell. */
-.studio{display:flex;flex-direction:column;gap:var(--s36);max-width:860px}
-.studio__list{
-  list-style:none;display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:1px;background:var(--hair);
-  border:1px solid var(--hair);border-radius:14px;overflow:hidden;
+/* ============================================================
+   IN THE STUDIO — the bench
+   Ongoing work, stated as states rather than as a count, so the page
+   never reads as a finished list. Each state is drawn as it looks
+   from our side of the desk.
+   ============================================================ */
+.case--studio{padding-top:var(--s120)}
+.studio__top{
+  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  gap:var(--s60);align-items:end;margin-bottom:var(--s60);
 }
-.studio__list li{
-  background:var(--void);padding:var(--s24);
-  display:flex;flex-direction:column;gap:9px;
+.studio__top .case__head{margin-bottom:0}
+.studio__top .case__name{margin-bottom:0}
+
+.bench{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s18)}
+.bench__card{
+  display:flex;flex-direction:column;gap:var(--s12);
+  padding:var(--s18) var(--s18) var(--s24);
+  border:1px solid var(--hair);border-radius:var(--r-3xl);
+  background:rgba(255,255,255,.022);
 }
-.studio__list b{
-  font-size:11px;font-weight:var(--fw-sb);letter-spacing:.14em;
-  text-transform:uppercase;color:var(--iris);
+.bench__vis{
+  position:relative;overflow:hidden;height:150px;margin-bottom:var(--s12);
+  display:flex;flex-direction:column;justify-content:center;gap:12px;
+  padding:var(--s18) var(--s24);border-radius:16px;
+  background:#070708;border:1px solid var(--hair);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
-.studio__list span{font-size:14.5px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6}
+.bench__k{
+  display:flex;align-items:center;gap:9px;padding-inline:6px;
+  font-size:11px;font-weight:var(--fw-sb);letter-spacing:.14em;text-transform:uppercase;
+}
+.bench__k i{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 2.4s ease-in-out infinite}
+.bench__card p{padding-inline:6px;font-size:14.5px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6}
+
+/* in build: a file filling up */
+.bench__card--build .bench__k{color:var(--spark)}
+.bench__file{font-size:11px;color:var(--ash)}
+.bench__bar{height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.bench__bar i{
+  display:block;height:100%;border-radius:inherit;
+  background:linear-gradient(90deg,var(--iris),var(--spark));
+  transform-origin:left;animation:benchBuild 6s cubic-bezier(.5,0,.2,1) infinite;
+}
+@keyframes benchBuild{0%{transform:scaleX(.06)}72%,100%{transform:scaleX(.84)}}
+.bench__lines{display:flex;flex-direction:column;gap:8px}
+.bench__lines i{display:block;height:5px;width:var(--w);border-radius:99px;background:rgba(255,255,255,.08)}
+
+/* in prototype: the cursor is still blinking */
+.bench__card--proto .bench__k{color:var(--iris)}
+.bench__box{
+  display:flex;align-items:center;padding:16px 18px;border-radius:10px;
+  border:1px dashed rgba(128,82,255,.5);background:rgba(128,82,255,.05);
+  font-size:13px;color:#c9a5ff;
+}
+.bench__box em{font-style:normal}
+.bench__caret{width:8px;height:1.15em;margin-left:3px;background:var(--iris);animation:caret 1s steps(1) infinite}
+
+/* under wraps: the names are blacked out */
+.bench__card--wraps .bench__k{color:var(--ash)}
+.bench__redact{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#5c5c66}
+.bench__redact em{font-style:normal;width:52px;flex:none}
+.bench__redact i{
+  position:relative;overflow:hidden;display:block;height:13px;width:var(--w);
+  border-radius:3px;background:#1b1b20;
+}
+.bench__redact i::after{
+  content:"";position:absolute;inset:0;transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);
+  animation:redact 3.6s ease-in-out infinite;
+}
+.bench__redact + .bench__redact i::after{animation-delay:.4s}
+@keyframes redact{60%,100%{transform:translateX(100%)}}
+.bench__stamp{
+  position:absolute;right:18px;bottom:16px;rotate:-9deg;
+  padding:4px 10px;border-radius:4px;border:1px solid rgba(255,184,41,.55);
+  font-size:11px;font-weight:var(--fw-sb);letter-spacing:.22em;color:var(--spark);
+}
+
+.studio__foot{
+  display:flex;align-items:center;justify-content:space-between;gap:var(--s30);flex-wrap:wrap;
+  margin-top:var(--s60);padding-top:var(--s30);border-top:1px solid var(--hair);
+}
+.studio__foot .demo__cta{margin-top:0}
 .studio__ask{font-size:15px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.65;max-width:56ch}
 
-/* ---------------- Closing CTA picker (.close lives in components.css) ---------------- */
+/* ---------------- Closing CTA (.close lives in components.css) ----------------
+   The form used to stretch to the height of the copy beside it, and
+   its rows spread out to fill that height with dead space. It now
+   keeps its own height and rides along while the picker is read. */
+.close .secHead__title,
+.studio__top .case__name{font-size:clamp(34px,4.6vw,64px)}
+.close .form{align-self:start;align-content:start;position:sticky;top:calc(var(--nav-h) + var(--s30))}
+
+/* ---------------- Closing CTA picker ---------------- */
 .picker{margin-top:var(--s36)}
 .picker__q{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);display:block;margin-bottom:var(--s18)}
 .picker__out{
@@ -181,23 +593,150 @@ input[type=range].slider::-moz-range-thumb{
   font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;
 }
 .picker__out b{color:#fff;font-weight:var(--fw-sb)}
+/* arriving from a case study's button: the picked chip flashes once */
+.picker .chip.is-flash{animation:chipFlash 1.1s var(--sect-ease)}
+@keyframes chipFlash{0%,40%{box-shadow:0 0 0 6px rgba(128,82,255,.35)}100%{box-shadow:0 0 0 0 rgba(128,82,255,0)}}
 
-/* ---------------- Responsive ---------------- */
+/* ============================================================
+   Responsive
+   ============================================================ */
+/* ---------------- Large desktop ----------------
+   The shell widens in responsive.css; these let the type inside it
+   follow, so a 2560 screen doesn't get 1280-sized words in a wider box. */
+@media (min-width:1600px){
+  .phero--split .display{font-size:min(clamp(42px,6.4vw,120px),11.4vh)}
+  .range li{font-size:12px}
+  .idx__name{font-size:clamp(24px,3.1vw,58px)}
+  .idx__what,.inside li,.studio__ask{font-size:16px}
+  .idx__head .caption{font-size:13px}
+  .beat p{font-size:17px}
+  .lane__list li,.bench__card p{font-size:15.5px}
+  .fact span{font-size:11.5px}
+}
+@media (min-width:1920px){
+  .beat p{font-size:18px}
+  .preview{font-size:14px}
+}
+
+/* ---------------- Short laptops ----------------
+   1366×768 leaves ~625px of viewport. The display and lede give a little
+   back to the height, and the lede runs wider so it takes fewer lines,
+   which puts the stats row back on the first screen. */
+@media (min-width:901px) and (max-height:760px){
+  .phero--split .display{font-size:min(clamp(42px,6.4vw,104px),10vh)}
+  .phero--split .lede{max-width:60ch}
+  .range{gap:8px clamp(22px,2.6vw,40px);margin-bottom:14px}
+  .phero--split .hud{margin-top:clamp(14px,2.6vh,24px)}
+}
+
+/* The collage spills a quarter of its width past each side by design;
+   on a wide screen the gutter absorbs that, but at 900–1180 the outer
+   cards were cut off by the edge of the screen. */
+@media (min-width:901px) and (max-width:1180px){
+  .fan{width:82%;justify-self:center}
+}
+
 @media (max-width:1024px){
-  .jump{grid-template-columns:1fr;margin-top:var(--s60)}
-  .jump__item{border-right:0;border-bottom:1px solid var(--hair);padding-right:0}
-  .jump__item:last-child{border-bottom:0}
-  .case__body{grid-template-columns:1fr;gap:var(--s60)}
+  .idx__row{
+    grid-template-columns:44px minmax(0,1fr) 44px;
+    grid-template-areas:"n name go" ". sector go" ". what go";
+    row-gap:8px;
+  }
+  .idx__n{grid-area:n}
+  .idx__name{grid-area:name}
+  .idx__sector{grid-area:sector}
+  .idx__what{grid-area:what}
+  .idx__go{grid-area:go}
+
+  .case__body,
+  .case--flip .case__body{grid-template-columns:1fr;gap:var(--s60)}
+  .case--flip .case__demoCol{order:0}
   .case__demoCol{position:static}
+  /* one column means the story owns the full width — at 1000px that was
+     ~130 characters a line. Capped at a readable measure instead. */
+  .story{max-width:780px}
+
+  .studio__top{grid-template-columns:1fr;gap:var(--s24)}
+  .close .form{position:static}
+  .bench{grid-template-columns:1fr 1fr}
+  .bench__card:last-child{grid-column:1 / -1}
+}
+
+/* below the two-column breakpoint the opener stops pinning: the site
+   is shown open, and the facts become a row beneath it */
+@media (max-width:900px){
+  /* The hero holds two columns down to here, not 1024: stacked at
+     901–1024 it left the right half of a landscape tablet empty and
+     pushed the deck of sites below the fold. */
+  .phero__grid{grid-template-columns:1fr;gap:var(--s36)}
+  .phero--split .display{max-width:none}
+  .fan{max-width:600px;width:100%;margin-inline:auto;margin-bottom:var(--s24)}
+
+  .open{height:auto;margin-bottom:var(--s60)}
+  .open__pin{position:static;height:auto;padding:var(--s96) 0 0}
+  .open .case__head{margin-bottom:var(--s30)}
+  .open__num{font-size:clamp(64px,16vw,110px)}
+  .open__stage{display:block;container-type:normal}
+  .open__frame{width:100%;aspect-ratio:auto;transform:none}
+  .open__frame .frame__inner{aspect-ratio:16/11}
+  .open__frame .frame__shot img{transform:none}
+  .open__facts{position:static;display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--s18)}
+  .fact{position:static;opacity:1;transform:none;padding:10px 16px 10px 14px}
+}
+
+@media (max-width:760px){
+  .case{padding-bottom:var(--s96)}
+  .open__pin{padding-top:var(--s60)}
+  .beat{margin-bottom:var(--s36)}
+  .story{padding-left:var(--s36)}
+  .beat::before{left:calc(var(--s36) * -1 + 4px)}
+  .case__meta{gap:var(--s12)}
+  .idx__what{display:none}
+  .bench{grid-template-columns:1fr}
+  .studio__foot{flex-direction:column;align-items:flex-start}
 }
 @media (max-width:760px){
-  .case{padding-block:var(--s96)}
-  .beat{margin-bottom:var(--s36)}
-  .case__meta{gap:var(--s12)}
+  .phero--split .display{font-size:clamp(40px,12vw,64px)}
+  .pstrip{grid-template-columns:1fr}
+  .pstrip__label{padding:var(--s18) var(--wrap-pad) 0}
+  .pstrip__label::after{height:1px;flex:1;width:auto}
 }
 @media (max-width:480px){
   .switch{grid-template-columns:1fr}
+  .demo__hint{margin-left:0;width:100%}
+  .fact span{max-width:none}
 }
+
+/* ============================================================
+   Reduced motion — everything lands, nothing travels.
+   ============================================================ */
 @media (prefers-reduced-motion:reduce){
-  .lane.is-swap{animation:none}
+  /* a pin with nothing moving inside it is just two screens of dead
+     scroll — take the phone layout instead */
+  .open{height:auto;margin-bottom:var(--s60)}
+  .open__pin{position:static;height:auto;padding:var(--s96) 0 0}
+  .open__stage{display:block;container-type:normal}
+  .open__frame{width:100%;aspect-ratio:auto;transform:none}
+  .open__frame .frame__inner{aspect-ratio:16/11}
+  .open__frame .frame__shot img{transform:none}
+  .open__facts{position:static;display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--s18)}
+  .fact{position:static;opacity:1;transform:none}
+  .fan{opacity:1}
+  .range li{opacity:1;transform:none;transition:none}
+  .pstrip .ticker__track{animation:none}
+  .fan__card{animation:none;translate:var(--x) var(--y)}
+  .fan__cap{animation:none}
+  .case__demoCol .demo.rv{transform:none}
+  .lane.is-swap,.is-bump,.picker .chip.is-flash{animation:none}
+  .demo__hint i::after,.bench__bar i,.bench__caret,.bench__redact i::after{animation:none}
+  .bench__bar i{transform:scaleX(.84)}
+}
+@media (scripting: none){
+  .open{height:auto}
+  .open__pin{position:static;height:auto}
+  .open__stage{display:block;container-type:normal}
+  .open__frame{width:100%;aspect-ratio:auto;transform:none}
+  .open__frame .frame__inner{aspect-ratio:16/11}
+  .open__facts{position:static;display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--s18)}
+  .fact{position:static;opacity:1;transform:none}
 }

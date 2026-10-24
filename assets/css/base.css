@@ -39,7 +39,10 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
 }
 
 .wrap{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:var(--wrap-pad)}
-.section{padding-block:var(--s120)}
+/* clip, not hidden: anything scroll-animated in from the side (the bento
+   scatter) must not widen the page on a touch screen, and clip — unlike
+   hidden — creates no scroll container, so position:sticky still pins */
+.section{padding-block:var(--s120);overflow-x:clip}
 
 /* ---------------- Typography roles ---------------- */
 .eyebrow{

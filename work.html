@@ -6,14 +6,14 @@
 <meta name="theme-color" content="#000000">
 
 <title>Work &mdash; Aivoryx | Live builds you can actually try</title>
-<meta name="description" content="Live client builds from Aivoryx, each with its signature mechanism rebuilt on the page so you can use it: a lead qualifier, a solar savings calculator and a dual-audience split. More in build now.">
+<meta name="description" content="Live client builds from Aivoryx, each with its signature mechanism rebuilt on the page so you can use it: a lead qualifier, a solar savings calculator, a dual-audience split and a priced test booking.">
 <link rel="canonical" href="https://aivoryx.com/work.html">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://aivoryx.com/work.html">
 <meta property="og:site_name" content="Aivoryx">
 <meta property="og:title" content="Work &mdash; Aivoryx | Live builds you can actually try">
-<meta property="og:description" content="Anyone can show you a screenshot. Each project on this page ships with its real mechanism, rebuilt so you can use it before you talk to us.">
+<meta property="og:description" content="Don't just look at our work. Use it. Business sites, stores, booking systems and web apps, each with its one key job rebuilt on the page so you can try it.">
 <meta property="og:image" content="https://aivoryx.com/assets/img/og-cover.png">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -25,13 +25,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/tokens.css">
-<link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/sections.css">
-<link rel="stylesheet" href="assets/css/work.css">
-<link rel="stylesheet" href="assets/css/responsive.css">
-<link rel="stylesheet" href="assets/css/motion.css">
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261024">
+<link rel="stylesheet" href="assets/css/base.css?v=20261024">
+<link rel="stylesheet" href="assets/css/components.css?v=20261024">
+<link rel="stylesheet" href="assets/css/sections.css?v=20261024">
+<link rel="stylesheet" href="assets/css/work.css?v=20261024b">
+<link rel="stylesheet" href="assets/css/responsive.css?v=20261024">
+<link rel="stylesheet" href="assets/css/motion.css?v=20261024">
 
 <script type="application/ld+json">
 {
@@ -43,7 +43,8 @@
   "hasPart":[
     {"@type":"CreativeWork","name":"MarketIQ Infotech","url":"https://dmarketiq.com","about":"Digital marketing agency website with lead qualification"},
     {"@type":"CreativeWork","name":"Clans Machina","url":"https://clansmachina.com","about":"Rooftop solar website with a savings calculator"},
-    {"@type":"CreativeWork","name":"Odisha Workforce Solutions","url":"https://odishaworkforce.com","about":"Staffing website serving employers and job seekers separately"}
+    {"@type":"CreativeWork","name":"Odisha Workforce Solutions","url":"https://odishaworkforce.com","about":"Staffing website serving employers and job seekers separately"},
+    {"@type":"CreativeWork","name":"Kamini Clinic & Labs","url":"https://kaminilabs.in","about":"Diagnostic clinic website with public test prices and two-step booking"}
   ]
 }
 </script>
@@ -91,73 +92,233 @@
 <main id="top">
 
 <!-- ============================ PAGE HERO ============================ -->
-<section class="phero" id="pheroSec">
-  <div class="hero__glow phero__glow" aria-hidden="true"></div>
-  <div class="wrap">
-    <div id="pheroCopy" data-hero-copy>
-      <p class="eyebrow fade" style="--d:.05s">Case studies &mdash; live builds you can try</p>
+<section class="phero phero--split" id="pheroSec">
 
+  <!-- the homepage's atmosphere, so the two pages read as one site -->
+  <div class="hero__atmos" aria-hidden="true">
+    <span class="hero__mesh"></span>
+    <span class="hero__grain"></span>
+  </div>
+
+  <div class="wrap phero__grid">
+    <div class="phero__copy" id="pheroCopy" data-hero-copy>
       <h1 class="display">
-        <span class="line"><span style="--d:.18s">Anyone can show</span></span>
-        <span class="line"><span style="--d:.30s">you a screenshot.</span></span>
-        <span class="line"><span style="--d:.42s">Try these instead.</span></span>
+        <span class="line"><span style="--d:.10s">Don't just look</span></span>
+        <span class="line"><span style="--d:.22s">at our work.</span></span>
+        <span class="line"><span style="--d:.34s"><em class="grad">Use it.</em></span></span>
       </h1>
 
-      <p class="lede fade" style="--d:.58s">
-        Every project below is live and earning its keep today. And every one of them
-        was worth building because of <span class="amber">one mechanism</span> &mdash; the
-        thing the site had to <em>do</em>. We've rebuilt that mechanism right here on
-        this page. Use it, then go see it running on the real site.
+      <!-- The range, set like the HUD below it: quiet, mono, read at a
+           glance. Each item lands a beat after the last. -->
+      <ul class="range" aria-label="What we build">
+        <li style="--d:.46s">Websites</li>
+        <li style="--d:.52s">Online stores</li>
+        <li style="--d:.58s">Web apps</li>
+        <li style="--d:.64s">Booking systems</li>
+        <li style="--d:.70s">Mobile apps</li>
+        <li style="--d:.76s">AI automation</li>
+      </ul>
+
+      <p class="lede fade" style="--d:.56s">
+        From a five-page business site to an online store, a booking system or a full web
+        app, everything we make is hand-coded around <span class="amber">the one&nbsp;job</span>
+        it has to do. Below are live client builds with that job rebuilt on the page, so
+        you can try it here, then see it working on the real site.
       </p>
 
-      <div class="hero__meta fade" style="--d:.70s;margin-top:var(--s36)">
-        <span><b>Live</b>Client sites you can open</span>
-        <span><b>In build</b>More work on the bench now</span>
-        <span><b>None</b>Page builders involved</span>
+      <div class="hero__actions fade" style="--d:.70s">
+        <a class="btn" href="#marketiq" data-scroll data-magnetic>
+          <span class="btn__dot"></span><span class="roll"><span>Try the first build</span></span>
+        </a>
+        <a class="ghost" href="#talk" data-scroll>Tell us what yours must do <i>&rarr;</i></a>
       </div>
+
+      <dl class="hud fade" style="--d:.82s">
+        <div class="hud__cell">
+          <dt>Hand-coded</dt>
+          <dd>100<span>%</span></dd>
+        </div>
+        <div class="hud__cell">
+          <dt>Build time</dt>
+          <dd>2&ndash;3 <span>weeks</span></dd>
+        </div>
+        <div class="hud__cell">
+          <dt>Page builders</dt>
+          <dd>0</dd>
+        </div>
+      </dl>
     </div>
 
-    <div class="jump rv">
-      <a class="jump__item" href="#marketiq" data-scroll>
-        <span class="jump__n">Digital marketing</span>
-        <h2 class="jump__t">MarketIQ Infotech</h2>
-        <p class="jump__s">A form that answers the sales team's questions first</p>
+    <!-- The deck. Real screenshots laid out as a loose collage so every
+         site reads at rest, dealt in on load, leaning toward the
+         pointer, and spreading apart as the hero scrolls away. Each
+         card is a link to its own case study. -->
+    <div class="fan" id="fan">
+      <a class="fan__card" href="#marketiq" data-scroll style="--i:0;--x:-41%;--y:-52%;--r:-4deg;--z:1">
+        <span class="fan__bar"><i></i><i></i><i></i><em>dmarketiq.com</em></span>
+        <img src="assets/img/work/marketiq-800.webp" width="800" height="550" decoding="async"
+             alt="MarketIQ Infotech site &mdash; open the case study">
       </a>
-      <a class="jump__item" href="#clans" data-scroll>
-        <span class="jump__n">Rooftop solar</span>
-        <h2 class="jump__t">Clans Machina</h2>
-        <p class="jump__s">A calculator that turns a bill into a decision</p>
+      <a class="fan__card" href="#clans" data-scroll style="--i:1;--x:41%;--y:-58%;--r:3deg;--z:2">
+        <span class="fan__bar"><i></i><i></i><i></i><em>clansmachina.com</em></span>
+        <img src="assets/img/work/clansmachina-800.webp" width="800" height="550" decoding="async"
+             alt="Clans Machina site &mdash; open the case study">
       </a>
-      <a class="jump__item" href="#workforce" data-scroll>
-        <span class="jump__n">Staffing</span>
-        <h2 class="jump__t">Odisha Workforce</h2>
-        <p class="jump__s">One site, two audiences, two inboxes</p>
+      <a class="fan__card" href="#workforce" data-scroll style="--i:2;--x:-37%;--y:46%;--r:2.5deg;--z:3">
+        <span class="fan__bar"><i></i><i></i><i></i><em>odishaworkforce.com</em></span>
+        <img src="assets/img/work/odishaworkforce-800.webp" width="800" height="550" decoding="async"
+             alt="Odisha Workforce Solutions site &mdash; open the case study">
       </a>
-      <a class="jump__item jump__item--wip" href="#studio" data-scroll>
-        <span class="jump__n">In the studio</span>
-        <h2 class="jump__t">Currently in build</h2>
-        <p class="jump__s">What's on the bench and not public yet</p>
+      <a class="fan__card" href="#kamini" data-scroll style="--i:3;--x:45%;--y:40%;--r:-3deg;--z:4">
+        <span class="fan__bar"><i></i><i></i><i></i><em>kaminilabs.in</em></span>
+        <img src="assets/img/work/kaminilabs-800.webp" width="800" height="550" decoding="async"
+             alt="Kamini Clinic &amp; Labs site &mdash; open the case study">
       </a>
+      <p class="fan__cap" aria-hidden="true"><span>Pick a site</span> to jump to its build</p>
     </div>
   </div>
+
+  <!-- The foot of the hero: who all of this is for. Two identical rows
+       make the loop seamless; the list is read once from the sr-only copy. -->
+  <div class="pstrip">
+    <p class="pstrip__label">Built for</p>
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        <div class="ticker__row">
+          <span class="ticker__item">Clinics &amp; labs</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Solar installers</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Marketing agencies</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Staffing firms</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Cafés &amp; restaurants</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Coaching institutes</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Real estate builders</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Gyms &amp; studios</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Boutiques &amp; D2C brands</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Manufacturing &amp; B2B</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Early-stage startups</span><i class="ticker__sep"></i>
+        </div>
+        <div class="ticker__row">
+          <span class="ticker__item">Clinics &amp; labs</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Solar installers</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Marketing agencies</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Staffing firms</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Cafés &amp; restaurants</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Coaching institutes</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Real estate builders</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Gyms &amp; studios</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Boutiques &amp; D2C brands</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Manufacturing &amp; B2B</span><i class="ticker__sep"></i>
+          <span class="ticker__item">Early-stage startups</span><i class="ticker__sep"></i>
+        </div>
+      </div>
+    </div>
+    <p class="sr-only">Built for clinics and labs, solar installers, marketing agencies, staffing firms, cafés and restaurants, coaching institutes, real estate builders, gyms and studios, boutiques and D2C brands, manufacturing and B2B, and early-stage startups.</p>
+  </div>
+</section>
+
+<!-- ============================ THE INDEX ============================ -->
+<!-- A table of contents set like an editorial index. Rows resolve as
+     they're scrolled through; on a pointer, the site itself follows
+     the cursor so the name and the work arrive together. -->
+<section class="idx" aria-labelledby="idxLabel">
+  <div class="wrap">
+    <div class="idx__head rv">
+      <p class="eyebrow eyebrow--muted" id="idxLabel">The index</p>
+      <p class="caption">A few of the builds we can show in public, one mechanism each. Pick one to jump to it.</p>
+    </div>
+
+    <ol class="idx__list" data-seq>
+      <li><a class="idx__row" href="#marketiq" data-scroll data-peek="assets/img/work/marketiq-800.webp">
+        <span class="idx__n">01</span>
+        <span class="idx__name">MarketIQ Infotech</span>
+        <span class="idx__sector">Digital marketing</span>
+        <span class="idx__what">A form that answers the sales team's questions first</span>
+        <span class="idx__go" aria-hidden="true">&rarr;</span>
+      </a></li>
+      <li><a class="idx__row" href="#clans" data-scroll data-peek="assets/img/work/clansmachina-800.webp">
+        <span class="idx__n">02</span>
+        <span class="idx__name">Clans Machina</span>
+        <span class="idx__sector">Rooftop solar</span>
+        <span class="idx__what">A calculator that turns a bill into a decision</span>
+        <span class="idx__go" aria-hidden="true">&rarr;</span>
+      </a></li>
+      <li><a class="idx__row" href="#workforce" data-scroll data-peek="assets/img/work/odishaworkforce-800.webp">
+        <span class="idx__n">03</span>
+        <span class="idx__name">Odisha Workforce</span>
+        <span class="idx__sector">Staffing</span>
+        <span class="idx__what">One site, two audiences, two inboxes</span>
+        <span class="idx__go" aria-hidden="true">&rarr;</span>
+      </a></li>
+      <li><a class="idx__row" href="#kamini" data-scroll data-peek="assets/img/work/kaminilabs-800.webp">
+        <span class="idx__n">04</span>
+        <span class="idx__name">Kamini Clinic &amp; Labs</span>
+        <span class="idx__sector">Diagnostics</span>
+        <span class="idx__what">The price list, turned into the booking</span>
+        <span class="idx__go" aria-hidden="true">&rarr;</span>
+      </a></li>
+      <li><a class="idx__row idx__row--wip" href="#studio" data-scroll>
+        <span class="idx__n">05</span>
+        <span class="idx__name">Currently in build</span>
+        <span class="idx__sector">In the studio</span>
+        <span class="idx__what">What's on the bench and not public yet</span>
+        <span class="idx__go" aria-hidden="true">&rarr;</span>
+      </a></li>
+    </ol>
+  </div>
+
+  <div class="peek" id="peek" aria-hidden="true"><img alt="" decoding="async"></div>
 </section>
 
 <!-- ============================ 01 — MARKETIQ ============================ -->
 <section class="case" id="marketiq">
   <div class="wrap">
-    <div class="case__head rv">
-      <p class="case__eyebrow">Digital marketing <em>Bhubaneswar, Odisha</em></p>
-      <h2 class="h-lg case__name">MarketIQ Infotech</h2>
-      <div class="case__meta">
-        <a class="case__url" href="https://dmarketiq.com" target="_blank" rel="noopener">dmarketiq.com <span aria-hidden="true">&nearr;</span></a>
-        <span class="case__live"><i aria-hidden="true"></i> Live since launch</span>
+    <!-- The opener. The site arrives as a card and opens to full width
+         while the section is pinned; the facts pin themselves to it once
+         it has landed. motion.js publishes --p and --e, the CSS does the rest. -->
+    <div class="open" data-open>
+      <div class="open__pin">
+        <div class="case__head rv">
+          <div>
+            <p class="case__eyebrow">Digital marketing <em>Bhubaneswar, Odisha</em></p>
+            <h2 class="h-lg case__name"><span class="line"><span style="--d:.08s">MarketIQ Infotech</span></span></h2>
+            <div class="case__meta">
+              <a class="case__url" href="https://dmarketiq.com" target="_blank" rel="noopener">dmarketiq.com <span aria-hidden="true">&nearr;</span></a>
+              <span class="case__live"><i aria-hidden="true"></i> Live now</span>
+            </div>
+          </div>
+          <span class="open__num" aria-hidden="true">01</span>
+        </div>
+
+        <div class="open__stage">
+          <div class="open__frame">
+            <div class="frame"><div class="frame__inner">
+              <div class="frame__bar">
+                <i class="frame__dot"></i><i class="frame__dot"></i><i class="frame__dot"></i>
+                <span class="frame__url">dmarketiq.com</span>
+              </div>
+              <div class="frame__shot">
+                <img src="assets/img/work/marketiq.webp"
+                     srcset="assets/img/work/marketiq-800.webp 800w, assets/img/work/marketiq.webp 1280w"
+                     sizes="(max-width:900px) 92vw, 80vw"
+                     width="1280" height="880" loading="lazy" decoding="async"
+                     alt="The MarketIQ Infotech homepage as it runs on dmarketiq.com">
+              </div>
+            </div></div>
+
+            <ul class="open__facts">
+              <li class="fact fact--a" style="--t:.5"><b>7</b><span>pages, each with its own enquiry path</span></li>
+              <li class="fact fact--b" style="--t:.6"><b>2</b><span>questions asked on the form, not on the call</span></li>
+              <li class="fact fact--c" style="--t:.7"><b>WhatsApp</b><span>where every lead lands</span></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="case__body">
-      <div>
-        <div class="beat rv">
-          <span class="beat__k">The problem</span>
+      <div class="story" data-track data-seq>
+        <div class="beat" data-mark>
+          <span class="beat__k"><b>01</b>The problem</span>
           <p>
             A marketing agency gets plenty of enquiries. Most of them are worth nothing.
             Someone fills a contact form with <strong>"interested in your services"</strong>,
@@ -169,8 +330,8 @@
           </p>
         </div>
 
-        <div class="beat rv" style="--d:.08s">
-          <span class="beat__k">The call we made</span>
+        <div class="beat" data-mark>
+          <span class="beat__k"><b>02</b>The call we made</span>
           <p>
             Ask the two uncomfortable questions <strong>on the form</strong>, not on the call.
             Which service, and what monthly budget. Yes, it costs you some submissions.
@@ -183,8 +344,8 @@
           </p>
         </div>
 
-        <div class="beat rv" style="--d:.16s">
-          <span class="beat__k beat__k--muted">What's inside</span>
+        <div class="beat" data-mark>
+          <span class="beat__k beat__k--muted"><b>03</b>What we shipped</span>
           <ul class="inside">
             <li>Seven pages &mdash; home, services, courses, careers, about, contact, blog</li>
             <li>Qualifying enquiry form: service + monthly budget captured up front</li>
@@ -202,6 +363,7 @@
             <div class="demo__bar">
               <span class="demo__tag">Try it</span>
               <span class="demo__title">The qualifying form, rebuilt</span>
+              <span class="demo__hint"><i aria-hidden="true"></i>Tap a service</span>
             </div>
 
             <div class="demo__pad">
@@ -237,7 +399,9 @@
         </div>
 
         <div class="demo__cta rv" style="--d:.18s">
-          <a class="btn" href="#talk" data-scroll data-magnetic><span class="btn__dot"></span><span>Build me one of these</span></a>
+          <a class="btn" href="#talk" data-scroll data-magnetic data-pick="Lead qualification">
+            <span class="btn__dot"></span><span class="roll"><span>Build me a form like this</span></span>
+          </a>
           <a class="ghost" href="https://dmarketiq.com" target="_blank" rel="noopener">See it live <i>&rarr;</i></a>
         </div>
       </div>
@@ -246,21 +410,52 @@
 </section>
 
 <!-- ============================ 02 — CLANS MACHINA ============================ -->
-<section class="case" id="clans">
+<section class="case case--flip" id="clans">
   <div class="wrap">
-    <div class="case__head rv">
-      <p class="case__eyebrow">Rooftop solar <em>Odisha &amp; nationwide</em></p>
-      <h2 class="h-lg case__name">Clans Machina</h2>
-      <div class="case__meta">
-        <a class="case__url" href="https://clansmachina.com" target="_blank" rel="noopener">clansmachina.com <span aria-hidden="true">&nearr;</span></a>
-        <span class="case__live"><i aria-hidden="true"></i> Live since launch</span>
+    <div class="open" data-open>
+      <div class="open__pin">
+        <div class="case__head rv">
+          <div>
+            <p class="case__eyebrow">Rooftop solar <em>Odisha &amp; nationwide</em></p>
+            <h2 class="h-lg case__name"><span class="line"><span style="--d:.08s">Clans Machina</span></span></h2>
+            <div class="case__meta">
+              <a class="case__url" href="https://clansmachina.com" target="_blank" rel="noopener">clansmachina.com <span aria-hidden="true">&nearr;</span></a>
+              <span class="case__live"><i aria-hidden="true"></i> Live now</span>
+            </div>
+          </div>
+          <span class="open__num" aria-hidden="true">02</span>
+        </div>
+
+        <div class="open__stage">
+          <div class="open__frame">
+            <div class="frame"><div class="frame__inner">
+              <div class="frame__bar">
+                <i class="frame__dot"></i><i class="frame__dot"></i><i class="frame__dot"></i>
+                <span class="frame__url">clansmachina.com</span>
+              </div>
+              <div class="frame__shot">
+                <img src="assets/img/work/clansmachina.webp"
+                     srcset="assets/img/work/clansmachina-800.webp 800w, assets/img/work/clansmachina.webp 1280w"
+                     sizes="(max-width:900px) 92vw, 80vw"
+                     width="1280" height="880" loading="lazy" decoding="async"
+                     alt="The Clans Machina homepage as it runs on clansmachina.com">
+              </div>
+            </div></div>
+
+            <ul class="open__facts">
+              <li class="fact fact--a" style="--t:.5"><b>1</b><span>number in: your monthly bill</span></li>
+              <li class="fact fact--b" style="--t:.6"><b>4</b><span>answers back, before any form</span></li>
+              <li class="fact fact--c" style="--t:.7"><b>25 yrs</b><span>of savings modelled</span></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="case__body">
-      <div>
-        <div class="beat rv">
-          <span class="beat__k">The problem</span>
+      <div class="story" data-track data-seq>
+        <div class="beat" data-mark>
+          <span class="beat__k"><b>01</b>The problem</span>
           <p>
             Nobody buys solar because a website said solar is good. They buy it when
             they can see <strong>their own number</strong> &mdash; what it costs, how long
@@ -273,8 +468,8 @@
           </p>
         </div>
 
-        <div class="beat rv" style="--d:.08s">
-          <span class="beat__k">The call we made</span>
+        <div class="beat" data-mark>
+          <span class="beat__k"><b>02</b>The call we made</span>
           <p>
             Put the maths on the page. One number in &mdash; your monthly electricity
             bill &mdash; and the page returns system size, payback period, twenty-five year
@@ -287,8 +482,8 @@
           </p>
         </div>
 
-        <div class="beat rv" style="--d:.16s">
-          <span class="beat__k beat__k--muted">What's inside</span>
+        <div class="beat" data-mark>
+          <span class="beat__k beat__k--muted"><b>03</b>What we shipped</span>
           <ul class="inside">
             <li>Live savings calculator driven by a single bill slider</li>
             <li>Interactive district map showing installation coverage</li>
@@ -305,6 +500,7 @@
             <div class="demo__bar">
               <span class="demo__tag">Drag it</span>
               <span class="demo__title">The savings calculator, rebuilt</span>
+              <span class="demo__hint"><i aria-hidden="true"></i>Drag the slider</span>
             </div>
 
             <div class="demo__pad">
@@ -347,7 +543,9 @@
         </div>
 
         <div class="demo__cta rv" style="--d:.18s">
-          <a class="btn" href="#talk" data-scroll data-magnetic><span class="btn__dot"></span><span>Build me one of these</span></a>
+          <a class="btn" href="#talk" data-scroll data-magnetic data-pick="An interactive tool">
+            <span class="btn__dot"></span><span class="roll"><span>Build me a calculator like this</span></span>
+          </a>
           <a class="ghost" href="https://clansmachina.com" target="_blank" rel="noopener">See it live <i>&rarr;</i></a>
         </div>
       </div>
@@ -358,19 +556,50 @@
 <!-- ============================ 03 — ODISHA WORKFORCE ============================ -->
 <section class="case" id="workforce">
   <div class="wrap">
-    <div class="case__head rv">
-      <p class="case__eyebrow">Staffing &amp; workforce <em>Bhubaneswar, Odisha</em></p>
-      <h2 class="h-lg case__name">Odisha Workforce Solutions</h2>
-      <div class="case__meta">
-        <a class="case__url" href="https://odishaworkforce.com" target="_blank" rel="noopener">odishaworkforce.com <span aria-hidden="true">&nearr;</span></a>
-        <span class="case__live"><i aria-hidden="true"></i> Live since launch</span>
+    <div class="open" data-open>
+      <div class="open__pin">
+        <div class="case__head rv">
+          <div>
+            <p class="case__eyebrow">Staffing &amp; workforce <em>Bhubaneswar, Odisha</em></p>
+            <h2 class="h-lg case__name"><span class="line"><span style="--d:.08s">Odisha Workforce Solutions</span></span></h2>
+            <div class="case__meta">
+              <a class="case__url" href="https://odishaworkforce.com" target="_blank" rel="noopener">odishaworkforce.com <span aria-hidden="true">&nearr;</span></a>
+              <span class="case__live"><i aria-hidden="true"></i> Live now</span>
+            </div>
+          </div>
+          <span class="open__num" aria-hidden="true">03</span>
+        </div>
+
+        <div class="open__stage">
+          <div class="open__frame">
+            <div class="frame"><div class="frame__inner">
+              <div class="frame__bar">
+                <i class="frame__dot"></i><i class="frame__dot"></i><i class="frame__dot"></i>
+                <span class="frame__url">odishaworkforce.com</span>
+              </div>
+              <div class="frame__shot">
+                <img src="assets/img/work/odishaworkforce.webp"
+                     srcset="assets/img/work/odishaworkforce-800.webp 800w, assets/img/work/odishaworkforce.webp 1280w"
+                     sizes="(max-width:900px) 92vw, 80vw"
+                     width="1280" height="880" loading="lazy" decoding="async"
+                     alt="The Odisha Workforce Solutions homepage as it runs on odishaworkforce.com">
+              </div>
+            </div></div>
+
+            <ul class="open__facts">
+              <li class="fact fact--a" style="--t:.5"><b>2</b><span>audiences, one homepage</span></li>
+              <li class="fact fact--b" style="--t:.6"><b>1</b><span>choice on the first screen</span></li>
+              <li class="fact fact--c" style="--t:.7"><b>2</b><span>inboxes that never mix</span></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="case__body">
-      <div>
-        <div class="beat rv">
-          <span class="beat__k">The problem</span>
+      <div class="story" data-track data-seq>
+        <div class="beat" data-mark>
+          <span class="beat__k"><b>01</b>The problem</span>
           <p>
             A staffing firm sells to two people who want opposite things. A factory needs
             forty workers by Monday. A welder needs a job. Both land on the same homepage,
@@ -382,8 +611,8 @@
           </p>
         </div>
 
-        <div class="beat rv" style="--d:.08s">
-          <span class="beat__k">The call we made</span>
+        <div class="beat" data-mark>
+          <span class="beat__k"><b>02</b>The call we made</span>
           <p>
             Split the site down that line and commit to it. The visitor declares who they
             are within one screen, and from that point on the language, the proof and the
@@ -395,8 +624,8 @@
           </p>
         </div>
 
-        <div class="beat rv" style="--d:.16s">
-          <span class="beat__k beat__k--muted">What's inside</span>
+        <div class="beat" data-mark>
+          <span class="beat__k beat__k--muted"><b>03</b>What we shipped</span>
           <ul class="inside">
             <li>Dual-audience structure carried through every page</li>
             <li>Separate enquiry routes for employers and job seekers</li>
@@ -412,6 +641,7 @@
             <div class="demo__bar">
               <span class="demo__tag">Switch it</span>
               <span class="demo__title">The audience split, rebuilt</span>
+              <span class="demo__hint"><i aria-hidden="true"></i>Switch sides</span>
             </div>
 
             <div class="demo__pad">
@@ -457,7 +687,9 @@
         </div>
 
         <div class="demo__cta rv" style="--d:.18s">
-          <a class="btn" href="#talk" data-scroll data-magnetic><span class="btn__dot"></span><span>Build me one of these</span></a>
+          <a class="btn" href="#talk" data-scroll data-magnetic data-pick="Two audiences">
+            <span class="btn__dot"></span><span class="roll"><span>Build me a split site</span></span>
+          </a>
           <a class="ghost" href="https://odishaworkforce.com" target="_blank" rel="noopener">See it live <i>&rarr;</i></a>
         </div>
       </div>
@@ -465,44 +697,214 @@
   </div>
 </section>
 
-<!-- ============================ IN THE STUDIO ============================ -->
-<section class="case" id="studio">
+<!-- ============================ 04 — KAMINI CLINIC & LABS ============================ -->
+<section class="case case--flip" id="kamini">
   <div class="wrap">
-    <div class="case__head rv">
-      <p class="case__eyebrow">In the studio <em>Right now</em></p>
-      <h2 class="h-lg case__name">There's always something on the bench.</h2>
+    <div class="open" data-open>
+      <div class="open__pin">
+        <div class="case__head rv">
+          <div>
+            <p class="case__eyebrow">Diagnostics &amp; clinic <em>Bhubaneswar, Odisha</em></p>
+            <h2 class="h-lg case__name"><span class="line"><span style="--d:.08s">Kamini Clinic &amp; Labs</span></span></h2>
+            <div class="case__meta">
+              <a class="case__url" href="https://kaminilabs.in" target="_blank" rel="noopener">kaminilabs.in <span aria-hidden="true">&nearr;</span></a>
+              <span class="case__live"><i aria-hidden="true"></i> Live now</span>
+            </div>
+          </div>
+          <span class="open__num" aria-hidden="true">04</span>
+        </div>
+
+        <div class="open__stage">
+          <div class="open__frame">
+            <div class="frame"><div class="frame__inner">
+              <div class="frame__bar">
+                <i class="frame__dot"></i><i class="frame__dot"></i><i class="frame__dot"></i>
+                <span class="frame__url">kaminilabs.in</span>
+              </div>
+              <div class="frame__shot">
+                <img src="assets/img/work/kaminilabs.webp"
+                     srcset="assets/img/work/kaminilabs-800.webp 800w, assets/img/work/kaminilabs.webp 1280w"
+                     sizes="(max-width:900px) 92vw, 80vw"
+                     width="1280" height="880" loading="lazy" decoding="async"
+                     alt="The Kamini Clinic &amp; Labs homepage as it runs on kaminilabs.in">
+              </div>
+            </div></div>
+
+            <ul class="open__facts">
+              <li class="fact fact--a" style="--t:.5"><b>2</b><span>steps to a booking</span></li>
+              <li class="fact fact--b" style="--t:.6"><b>&#8377;0</b><span>paid in advance</span></li>
+              <li class="fact fact--c" style="--t:.7"><b>Free</b><span>home collection, report on WhatsApp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="studio">
-      <p class="lede rv">
-        The builds above are the ones our clients are happy to have public. They aren't
-        the whole picture. Work is in progress as you read this &mdash; sites being
-        written screen by screen, mechanisms being prototyped, and finished builds
-        sitting behind an <span class="amber">NDA</span> until the client is ready to launch.
+    <div class="case__body">
+      <div class="story" data-track data-seq>
+        <div class="beat" data-mark>
+          <span class="beat__k"><b>01</b>The problem</span>
+          <p>
+            Before booking a blood test, people ask the same two questions:
+            <strong>what will it cost, and can someone come to my home?</strong> Most clinic sites hide
+            both behind "call us". Plenty of people don't call. They book with
+            whichever app shows a price.
+          </p>
+          <p>
+            The front desk had the opposite problem. Callbacks began with "so, what
+            did you need?", and every call took two calls.
+          </p>
+        </div>
+
+        <div class="beat" data-mark>
+          <span class="beat__k"><b>02</b>The call we made</span>
+          <p>
+            Publish the price list. Every common test shows the clinic's price next to the
+            usual rate, and the full-body checkups are priced as packages. Nobody has to
+            ring to find out.
+          </p>
+          <p>
+            Then make booking two short steps. <strong>What you need first, your number
+            second.</strong> There's no advance payment and no account. The callback starts
+            with the test already known, and the report arrives on WhatsApp.
+          </p>
+        </div>
+
+        <div class="beat" data-mark>
+          <span class="beat__k beat__k--muted"><b>03</b>What we shipped</span>
+          <ul class="inside">
+            <li>Two-step booking: the service first, then name and mobile, with a spam trap</li>
+            <li>Public test prices and checkup packages shown next to the usual rates</li>
+            <li>Search by health concern: heart, liver, thyroid, diabetes and more</li>
+            <li>Doctor timetable with each specialist's OPD days and slots</li>
+            <li>Free home collection explained in four steps, from booking to report on WhatsApp</li>
+            <li>FAQ on fasting, report times and service areas, with click-to-call and WhatsApp everywhere</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="case__demoCol">
+        <div class="demo rv" id="demoLab" style="--d:.1s">
+          <div class="demo__inner">
+            <div class="demo__bar">
+              <span class="demo__tag">Pick tests</span>
+              <span class="demo__title">The priced booking, rebuilt</span>
+              <span class="demo__hint"><i aria-hidden="true"></i>Tick a few tests</span>
+            </div>
+
+            <div class="demo__pad">
+              <span class="demo__q">Which tests do you need? Pick any.</span>
+              <div class="chips" id="labTests">
+                <button class="chip" type="button" aria-pressed="false" data-price="300" data-mrp="400">CBC</button>
+                <button class="chip" type="button" aria-pressed="false" data-price="400" data-mrp="700">Thyroid</button>
+                <button class="chip" type="button" aria-pressed="false" data-price="400" data-mrp="600">HbA1c</button>
+                <button class="chip" type="button" aria-pressed="false" data-price="400" data-mrp="800">Lipid profile</button>
+                <button class="chip" type="button" aria-pressed="false" data-price="400" data-mrp="850">Liver (LFT)</button>
+                <button class="chip" type="button" aria-pressed="false" data-price="500" data-mrp="850">Kidney (KFT)</button>
+                <button class="chip" type="button" aria-pressed="false" data-price="1000" data-mrp="1600">Vitamin D</button>
+                <button class="chip" type="button" aria-pressed="false" data-price="800" data-mrp="1200">Vitamin B12</button>
+              </div>
+
+              <div class="out" style="margin-bottom:var(--s30)">
+                <div class="out__cell">
+                  <p class="out__v" id="labCount">0</p>
+                  <span class="out__k">Tests picked</span>
+                </div>
+                <div class="out__cell">
+                  <p class="out__v out__v--accent" id="labPay">&#8377;0</p>
+                  <span class="out__k">You pay</span>
+                </div>
+                <div class="out__cell">
+                  <p class="out__v" id="labSave">&#8377;0</p>
+                  <span class="out__k">Below usual rate</span>
+                </div>
+                <div class="out__cell">
+                  <p class="out__v">Free</p>
+                  <span class="out__k">Home collection</span>
+                </div>
+              </div>
+
+              <span class="demo__q">What the front desk sees before calling back</span>
+              <div class="preview" id="labOut" role="status" aria-live="polite"></div>
+            </div>
+
+            <p class="demo__note">
+              <b>Note:</b> the prices are the ones published on kaminilabs.in when we
+              built this demo. The live site's prices are the ones to rely on. There you
+              book in two steps, and the clinic calls you back to fix a time.
+            </p>
+          </div>
+        </div>
+
+        <div class="demo__cta rv" style="--d:.18s">
+          <a class="btn" href="#talk" data-scroll data-magnetic data-pick="Priced booking">
+            <span class="btn__dot"></span><span class="roll"><span>Build me a priced booking</span></span>
+          </a>
+          <a class="ghost" href="https://kaminilabs.in" target="_blank" rel="noopener">See it live <i>&rarr;</i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ IN THE STUDIO ============================ -->
+<section class="case case--studio" id="studio" data-sect="mask">
+  <div class="wrap">
+    <div class="studio__top">
+      <div class="case__head rv">
+        <p class="case__eyebrow">In the studio <em>Right now</em></p>
+        <h2 class="h-lg case__name">
+          <span class="line"><span style="--d:.06s">There's always something</span></span>
+          <span class="line"><span style="--d:.16s">on the bench.</span></span>
+        </h2>
+      </div>
+      <p class="lede muted rv" style="--d:.12s">
+        The builds above are the ones our clients are happy to have public. Others
+        are being written screen by screen as you read this, and some finished ones are
+        under an <span class="amber">NDA</span> until the client is ready to launch.
       </p>
+    </div>
 
-      <ul class="studio__list rv" style="--d:.08s">
-        <li>
-          <b>In build</b>
-          <span>Client sites currently being hand-coded. They land here once they're live and the client says go.</span>
-        </li>
-        <li>
-          <b>In prototype</b>
-          <span>Mechanisms being tested on their own before they earn a place on anyone's page.</span>
-        </li>
-        <li>
-          <b>Under wraps</b>
-          <span>Shipped work we can't name yet. Ask, and we'll tell you what we're allowed to.</span>
-        </li>
-      </ul>
+    <!-- Three states, each drawn as what it looks like on our side: a build
+         filling up, a prototype with the cursor still blinking, and a
+         spec with the names blacked out. -->
+    <ul class="bench" data-seq>
+      <li class="bench__card bench__card--build">
+        <div class="bench__vis" aria-hidden="true">
+          <span class="bench__file">index.html</span>
+          <span class="bench__bar"><i></i></span>
+          <span class="bench__lines"><i style="--w:82%"></i><i style="--w:64%"></i><i style="--w:71%"></i></span>
+        </div>
+        <b class="bench__k"><i aria-hidden="true"></i>In build</b>
+        <p>Client sites being hand-coded right now. They land on this page once they're live and the client says go.</p>
+      </li>
+      <li class="bench__card bench__card--proto">
+        <div class="bench__vis" aria-hidden="true">
+          <span class="bench__box"><em>calculate(</em><i class="bench__caret"></i></span>
+        </div>
+        <b class="bench__k"><i aria-hidden="true"></i>In prototype</b>
+        <p>Mechanisms tested on their own first, before they earn a place on anyone's page.</p>
+      </li>
+      <li class="bench__card bench__card--wraps">
+        <div class="bench__vis" aria-hidden="true">
+          <span class="bench__redact"><em>Client</em><i style="--w:58%"></i></span>
+          <span class="bench__redact"><em>Launch</em><i style="--w:36%"></i></span>
+          <span class="bench__stamp">NDA</span>
+        </div>
+        <b class="bench__k"><i aria-hidden="true"></i>Under wraps</b>
+        <p>Shipped work we can't name yet. Ask, and we'll tell you what we're allowed to.</p>
+      </li>
+    </ul>
 
-      <p class="studio__ask rv" style="--d:.14s">
-        Wondering whether we've solved something like your problem already? Ask us
-        directly &mdash; it's a faster answer than scrolling a portfolio.
+    <div class="studio__foot rv">
+      <p class="studio__ask">
+        Wondering whether we've already solved something like your problem? Ask us.
+        It's a faster answer than scrolling a portfolio.
       </p>
-
-      <div class="demo__cta rv" style="--d:.2s">
-        <a class="btn" href="#talk" data-scroll data-magnetic><span class="btn__dot"></span><span>Ask what we're building</span></a>
+      <div class="demo__cta">
+        <a class="btn" href="#talk" data-scroll data-magnetic>
+          <span class="btn__dot"></span><span class="roll"><span>Ask what we're building</span></span>
+        </a>
         <a class="ghost" href="services.html">See what we build <i>&rarr;</i></a>
       </div>
     </div>
@@ -510,17 +912,17 @@
 </section>
 
 <!-- ============================ CLOSING CTA ============================ -->
-<section class="close" id="talk">
+<section class="close" id="talk" data-sect="rise">
   <div class="wrap contact">
     <div class="rv">
       <p class="eyebrow eyebrow--muted">Your turn</p>
       <h2 class="h-lg secHead__title">
         <span class="line"><span style="--d:.05s">What's the one thing</span></span>
-        <span class="line"><span style="--d:.16s">your site has to do?</span></span>
+        <span class="line"><span style="--d:.16s"><em class="grad">your site has to do?</em></span></span>
       </h2>
       <p class="lede muted fade" style="--d:.3s;margin-top:var(--s24)">
         Every build on this page started as one sentence like that. Tell us yours and
-        we'll come back with scope, price and timeline &mdash; usually the same day.
+        we'll come back with scope, price and timeline, usually the same day.
       </p>
 
       <div class="picker" id="picker">
@@ -529,12 +931,13 @@
           <button class="chip" type="button" aria-pressed="false">Lead qualification</button>
           <button class="chip" type="button" aria-pressed="false">An interactive tool</button>
           <button class="chip" type="button" aria-pressed="false">Two audiences</button>
+          <button class="chip" type="button" aria-pressed="false">Priced booking</button>
           <button class="chip" type="button" aria-pressed="false">Something else</button>
         </div>
         <p class="picker__out" id="pickerOut" role="status" aria-live="polite"></p>
         <div class="demo__cta">
           <a class="btn" id="pickerCta" href="https://wa.me/919399593499" target="_blank" rel="noopener" data-magnetic>
-            <span class="btn__dot"></span><span>Send it on WhatsApp</span>
+            <span class="btn__dot"></span><span class="roll"><span>Send it on WhatsApp</span></span>
           </a>
           <a class="ghost" href="#quoteForm" data-scroll>Use the full form instead <i>&rarr;</i></a>
         </div>
@@ -669,6 +1072,7 @@
           <a href="#marketiq" data-scroll>MarketIQ Infotech</a>
           <a href="#clans" data-scroll>Clans Machina</a>
           <a href="#workforce" data-scroll>Odisha Workforce</a>
+          <a href="#kamini" data-scroll>Kamini Clinic &amp; Labs</a>
         </div>
         <div class="footer__col">
           <h4>Company</h4>
@@ -700,14 +1104,14 @@
   <span>WhatsApp</span>
 </a>
 
-<script src="assets/js/config.js" defer></script>
-<script src="assets/js/utils.js" defer></script>
-<script src="assets/js/contact.js" defer></script>
-<script src="assets/js/nav.js" defer></script>
-<script src="assets/js/reveal.js" defer></script>
-<script src="assets/js/form.js" defer></script>
-<script src="assets/js/work.js" defer></script>
-<script src="assets/js/motion.js" defer></script>
-<script src="assets/js/main.js" defer></script>
+<script src="assets/js/config.js?v=20261024" defer></script>
+<script src="assets/js/utils.js?v=20261024" defer></script>
+<script src="assets/js/contact.js?v=20261024" defer></script>
+<script src="assets/js/nav.js?v=20261024" defer></script>
+<script src="assets/js/reveal.js?v=20261024" defer></script>
+<script src="assets/js/form.js?v=20261024" defer></script>
+<script src="assets/js/work.js?v=20261024" defer></script>
+<script src="assets/js/motion.js?v=20261024" defer></script>
+<script src="assets/js/main.js?v=20261024" defer></script>
 </body>
 </html>

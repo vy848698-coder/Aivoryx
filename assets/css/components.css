@@ -106,11 +106,10 @@
 .strip{
   display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;
   border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
-  background:linear-gradient(90deg,rgba(128,82,255,.05),transparent 40%);
 }
 .strip__label{
   display:flex;align-items:center;gap:var(--s18);
-  padding-left:max(var(--s30),calc((100vw - var(--max))/2 + var(--s30)));
+  padding-left:max(var(--wrap-pad),calc((100vw - var(--max))/2 + var(--wrap-pad)));
   padding-right:var(--s24);
   font-size:11px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--spark);white-space:nowrap;
@@ -255,12 +254,6 @@
   padding-top:calc(var(--nav-h) + var(--s96));
   padding-bottom:var(--s96);
   overflow:hidden;
-}
-.phero__glow{
-  position:absolute;top:-30%;right:-10%;width:60vw;height:60vw;max-width:820px;max-height:820px;
-  border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,rgba(128,82,255,.13),transparent 64%);
-  filter:blur(50px);animation:breathe 9s ease-in-out infinite;
 }
 .phero .display{margin-block:var(--s24) var(--s30);max-width:15ch;position:relative}
 .phero .lede{max-width:56ch}

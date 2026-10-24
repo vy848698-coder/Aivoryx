@@ -24,9 +24,8 @@
 .hero__copy{position:relative;z-index:2}
 
 /* ---- Atmosphere ----
-   Four flat layers, no filter:blur anywhere. A large soft radial is
-   already a blur; running the real thing over a 60vw box is what turns
-   a hero into a slideshow on a mid-range phone. */
+   Neutral layers only: a grid, one slow scan and grain. No colour
+   glows behind any section — the content carries the colour. */
 .hero__atmos{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .hero__atmos > span{position:absolute;display:block}
 
@@ -39,19 +38,6 @@
   mask-image:radial-gradient(115% 80% at 64% 46%,#000,transparent 70%);
 }
 
-.hero__aurora{border-radius:50%;will-change:transform,opacity}
-.hero__aurora--a{
-  width:64vw;height:64vw;max-width:920px;max-height:920px;right:-14vw;top:-26vh;
-  background:radial-gradient(circle,rgba(128,82,255,.22),rgba(128,82,255,.05) 44%,transparent 68%);
-  animation:auroraA 24s ease-in-out infinite;
-}
-.hero__aurora--b{
-  width:48vw;height:48vw;max-width:680px;max-height:680px;left:-16vw;bottom:-30vh;
-  background:radial-gradient(circle,rgba(21,132,110,.17),transparent 66%);
-  animation:auroraB 31s ease-in-out infinite;
-}
-@keyframes auroraA{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.8}50%{transform:translate3d(-4%,5%,0) scale(1.1);opacity:1}}
-@keyframes auroraB{0%,100%{transform:translate3d(0,0,0) scale(1.05);opacity:.65}50%{transform:translate3d(6%,-5%,0) scale(.93);opacity:1}}
 
 /* one slow pass of light across the whole hero, then a long rest */
 .hero__scan{
@@ -150,18 +136,11 @@
 .scrollcue i{display:block;width:1px;height:34px;background:linear-gradient(180deg,#7a7a86,transparent);animation:cue 2.4s ease-in-out infinite}
 @keyframes cue{0%,100%{transform:scaleY(.3);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
 
-/* Kept for the sub-page heroes: work and process still run the plain
-   stats row, and every page still lights its headline with the glow. */
+/* Kept for the sub-page heroes that still run the plain stats row. */
 .hero__meta{display:flex;gap:var(--s36);flex-wrap:wrap;margin-top:var(--s60);padding-top:var(--s24);border-top:1px solid var(--hair)}
 .hero__meta span{font-size:var(--t-caption);color:var(--ash);letter-spacing:.02em}
 .hero__meta b{display:block;font-size:var(--t-2xs);font-weight:var(--fw-r);color:#fff;letter-spacing:-0.03em;margin-bottom:3px}
 
-.hero__glow{
-  position:absolute;inset:12%;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,rgba(128,82,255,.15),transparent 66%);
-  filter:blur(38px);animation:breathe 8s ease-in-out infinite;
-}
-@keyframes breathe{0%,100%{opacity:.55;transform:scale(.94)}50%{opacity:1;transform:scale(1.06)}}
 
 /* ---------------- Section headers ---------------- */
 .secHead{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:var(--s36);align-items:end;margin-bottom:var(--s96)}

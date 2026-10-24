@@ -1,8 +1,44 @@
 /* ============================================================
    Responsive — mobile-first content, desktop-down layout tuning.
-   Breakpoints: 1280 · 1024 · 760 · 480
+   Breakpoints: 2400 · 1920 · 1600 (up) · 1280 · 1024 · 760 · 480 (down)
    The burger takes over at 1024, not 760 — see the nav note there.
    ============================================================ */
+
+/* ---------------- Large desktop ----------------
+   The shell was capped at 1280 for every screen, so a 1920 monitor got
+   a narrow column with a third of the width empty either side, and a
+   2560 one got less than half. The shell, gutter, type ceilings and
+   section rhythm now grow in three steps. Every size here is a ceiling
+   that the clamp()s in base.css already respect, so nothing jumps. */
+@media (min-width:1600px){
+  :root{
+    --max:1440px;--wrap-pad:48px;
+    --t-body:19px;--t-lg:84px;--t-display:124px;
+    --s120:136px;--s96:108px;
+  }
+  .hero .display{font-size:min(clamp(38px,5.2vw,116px),10.6vh)}
+  .hero__chip{font-size:12.5px;padding:9px 18px 9px 13px}
+  .hud dt{font-size:11px}
+  .hud dd{font-size:clamp(19px,1.45vw,32px)}
+  .svc__desc{font-size:16px}
+  .tier__list li,.tiers__note{font-size:16px}
+  .footer__col a{font-size:16px}
+}
+@media (min-width:1920px){
+  :root{
+    --max:1600px;--wrap-pad:56px;
+    --t-body:20px;--t-lg:92px;--t-2xs:27px;--t-sm:46px;
+    --s120:156px;--s96:120px;--s60:72px;
+  }
+  .work__desc{max-width:48ch}
+}
+@media (min-width:2400px){
+  :root{
+    --max:1880px;--wrap-pad:64px;
+    --t-body:21px;--t-lg:104px;--t-2xs:30px;--t-sm:52px;
+    --s120:176px;--s96:136px;
+  }
+}
 
 /* ---------------- Small desktop / large tablet ---------------- */
 @media (max-width:1280px){
@@ -100,8 +136,12 @@
   .work__item{padding-block:var(--s60)}
   .work__desc{max-width:none}
 
-  .svc__row{grid-template-columns:38px 1fr 26px;gap:var(--s12)}
-  .svc__desc{display:none}
+  /* the description was hidden here, which left six bare titles with
+     nothing to say what each one is — it drops under the title instead */
+  .svc__row{grid-template-columns:38px minmax(0,1fr) 26px;gap:6px var(--s12);padding-block:var(--s24)}
+  .svc__num{align-self:start;padding-top:6px}
+  .svc__desc{grid-column:2;grid-row:2;font-size:14.5px;line-height:1.55}
+  .svc__plus{grid-column:3;grid-row:1}
   .svc__row:hover{padding-left:var(--s12)}
 
   .why{grid-template-columns:1fr}
@@ -131,6 +171,10 @@
   .hero{padding-bottom:var(--s36)}
   .hero__actions{gap:var(--s18)}
   .hero__actions .btn{width:100%;justify-content:center}
+  /* a long ghost link wraps here, and as inline-flex its arrow was flung
+     to the far edge; inline keeps the arrow on the end of the text */
+  .ghost{display:inline}
+  .ghost i{display:inline-block;margin-left:6px}
   /* three cells no longer fit across a 360px screen without the values
      shrinking below the point of being worth reading — two up, one under */
   .hud{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s18) var(--s24);justify-content:stretch}

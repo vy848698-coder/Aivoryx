@@ -135,10 +135,25 @@
    cards go back to flowing, which is also where sticky costs the
    most on a phone.
    ============================================================ */
-@media (max-width:900px){
+/* A short laptop (1366×768 leaves ~620px of viewport) only fits a card
+   under the nav if the padding gives way. Otherwise its last lines sit
+   past the fold and the next card covers them before they are read. */
+@media (max-height:760px){
+  [data-sect="stack"] .work__item{padding:var(--s36)}
+}
+/* The deck stops at 1024, not 900: between the two the card is already
+   one column (image under copy), taller than the screen, and the next
+   card would bury its bottom half. Very short screens drop it too.
+   motion.js reads the computed position, so this is the only switch. */
+@media (max-width:1024px),(max-height:600px){
   [data-sect="stack"] .work__item{
     position:static;padding:var(--s30);transform:none!important;
   }
+}
+@media (max-width:480px){
+  [data-sect="stack"] .work__item{padding:var(--s24) var(--s18)}
+}
+@media (max-width:900px){
   [data-sect="slide"] > .wrap,
   [data-sect="rise"] > .wrap,
   [data-sect="zoom"] > .wrap{transform:translate3d(0,30px,0)}
@@ -352,6 +367,9 @@
    the sequence engine drives it home.
    ============================================================ */
 .bento{
+  /* how far the scatter reaches — the offsets are art-directed for a
+     1280 grid and read as broken on a 360px column, so phones shrink it */
+  --amp:1;
   display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
   gap:var(--s18);margin-top:var(--s60);
 }
@@ -396,18 +414,25 @@
 
 /* the AI tile carries the most weight, so it gets the most room */
 .bento__card--hero .bento__t{font-size:clamp(21px,2.2vw,29px)}
-/* The wide tile reads across rather than down: mark, then name,
-   then what it actually does. Grid rather than flex-wrap, because
-   wrapping a three-part row leaves the title stranded mid-line. */
-.bento__card--wide{
-  display:grid;grid-template-columns:auto minmax(0,.7fr) minmax(0,1.3fr) auto;
-  align-items:center;gap:var(--s36);
+/* The wide tile is an ordinary stacked card by default. Only a full
+   desktop row reads it across — mark, then name, then what it does.
+   It was the other way round, with phones undoing the four-column
+   grid, and any screen that missed the undo got a description one
+   word wide. Grid rather than flex-wrap, because wrapping a
+   three-part row leaves the title stranded mid-line. */
+.bento__card--wide{grid-column:span 12}
+.bento__card--wide .bento__d{max-width:64ch}
+@media (min-width:1025px){
+  .bento__card--wide{
+    display:grid;grid-template-columns:auto minmax(0,.7fr) minmax(0,1.3fr) auto;
+    align-items:center;gap:var(--s36);
+  }
+  .bento__card--wide .bento__top{flex-direction:column;align-items:flex-start;gap:11px;margin-bottom:0}
+  .bento__card--wide .bento__tag{white-space:normal;max-width:16ch;line-height:1.5}
+  .bento__card--wide .bento__t{margin:0}
+  .bento__card--wide .bento__d{margin:0;max-width:none}
+  .bento__card--wide .bento__go{margin:0;white-space:nowrap}
 }
-.bento__card--wide .bento__top{flex-direction:column;align-items:flex-start;gap:11px;margin-bottom:0}
-.bento__card--wide .bento__tag{white-space:normal;max-width:16ch;line-height:1.5}
-.bento__card--wide .bento__t{margin:0}
-.bento__card--wide .bento__d{margin:0;max-width:none}
-.bento__card--wide .bento__go{margin:0;white-space:nowrap}
 
 @media (hover:hover){
   .bento__card:hover{border-color:var(--c);background:rgba(255,255,255,.045)}
@@ -423,25 +448,30 @@
 [data-seq][data-seq] > .bento__card{
   opacity:calc(.06 + var(--p,0) * .94);
   transform:
-    translate3d(calc(var(--dx,0px) * (1 - var(--p,0))),
-                calc(var(--dy,0px) * (1 - var(--p,0))),0)
-    rotate(calc(var(--rot,0deg) * (1 - var(--p,0))))
+    translate3d(calc(var(--dx,0px) * var(--amp) * (1 - var(--p,0))),
+                calc(var(--dy,0px) * var(--amp) * (1 - var(--p,0))),0)
+    rotate(calc(var(--rot,0deg) * var(--amp) * (1 - var(--p,0))))
     scale(calc(.9 + var(--p,0) * .1));
   transition:opacity .14s linear,transform .14s linear,
              border-color .5s var(--sect-ease),background .5s var(--sect-ease);
 }
 
+/* Two up. The AI tile shares its row with PDF tools rather than taking a
+   full row of its own, which used to leave PDF alone beside a hole. */
 @media (max-width:1024px){
+  .bento{--amp:.6}
   .bento__card{grid-column:span 6}
-  .bento__card--wide,.bento__card--hero{grid-column:span 12}
+  .bento__card--wide{grid-column:span 12}
 }
 @media (max-width:760px){
-  .bento{gap:var(--s12)}
+  .bento{gap:var(--s12);--amp:.3}
   .bento__card{grid-column:span 12;padding:var(--s24) var(--s18)}
-  .bento__card--wide{flex-direction:column;gap:0}
-  .bento__card--wide .bento__top{flex-direction:row;align-items:center;justify-content:space-between;margin-bottom:var(--s30)}
-  .bento__card--wide .bento__t{margin-top:0}
-  .bento__card--wide .bento__d{margin-bottom:var(--s30)}
+  .bento__top{margin-bottom:var(--s24)}
+  .bento__d{margin-bottom:var(--s24)}
+}
+@media (max-width:480px){
+  /* "6 tools · on-device AI" beside the glyph is wider than a 360 card */
+  .bento__tag,.bento__card--wide .bento__tag{white-space:normal;text-align:right;line-height:1.4}
 }
 @media (prefers-reduced-motion:reduce){
   [data-seq][data-seq] > .bento__card{opacity:1!important;transform:none!important}
@@ -460,9 +490,8 @@
    deleted from its own hero.
 
    Now it assembles at full strength inside an instrument housing:
-   two counter-rotating rings, corner brackets that draw in, a core
-   that breathes. The build panel docks to the foot of the housing
-   instead of the middle of the letter, narrow enough that the feet
+   two counter-rotating rings and corner brackets that draw in. The
+   build panel docks to the foot of the housing instead of the middle of the letter, narrow enough that the feet
    of the A stay visible either side of it, so the mark frames the
    panel rather than hiding behind it.
    ============================================================ */
@@ -482,14 +511,6 @@
 .stage__mark #constellation{
   position:absolute;inset:0;width:100%;height:100%;z-index:2;
   transform:translate3d(calc(var(--px) * 9px),calc(var(--py) * 9px),0);
-}
-
-.stage__core{
-  position:absolute;left:50%;top:50%;z-index:1;
-  width:66%;aspect-ratio:1;margin:-33% 0 0 -33%;
-  border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,rgba(128,82,255,.32),rgba(128,82,255,.07) 44%,transparent 70%);
-  animation:breathe 8s ease-in-out infinite;
 }
 
 /* ---- the rings ----
@@ -529,7 +550,6 @@
   -webkit-backdrop-filter:blur(20px) saturate(150%);backdrop-filter:blur(20px) saturate(150%);
   box-shadow:
     0 44px 96px -36px rgba(0,0,0,.95),
-    0 0 68px -24px rgba(128,82,255,.42),
     0 0 0 1px rgba(128,82,255,.08) inset;
   animation:panelIn 1.05s var(--sect-ease) .55s both,
             panelFloat 7.5s ease-in-out 1.8s infinite;
@@ -646,8 +666,22 @@
   .build__code{font-size:11.5px;min-height:8.4em}
   .build__out{min-height:84px}
 }
+/* ---- large desktop: the stage grows with the column, so the panel
+        and the pinned type grow with it instead of shrinking into it ---- */
+@media (min-width:1600px) and (min-height:860px){
+  .stage__panel{width:min(468px,100%)}
+  .build__file{font-size:13px}
+  .build__code{font-size:13px}
+  .pv__price,.pv__v{font-size:33px}
+}
+@media (min-width:1600px){
+  .creed__t{font-size:clamp(36px,5.3vw,112px)}
+  .creed__stack{min-height:clamp(230px,38vh,460px)}
+  .rail__track .step{flex-basis:clamp(300px,24vw,460px);padding:var(--s36)}
+}
+
 @media (prefers-reduced-motion:reduce){
-  .stage__core,.ring--outer,.ring--inner{animation:none}
+  .ring--outer,.ring--inner{animation:none}
   .build{animation:none}
   .build__line.is-typing::after{animation:none}
   .pv,.pv > *{opacity:1!important;transform:none!important}

@@ -8,6 +8,8 @@
    · stage()   fires each section's entrance once
    · deck()    depth for the stacked work cards
    · media()   screenshots that settle as they cross the viewport
+   · opener()  case studies that open from a card to full width
+   · track()   a reading line that fills as a story is read
    ============================================================ */
 AX.module(function motion(){
   'use strict';
@@ -131,8 +133,10 @@ AX.module(function motion(){
 
     function frame(){
       ticking = false;
-      /* below the breakpoint the CSS puts the cards back in flow */
-      if(window.innerWidth <= 900){
+      /* The CSS decides when the deck is a deck — narrow screens and very
+         short ones put the cards back in flow — so ask it rather than
+         keeping a second copy of the breakpoints here. */
+      if(getComputedStyle(cards[0]).position !== 'sticky'){
         cards.forEach(function(c){ c.style.transform = ''; c.style.opacity = ''; });
         return;
       }
@@ -219,9 +223,27 @@ AX.module(function motion(){
     }
 
     var sets = groups.map(function(g){
-      return { el:g, kids:Array.prototype.slice.call(g.children) };
+      return { el:g, kids:Array.prototype.slice.call(g.children), at:[] };
     });
     var ticking = false;
+
+    /* Each child is driven by where IT is, not by how far the group has
+       travelled. Splitting the group's progress by index only worked
+       while the children sat side by side: once a grid collapses to one
+       column on a phone, the fourth card was still tilted and drifting
+       when it reached the top of the screen. Offsets ignore transforms,
+       so the moving children never feed back into their own position. */
+    function measure(){
+      sets.forEach(function(set){
+        var g = set.el, w = g.clientWidth || 1;
+        set.at = set.kids.map(function(k){
+          var own = k.offsetParent === g;
+          var top  = k.offsetTop  - (own ? 0 : g.offsetTop);
+          var left = k.offsetLeft - (own ? 0 : g.offsetLeft);
+          return { top:top, col:Math.max(0, Math.min(1, left / w)) };
+        });
+      });
+    }
 
     function frame(){
       ticking = false;
@@ -231,29 +253,33 @@ AX.module(function motion(){
         var r = set.el.getBoundingClientRect();
         if(r.bottom < -240 || r.top > vh + 240) continue;
 
-        /* 0 as the block's top reaches 88% down the viewport, 1 once
-           it has travelled its own height plus half a screen */
-        var p = (vh * 0.88 - r.top) / (r.height + vh * 0.5);
-        p = p < 0 ? 0 : p > 1 ? 1 : p;
-
-        var n = set.kids.length;
-        for(var i = 0; i < n; i++){
-          /* each child waits its turn, then resolves over a third of
-             the remaining travel — long enough to read as a cascade,
-             short enough that the last is not still arriving as the
-             block leaves the screen */
-          var kp = (p - (i / n) * 0.55) / 0.32;
+        for(var i = 0; i < set.kids.length; i++){
+          var at = set.at[i];
+          if(!at) continue;
+          /* 0 as the child's top reaches 92% down the screen, 1 by the
+             middle. Children further right start a little later, so a
+             row still lands left to right as one cascade. */
+          var top = r.top + at.top + at.col * vh * 0.14;
+          var kp = (vh * 0.92 - top) / (vh * 0.42);
           kp = kp < 0 ? 0 : kp > 1 ? 1 : kp;
           set.kids[i].style.setProperty('--p', kp.toFixed(3));
         }
       }
     }
 
+    function refresh(){ measure(); frame(); }
+
     window.addEventListener('scroll', function(){
       if(!ticking){ ticking = true; requestAnimationFrame(frame); }
     }, {passive:true});
-    window.addEventListener('resize', function(){ requestAnimationFrame(frame); });
-    frame();
+    window.addEventListener('resize', function(){ requestAnimationFrame(refresh); });
+    /* fonts and lazy images both move things after the first measure */
+    window.addEventListener('load', refresh);
+    if(window.ResizeObserver){
+      var ro = new ResizeObserver(function(){ requestAnimationFrame(refresh); });
+      sets.forEach(function(set){ ro.observe(set.el); });
+    }
+    refresh();
   }
 
   /* ============================================================
@@ -368,6 +394,107 @@ AX.module(function motion(){
     frame();
   }
 
+  /* ============================================================
+     Opener
+     A case study that arrives as a small card and opens to the full
+     width of the screen while its section is pinned. Publishes two
+     numbers on the wrapper: --p, raw travel through the pin, and --e,
+     the eased opening, which finishes at three quarters of the travel
+     so the open state holds long enough to be looked at. The CSS
+     decides what each of them moves.
+     ============================================================ */
+  function opener(){
+    var wraps = $$('[data-open]');
+    if(!wraps.length) return;
+
+    function settle(w){ w.style.setProperty('--p', 1); w.style.setProperty('--e', 1); }
+    if(reduce){ wraps.forEach(settle); return; }
+
+    var ticking = false;
+
+    function frame(){
+      ticking = false;
+      var vh = window.innerHeight;
+
+      for(var i = 0; i < wraps.length; i++){
+        var wrap = wraps[i];
+        /* below the breakpoint the CSS unpins it and shows it open */
+        if(window.innerWidth <= 900){ settle(wrap); continue; }
+
+        var pin = wrap.firstElementChild;
+        var r = wrap.getBoundingClientRect();
+        if(r.bottom < -200 || r.top > vh + 200) continue;
+
+        /* starts a third of a screen before the pin engages, so the
+           card is already moving as it reaches the top */
+        var lead = vh * 0.35;
+        var travel = wrap.offsetHeight - pin.offsetHeight + lead;
+        var p = travel > 0 ? (lead - r.top) / travel : 1;
+        p = p < 0 ? 0 : p > 1 ? 1 : p;
+
+        var t = Math.min(1, p / 0.75);
+        var e = 1 - Math.pow(1 - t, 3);
+
+        wrap.style.setProperty('--p', p.toFixed(4));
+        wrap.style.setProperty('--e', e.toFixed(4));
+      }
+    }
+
+    window.addEventListener('scroll', function(){
+      if(!ticking){ ticking = true; requestAnimationFrame(frame); }
+    }, {passive:true});
+    window.addEventListener('resize', function(){ requestAnimationFrame(frame); });
+    frame();
+  }
+
+  /* ============================================================
+     Track
+     A reading line. --p on [data-track] runs 0→1 as the block passes
+     a line 60% down the screen, and every [data-mark] inside it is lit
+     once it has crossed the same line — so the fill and the markers
+     can never disagree about where the reader is.
+     ============================================================ */
+  function track(){
+    var tracks = $$('[data-track]');
+    if(!tracks.length) return;
+
+    var sets = tracks.map(function(t){ return { el:t, marks:$$('[data-mark]', t) }; });
+
+    if(reduce){
+      sets.forEach(function(s){
+        s.el.style.setProperty('--p', 1);
+        s.marks.forEach(function(m){ m.classList.add('is-lit'); });
+      });
+      return;
+    }
+
+    var ticking = false;
+
+    function frame(){
+      ticking = false;
+      var vh = window.innerHeight, line = vh * 0.6;
+      for(var i = 0; i < sets.length; i++){
+        var r = sets[i].el.getBoundingClientRect();
+        if(r.bottom < -200 || r.top > vh + 200) continue;
+
+        var p = (line - r.top) / (r.height || 1);
+        p = p < 0 ? 0 : p > 1 ? 1 : p;
+        sets[i].el.style.setProperty('--p', p.toFixed(4));
+
+        for(var j = 0; j < sets[i].marks.length; j++){
+          var m = sets[i].marks[j];
+          m.classList.toggle('is-lit', m.getBoundingClientRect().top < line);
+        }
+      }
+    }
+
+    window.addEventListener('scroll', function(){
+      if(!ticking){ ticking = true; requestAnimationFrame(frame); }
+    }, {passive:true});
+    window.addEventListener('resize', function(){ requestAnimationFrame(frame); });
+    frame();
+  }
+
   smooth();
   stage();
   deck();
@@ -375,4 +502,6 @@ AX.module(function motion(){
   sequence();
   rail();
   creed();
+  opener();
+  track();
 });
