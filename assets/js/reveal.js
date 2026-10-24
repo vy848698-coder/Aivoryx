@@ -21,6 +21,8 @@ AX.module(function reveal(){
     }
     requestAnimationFrame(tick);
   }
+  /* shared, so a page that reveals on its own schedule counts the same way */
+  AX.count = runCount;
 
   /* ---------------- Observer ---------------- */
   var io = new IntersectionObserver(function(entries){

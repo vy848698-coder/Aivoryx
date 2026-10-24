@@ -14,13 +14,13 @@
   :root{
     --max:1440px;--wrap-pad:48px;
     --t-body:19px;--t-lg:84px;--t-display:124px;
+    --t-text:17px;--t-small:16px;--t-caption:13.5px;--t-lede:clamp(18px,1.2vw,21px);
     --s120:136px;--s96:108px;
   }
   .hero .display{font-size:min(clamp(38px,5.2vw,116px),10.6vh)}
   .hero__chip{font-size:12.5px;padding:9px 18px 9px 13px}
   .hud dt{font-size:11px}
   .hud dd{font-size:clamp(19px,1.45vw,32px)}
-  .svc__desc{font-size:16px}
   .tier__list li,.tiers__note{font-size:16px}
   .footer__col a{font-size:16px}
 }
@@ -28,6 +28,7 @@
   :root{
     --max:1600px;--wrap-pad:56px;
     --t-body:20px;--t-lg:92px;--t-2xs:27px;--t-sm:46px;
+    --t-text:18px;--t-small:16.5px;--t-label:12.5px;--t-caption:14px;--t-lede:clamp(19px,1.15vw,23px);
     --s120:156px;--s96:120px;--s60:72px;
   }
   .work__desc{max-width:48ch}

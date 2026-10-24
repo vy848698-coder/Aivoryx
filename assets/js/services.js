@@ -54,7 +54,7 @@ AX.module(function services(){
   var elCta    = $('#quoteCta');
   var elTier   = $('#quoteTier');
   var elMark   = $('#quoteMark');
-  var tierKeys = elTier ? $$('.tier__keys span', elTier) : [];
+  var tierKeys = elTier ? $$('.qtier__keys span', elTier) : [];
 
   function inr(v){ return '₹' + Math.round(v).toLocaleString('en-IN'); }
   function round1k(v){ return Math.round(v / 1000) * 1000; }
@@ -251,4 +251,90 @@ AX.module(function services(){
   });
 
   render();
+});
+
+/* ============================================================
+   SERVICES HERO — the price board and the intro's exit.
+   ============================================================ */
+AX.module(function servicesHero(){
+  'use strict';
+  var $ = AX.$, $$ = AX.$$;
+
+  /* ---------------- The board ----------------
+     Rows used to animate on load all at once, so the four below the
+     fold had already finished by the time anyone scrolled to them.
+     Rows on the first screen keep their art-directed load delays; the
+     rest land as they arrive, staggered within whatever batch the
+     scroll brings in. Each row counts its price up as it lands. */
+  (function board(){
+    var el = $('[data-board]');
+    if(!el) return;
+    var rows = $$('.board__row', el);
+
+    function land(row, delay){
+      row.style.setProperty('--d', delay.toFixed(2) + 's');
+      row.classList.add('is-in');
+      var n = $('[data-count]', row);
+      if(n && AX.count) setTimeout(function(){ AX.count(n); }, delay * 1000);
+    }
+
+    if(AX.reduce || !window.IntersectionObserver){
+      rows.forEach(function(r){ r.classList.add('is-in'); });
+      return;
+    }
+
+    var later = [], vh = window.innerHeight;
+    rows.forEach(function(r){
+      if(r.getBoundingClientRect().top < vh * .94){
+        land(r, parseFloat(r.style.getPropertyValue('--d')) || 0);
+      } else {
+        later.push(r);
+      }
+    });
+
+    var io = new IntersectionObserver(function(entries){
+      var n = 0;
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        io.unobserve(en.target);
+        land(en.target, n++ * .08);
+      });
+    }, {threshold:.25, rootMargin:'0px 0px -6% 0px'});
+    later.forEach(function(r){ io.observe(r); });
+  })();
+
+  /* ---------------- The intro's exit ----------------
+     Publishes --s on the hero: 0 at the top, 1 once the intro has
+     scrolled most of the way off. The CSS recedes the intro and lets
+     the background grid lag, so the board reads as rising over it. */
+  (function recede(){
+    var hero = $('#pheroSec'), intro = $('.phero__intro', hero || document);
+    if(!hero || !intro || AX.reduce) return;
+
+    var end = 1, ticking = false;
+
+    /* offsetTop ignores transforms, so the intro moving can never feed
+       back into its own measurement */
+    function measure(){
+      var y = 0;
+      for(var e = intro; e; e = e.offsetParent) y += e.offsetTop;
+      end = Math.max(1, (y + intro.offsetHeight) * .85);
+    }
+    function frame(){
+      ticking = false;
+      /* stacked on a narrow screen the intro is most of the first
+         screen; moving it there only costs frames */
+      if(window.innerWidth <= 1024){ hero.style.setProperty('--s', 0); return; }
+      var s = Math.max(0, Math.min(1, window.pageYOffset / end));
+      hero.style.setProperty('--s', s.toFixed(4));
+    }
+
+    window.addEventListener('scroll', function(){
+      if(!ticking){ ticking = true; requestAnimationFrame(frame); }
+    }, {passive:true});
+    window.addEventListener('resize', function(){ measure(); requestAnimationFrame(frame); });
+    window.addEventListener('load', function(){ measure(); frame(); });
+    measure();
+    frame();
+  })();
 });

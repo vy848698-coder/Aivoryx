@@ -57,7 +57,7 @@
 .range li{
   display:flex;align-items:center;gap:10px;white-space:nowrap;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);
+  font-size:var(--t-label);letter-spacing:.12em;text-transform:uppercase;color:var(--mist);
   opacity:0;transform:translate3d(0,10px,0);
   transition:opacity .8s var(--sect-ease) var(--d,0s),transform .8s var(--sect-ease) var(--d,0s),color .3s ease;
 }
@@ -81,23 +81,13 @@
   display:flex;align-items:center;gap:var(--s18);
   padding-left:max(var(--wrap-pad),calc((100vw - var(--max))/2 + var(--wrap-pad)));
   padding-right:var(--s24);
-  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--spark);white-space:nowrap;
+  font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.16em;text-transform:uppercase;color:var(--spark);white-space:nowrap;
 }
 .pstrip__label::after{content:"";width:1px;height:24px;background:var(--hair-2);flex:none}
 .pstrip .ticker{padding-block:clamp(14px,2.4vh,24px)}
 .pstrip .ticker__item{font-size:12.5px}
 .pstrip .ticker__track{animation-duration:52s}
 .phero--split .lede{max-width:47ch;color:var(--mist);font-size:clamp(14.5px,1.1vw,var(--t-body));line-height:1.62}
-
-/* the one lit line per section — same sweep as the homepage payoff */
-.phero .grad,.close .grad{
-  font-style:normal;
-  background:linear-gradient(100deg,#fff 0 33%,#c9a5ff 46%,#fff 59% 100%);
-  background-size:300% 100%;background-position:100% 0;
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;color:transparent;
-  animation:sheen 8.5s ease-in-out 1.6s infinite;
-}
 
 /* ---------------- The deck ----------------
    Each card's resting place is art-directed in the markup (--x --y --r
@@ -147,7 +137,7 @@
 .fan__card img{flex:1;min-height:0;width:100%;object-fit:cover;object-position:top center}
 .fan__cap{
   position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);
-  white-space:nowrap;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5c5c66;
+  white-space:nowrap;font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
   animation:fadeUp .8s var(--sect-ease) 1.2s backwards;
 }
 .fan__cap span{color:var(--spark)}
@@ -184,15 +174,15 @@
 }
 .idx__n{
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  font-size:12px;letter-spacing:.12em;color:var(--iris);
+  font-size:var(--t-label);letter-spacing:.12em;color:var(--iris-ink);
 }
 .idx__name{
   font-size:clamp(24px,3.3vw,46px);font-weight:var(--fw-r);
   letter-spacing:-.045em;line-height:1.04;color:#fff;
   transition:color .4s ease;
 }
-.idx__sector{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
-.idx__what{font-size:15px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.5}
+.idx__sector{font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
+.idx__what{font-size:var(--t-text);font-weight:var(--fw-xl);color:var(--mist);line-height:1.5}
 .idx__go{
   justify-self:end;width:44px;height:44px;border-radius:50%;
   display:grid;place-items:center;font-size:15px;color:var(--mist);
@@ -237,14 +227,14 @@
 .case__head{margin-bottom:var(--s60)}
 .case__eyebrow{
   display:flex;align-items:baseline;gap:var(--s18);flex-wrap:wrap;
-  font-size:var(--t-caption);letter-spacing:.14em;text-transform:uppercase;color:var(--iris);
+  font-size:var(--t-caption);font-weight:var(--fw-label);letter-spacing:.14em;text-transform:uppercase;color:var(--iris-ink);
 }
 .case__eyebrow em{font-style:normal;color:var(--ash)}
 .case__name{margin-block:var(--s18) var(--s12)}
 .case__meta{display:flex;align-items:center;gap:var(--s18);flex-wrap:wrap}
 .case__url{
   display:inline-flex;align-items:center;gap:9px;
-  font-size:var(--t-caption);letter-spacing:.04em;
+  font-size:var(--t-caption);font-weight:var(--fw-text);letter-spacing:.02em;
   padding:8px 16px;border-radius:var(--r-full);
   background:rgba(255,255,255,.05);color:var(--mist);
   transition:background .35s ease,color .35s ease,transform .5s var(--ease);
@@ -252,7 +242,7 @@
 .case__url:hover{background:rgba(128,82,255,.2);color:#fff;transform:translateY(-2px)}
 .case__live{
   display:inline-flex;align-items:center;gap:8px;
-  font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--verdant);
+  font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.14em;text-transform:uppercase;color:#4fd1b0;
 }
 .case__live i{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 2.4s ease-in-out infinite}
 
@@ -319,7 +309,7 @@
   transform:translate3d(0,calc((1 - var(--k)) * 24px),0) scale(calc(.88 + var(--k) * .12));
 }
 .fact b{font-size:clamp(18px,1.7vw,24px);font-weight:var(--fw-r);letter-spacing:-.035em;color:#fff;line-height:1}
-.fact span{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mist);max-width:27ch;line-height:1.45}
+.fact span{font-size:11.5px;font-weight:var(--fw-label);letter-spacing:.08em;text-transform:uppercase;color:var(--mist);max-width:27ch;line-height:1.45}
 .fact--a{left:-22px;top:20%}
 .fact--b{right:-22px;top:46%}
 .fact--c{left:9%;bottom:-20px}
@@ -361,7 +351,7 @@
 }
 .beat__k{
   display:flex;align-items:baseline;gap:12px;
-  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.16em;text-transform:uppercase;
   color:var(--spark);margin-bottom:var(--s18);
   padding-bottom:var(--s12);border-bottom:1px solid var(--hair);
 }
@@ -370,14 +360,14 @@
   font-weight:var(--fw-r);letter-spacing:.06em;color:var(--ash);
 }
 .beat__k--muted{color:var(--ash)}
-.beat p{font-size:16px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.65}
+.beat p{font-size:var(--t-text);font-weight:var(--fw-xl);color:var(--mist);line-height:1.65}
 .beat p + p{margin-top:var(--s18)}
 .beat strong{font-weight:var(--fw-r);color:#fff}
 
 .inside{display:flex;flex-direction:column;gap:12px}
 .inside li{
   display:flex;gap:14px;align-items:flex-start;
-  font-size:15px;font-weight:var(--fw-xl);color:var(--mist);
+  font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist);line-height:1.55;
 }
 .inside li::before{
   content:"";width:6px;height:6px;flex:none;margin-top:8px;
@@ -402,7 +392,7 @@
 /* "this is a working thing" — said once, then gone after the first touch */
 .demo__hint{
   margin-left:auto;display:inline-flex;align-items:center;gap:9px;
-  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);
+  font-size:11.5px;font-weight:var(--fw-label);letter-spacing:.1em;text-transform:uppercase;color:var(--mist);
   transition:opacity .45s ease,transform .45s var(--sect-ease);
 }
 .demo__hint i{position:relative;width:7px;height:7px;border-radius:50%;background:var(--spark);flex:none}
@@ -432,11 +422,11 @@
 /* ---------------- Demo 01: the WhatsApp message preview ---------------- */
 .preview{
   border-radius:14px;background:#0c0c0c;border:1px solid var(--hair);
-  padding:var(--s18);font-size:13px;line-height:1.75;color:var(--mist);
+  padding:var(--s18);font-size:14px;font-weight:var(--fw-text);line-height:1.75;color:var(--mist);
   white-space:pre-wrap;word-break:break-word;min-height:132px;
 }
 .preview b{color:#fff;font-weight:var(--fw-sb)}
-.preview .ph{color:#5a5a5a}
+.preview .ph{color:#7a7a7a}
 
 /* ---------------- Demo 02: the calculator ---------------- */
 .calc__bill{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s18);margin-bottom:var(--s12)}
@@ -478,13 +468,13 @@ input[type=range].slider::-moz-range-thumb{
 .lane[hidden]{display:none}   /* display:flex would otherwise beat the attribute */
 .lane__head{font-size:var(--t-2xs);font-weight:var(--fw-r);letter-spacing:-0.035em;line-height:1.2}
 .lane__list{display:flex;flex-direction:column;gap:11px}
-.lane__list li{font-size:14px;font-weight:var(--fw-xl);color:var(--mist);display:flex;gap:11px;align-items:flex-start}
+.lane__list li{font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist);display:flex;gap:11px;align-items:flex-start}
 .lane__list li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--iris);flex:none;margin-top:8px}
 .lane__route{
   display:flex;align-items:center;gap:11px;
   padding:var(--s18);border-radius:12px;
   background:rgba(21,132,110,.1);border:1px solid rgba(21,132,110,.3);
-  font-size:13px;font-weight:var(--fw-xl);color:#8fd8c7;
+  font-size:14px;font-weight:var(--fw-text);color:#8fd8c7;
 }
 .lane__route b{color:#fff;font-weight:var(--fw-sb)}
 .lane.is-swap{animation:laneIn .45s var(--ease)}
@@ -520,14 +510,14 @@ input[type=range].slider::-moz-range-thumb{
 }
 .bench__k{
   display:flex;align-items:center;gap:9px;padding-inline:6px;
-  font-size:11px;font-weight:var(--fw-sb);letter-spacing:.14em;text-transform:uppercase;
+  font-size:var(--t-label);font-weight:var(--fw-sb);letter-spacing:.14em;text-transform:uppercase;
 }
 .bench__k i{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 2.4s ease-in-out infinite}
-.bench__card p{padding-inline:6px;font-size:14.5px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6}
+.bench__card p{padding-inline:6px;font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist);line-height:1.6}
 
 /* in build: a file filling up */
 .bench__card--build .bench__k{color:var(--spark)}
-.bench__file{font-size:11px;color:var(--ash)}
+.bench__file{font-size:var(--t-label);color:var(--ash)}
 .bench__bar{height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
 .bench__bar i{
   display:block;height:100%;border-radius:inherit;
@@ -550,7 +540,7 @@ input[type=range].slider::-moz-range-thumb{
 
 /* under wraps: the names are blacked out */
 .bench__card--wraps .bench__k{color:var(--ash)}
-.bench__redact{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#5c5c66}
+.bench__redact{display:flex;align-items:center;gap:12px;font-size:var(--t-label);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 .bench__redact em{font-style:normal;width:52px;flex:none}
 .bench__redact i{
   position:relative;overflow:hidden;display:block;height:13px;width:var(--w);
@@ -574,7 +564,7 @@ input[type=range].slider::-moz-range-thumb{
   margin-top:var(--s60);padding-top:var(--s30);border-top:1px solid var(--hair);
 }
 .studio__foot .demo__cta{margin-top:0}
-.studio__ask{font-size:15px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.65;max-width:56ch}
+.studio__ask{font-size:var(--t-text);font-weight:var(--fw-xl);color:var(--mist);line-height:1.65;max-width:56ch}
 
 /* ---------------- Closing CTA (.close lives in components.css) ----------------
    The form used to stretch to the height of the copy beside it, and
@@ -586,11 +576,11 @@ input[type=range].slider::-moz-range-thumb{
 
 /* ---------------- Closing CTA picker ---------------- */
 .picker{margin-top:var(--s36)}
-.picker__q{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);display:block;margin-bottom:var(--s18)}
+.picker__q{font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.14em;text-transform:uppercase;color:var(--ash);display:block;margin-bottom:var(--s18)}
 .picker__out{
   margin-top:var(--s24);padding:var(--s18);border-radius:14px;
   background:rgba(128,82,255,.07);border:1px solid rgba(128,82,255,.22);
-  font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;
+  font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;
 }
 .picker__out b{color:#fff;font-weight:var(--fw-sb)}
 /* arriving from a case study's button: the picked chip flashes once */
@@ -605,17 +595,12 @@ input[type=range].slider::-moz-range-thumb{
    follow, so a 2560 screen doesn't get 1280-sized words in a wider box. */
 @media (min-width:1600px){
   .phero--split .display{font-size:min(clamp(42px,6.4vw,120px),11.4vh)}
-  .range li{font-size:12px}
+  .range li{font-size:12.5px}
   .idx__name{font-size:clamp(24px,3.1vw,58px)}
-  .idx__what,.inside li,.studio__ask{font-size:16px}
-  .idx__head .caption{font-size:13px}
-  .beat p{font-size:17px}
-  .lane__list li,.bench__card p{font-size:15.5px}
-  .fact span{font-size:11.5px}
+  .fact span{font-size:12px}
 }
 @media (min-width:1920px){
-  .beat p{font-size:18px}
-  .preview{font-size:14px}
+  .preview{font-size:15px}
 }
 
 /* ---------------- Short laptops ----------------

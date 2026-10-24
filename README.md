@@ -100,3 +100,50 @@ Then open <http://localhost:5500>.
 
 Also handled: short landscape phones, coarse pointers (hover effects dropped),
 `prefers-reduced-motion`, and print.
+
+## Text under the headlines
+
+Headlines are fine as they are. Everything below them (subtitles, descriptions,
+lists, labels) used to be Inter 200 at 10–14px in near-black greys, and on a
+black page it disappeared. Those roles now have floors in `tokens.css`, and
+every rule should use one of them instead of its own `px`:
+
+| Role | Token | Size | Weight | Colour |
+|---|---|---|---|---|
+| Lede — the paragraph that answers a headline | `--t-lede` | 17→20px | `--fw-xl` (300) | `--mist` |
+| Card copy, story paragraphs, row descriptions | `--t-text` | 16.5px | `--fw-xl` (300) | `--mist` |
+| List items, notes | `--t-small` | 15px | `--fw-xl` (300) | `--mist` / `--ash` |
+| Captions, chips, small print | `--t-caption` | 13px | `--fw-text` (400) | `--ash` |
+| Uppercase / mono labels | `--t-label` | 12px | `--fw-label` (500) | `--ash` or an accent |
+
+The tokens grow at 1600 and 1920 in `responsive.css`, so nothing needs its own
+large-screen override.
+
+Rules:
+
+- Nothing that carries words is set below 11px, or in a grey darker than
+  `--dim` (`#8a8a8a`). Darker greys are for rules and icons only.
+- Text at 14px or under is never `--fw-xl`: light strokes break up that small.
+- Descriptions are `--mist`, not `--ash`. `--ash` is for the secondary half of
+  a pair, such as "what's not included".
+- Violet as text uses `--iris-ink`. A per-item `--c` colouring words is mixed
+  toward white first: `color:color-mix(in srgb,var(--c) 65%,#fff)`.
+- `p`, `li` and `dd` wrap with `text-wrap:pretty` (no lone last word), and a
+  section-head lede uses `balance`.
+- `.secHead` sizes its title column to the title, so a two-line headline stays
+  on two lines and its lede sits beside it, not under a four-line stack.
+
+Done: **home, work, services**. Still to bring across, page by page:
+
+- **pricing.css / process.css / tools.css**: their own 10–11px labels,
+  `--fw-xl` on 13–15px text and hard-coded dark greys (`#3d3d3d` … `#6a6a6a`).
+  The shared parts (ledes, captions, chips, form labels, demo panels) are
+  already fixed, because they come from the shared sheets.
+- **Closing band on pricing, process and tools**: the form stretches to the
+  height of the copy beside it. The fix is in `services.css` under "Closing
+  band"; move it into `components.css` once all three pages are checked.
+- **Scroll choreography on pricing, process, tools and contact**: none of
+  them use `data-sect` / `data-seq` yet, and none have the hero atmosphere
+  (`.hero__atmos`). The services page shows the pattern: a `data-sect` variant
+  per section, `data-seq` on grids, and first-screen rows landing on load
+  with the rest landing as they're scrolled to.

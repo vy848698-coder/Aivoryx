@@ -25,13 +25,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=20261024">
-<link rel="stylesheet" href="assets/css/base.css?v=20261024">
-<link rel="stylesheet" href="assets/css/components.css?v=20261024">
-<link rel="stylesheet" href="assets/css/sections.css?v=20261024">
-<link rel="stylesheet" href="assets/css/services.css?v=20261024">
-<link rel="stylesheet" href="assets/css/responsive.css?v=20261024">
-<link rel="stylesheet" href="assets/css/motion.css?v=20261024">
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261024b">
+<link rel="stylesheet" href="assets/css/base.css?v=20261024b">
+<link rel="stylesheet" href="assets/css/components.css?v=20261024b">
+<link rel="stylesheet" href="assets/css/sections.css?v=20261024b">
+<link rel="stylesheet" href="assets/css/services.css?v=20261024b">
+<link rel="stylesheet" href="assets/css/responsive.css?v=20261024b">
+<link rel="stylesheet" href="assets/css/motion.css?v=20261024b">
 
 <script type="application/ld+json">
 {
@@ -93,75 +93,87 @@
 <main id="top">
 
 <!-- ============================ PAGE HERO ============================ -->
-<section class="phero">
+<section class="phero phero--svc" id="pheroSec">
+
+  <!-- the homepage's atmosphere, so the three pages read as one site -->
+  <div class="hero__atmos" aria-hidden="true">
+    <span class="hero__mesh"></span>
+    <span class="hero__grain"></span>
+  </div>
+
   <div class="wrap">
     <div data-hero-copy>
-      <p class="eyebrow fade" style="--d:.05s">Services &mdash; six things we build</p>
+      <!-- The intro steps back as the board scrolls up over it -->
+      <div class="phero__intro">
+        <p class="eyebrow fade" style="--d:.05s">Services &mdash; six things we build</p>
 
-      <h1 class="display">
-        <span class="line"><span style="--d:.18s">Ask any agency</span></span>
-        <span class="line"><span style="--d:.30s">what it costs.</span></span>
-        <span class="line"><span style="--d:.42s">We'll just tell you.</span></span>
-      </h1>
+        <h1 class="display">
+          <span class="line"><span style="--d:.18s">Ask any agency</span></span>
+          <span class="line"><span style="--d:.30s">what it costs.</span></span>
+          <span class="line"><span style="--d:.42s"><em class="grad">We'll just tell you.</em></span></span>
+        </h1>
 
-      <p class="lede fade" style="--d:.58s">
-        Most studios make you sit through a discovery call before anyone says a number.
-        We'd rather you knew now. Tick what your project needs and the
-        <span class="amber">range and timeline appear on this page</span> &mdash; then send
-        the whole spec to us in one tap.
-      </p>
+        <p class="lede fade" style="--d:.58s">
+          Most studios make you sit through a discovery call before anyone says a number.
+          We'd rather you knew now. Tick what your project needs and the
+          <span class="amber">range and timeline appear on this page</span> &mdash; then send
+          the whole spec to us in one tap.
+        </p>
+      </div>
 
       <!-- The page argues that nobody publishes prices, so the prices are the
            first thing on it — no stat strip in front of them repeating the same
-           figure. Each row opens its own detail card further down. -->
-      <div class="board">
-        <a class="board__row" href="#svc-site" data-scroll style="--c:#ffb829;--d:.86s">
+           figure. Each row opens its own detail card further down. Rows on the
+           first screen land on load; the rest land as they're scrolled to, and
+           each counts its price up as it does (services.js). -->
+      <div class="board" data-board>
+        <a class="board__row" href="#svc-site" data-scroll style="--c:#ffb829;--d:.80s">
           <span class="board__ix">01</span>
           <span class="board__t">Business websites</span>
           <span class="board__d">Turns a Google search into a call on your phone</span>
-          <span class="board__p">From <b>&#8377;7,999</b></span>
+          <span class="board__p">From <b data-count="7999" data-prefix="&#8377;">&#8377;7,999</b></span>
           <span class="board__w">7&ndash;14 days</span>
         </a>
-        <a class="board__row" href="#svc-webapp" data-scroll style="--c:#8052ff;--d:.94s">
+        <a class="board__row" href="#svc-webapp" data-scroll style="--c:#8052ff;--d:.88s">
           <span class="board__ix">02</span>
           <span class="board__t">Web applications</span>
           <span class="board__d">For when the spreadsheet has stopped coping</span>
-          <span class="board__p">From <b>&#8377;24,999</b></span>
+          <span class="board__p">From <b data-count="24999" data-prefix="&#8377;">&#8377;24,999</b></span>
           <span class="board__w">4&ndash;8 weeks</span>
         </a>
-        <a class="board__row" href="#svc-app" data-scroll style="--c:#8052ff;--d:1.02s">
+        <a class="board__row" href="#svc-app" data-scroll style="--c:#8052ff;--d:.96s">
           <span class="board__ix">03</span>
           <span class="board__t">Mobile apps</span>
           <span class="board__d">Android and iOS from a single codebase</span>
-          <span class="board__p">From <b>&#8377;24,999</b></span>
+          <span class="board__p">From <b data-count="24999" data-prefix="&#8377;">&#8377;24,999</b></span>
           <span class="board__w">5&ndash;10 weeks</span>
         </a>
-        <a class="board__row" href="#svc-store" data-scroll style="--c:#8052ff;--d:1.10s">
+        <a class="board__row" href="#svc-store" data-scroll style="--c:#8052ff;--d:1.04s">
           <span class="board__ix">04</span>
           <span class="board__t">Online stores</span>
           <span class="board__d">Catalogue, cart and Indian payment gateways</span>
-          <span class="board__p">From <b>&#8377;24,999</b></span>
+          <span class="board__p">From <b data-count="24999" data-prefix="&#8377;">&#8377;24,999</b></span>
           <span class="board__w">3&ndash;5 weeks</span>
         </a>
-        <a class="board__row" href="#svc-tool" data-scroll style="--c:#4fd1b0;--d:1.18s">
+        <a class="board__row" href="#svc-tool" data-scroll style="--c:#4fd1b0;--d:1.12s">
           <span class="board__ix">05</span>
           <span class="board__t">Interactive tools</span>
           <span class="board__d">The calculator that answers what was stopping the sale</span>
-          <span class="board__p">From <b>&#8377;2,000</b></span>
+          <span class="board__p">From <b data-count="2000" data-prefix="&#8377;">&#8377;2,000</b></span>
           <span class="board__w">3&ndash;5 days</span>
         </a>
-        <a class="board__row" href="#svc-ai" data-scroll style="--c:#4fd1b0;--d:1.26s">
+        <a class="board__row" href="#svc-ai" data-scroll style="--c:#4fd1b0;--d:1.20s">
           <span class="board__ix">06</span>
           <span class="board__t">AI chat &amp; automation</span>
           <span class="board__d">Answers your customers at 2am, hands you the real ones</span>
-          <span class="board__p">From <b>&#8377;3,500</b></span>
+          <span class="board__p">From <b data-count="3500" data-prefix="&#8377;">&#8377;3,500</b></span>
           <span class="board__w">4&ndash;7 days</span>
         </a>
       </div>
 
-      <div class="board__foot">
+      <div class="board__foot rv">
         <a class="btn" href="#builder" data-scroll data-magnetic><span class="btn__dot"></span><span>Build your own number</span></a>
-        <p class="caption" style="max-width:46ch;line-height:1.6">
+        <p class="caption board__note">
           Every figure above is a real starting point, not a teaser. Add what your
           project needs below and the range moves with it &mdash; then send it over and
           you'll have a straight answer the same day.
@@ -172,7 +184,7 @@
 </section>
 
 <!-- ============================ SCOPE BUILDER ============================ -->
-<section class="build" id="builder">
+<section class="scope" id="builder" data-sect="split">
   <div class="wrap">
     <div class="secHead rv">
       <div>
@@ -262,15 +274,15 @@
               </div>
 
               <!-- where this scope lands against the three published tiers -->
-              <div class="tier" id="quoteTier">
-                <span class="tier__k">Where that sits against our published tiers</span>
-                <div class="tier__track">
-                  <i class="tier__tick" style="left:8%"></i>
-                  <i class="tier__tick" style="left:40%"></i>
-                  <i class="tier__tick" style="left:76%"></i>
-                  <span class="tier__mark" id="quoteMark"></span>
+              <div class="qtier" id="quoteTier">
+                <span class="qtier__k">Where that sits against our published tiers</span>
+                <div class="qtier__track">
+                  <i class="qtier__tick" style="left:8%"></i>
+                  <i class="qtier__tick" style="left:40%"></i>
+                  <i class="qtier__tick" style="left:76%"></i>
+                  <span class="qtier__mark" id="quoteMark"></span>
                 </div>
-                <div class="tier__keys">
+                <div class="qtier__keys">
                   <span style="left:8%">Starter &#8377;8k</span>
                   <span style="left:40%">Growth &#8377;15k</span>
                   <span style="left:76%">Custom &#8377;25k</span>
@@ -299,7 +311,7 @@
 </section>
 
 <!-- ============================ SERVICES IN DEPTH ============================ -->
-<section class="svcs" id="detail">
+<section class="svcs" id="detail" data-sect="mask">
   <div class="wrap">
     <div class="secHead rv">
       <div>
@@ -329,7 +341,7 @@
             <span class="card__ix">Service 01</span>
           </span>
         </div>
-        <h3 class="card__t">Business websites</h3>
+        <h3 class="card__t"><span class="line"><span style="--d:.12s">Business websites</span></span></h3>
         <p class="card__best"><b>Best for</b> a business whose customers look them up on Google before they ever pick up the phone.</p>
         <p class="card__d">
           The site a customer checks before they call you. Three to twelve pages, written
@@ -337,7 +349,7 @@
           your phone.
         </p>
         <div class="card__facts">
-          <div class="card__fact"><b>&#8377;7,999</b><span>Starts at</span></div>
+          <div class="card__fact"><b data-count="7999" data-prefix="&#8377;">&#8377;7,999</b><span>Starts at</span></div>
           <div class="card__fact"><b>7&ndash;14 days</b><span>Typical</span></div>
         </div>
         <button class="ghost card__price" type="button" data-price-base="site">Price this one in the builder <i>&uarr;</i></button>
@@ -380,7 +392,7 @@
             <span class="card__ix">Service 02</span>
           </span>
         </div>
-        <h3 class="card__t">Web applications</h3>
+        <h3 class="card__t"><span class="line"><span style="--d:.12s">Web applications</span></span></h3>
         <p class="card__best"><b>Best for</b> a team running the business out of a shared spreadsheet that three people keep overwriting.</p>
         <p class="card__d">
           When a website isn't enough and a spreadsheet has stopped coping. Dashboards,
@@ -388,15 +400,15 @@
           permissions and a database behind them.
         </p>
         <div class="card__facts">
-          <div class="card__fact"><b>&#8377;24,999</b><span>From</span></div>
+          <div class="card__fact"><b data-count="24999" data-prefix="&#8377;">&#8377;24,999</b><span>From</span></div>
           <div class="card__fact"><b>4&ndash;8 weeks</b><span>Typical</span></div>
         </div>
         <button class="ghost card__price" type="button" data-price-base="webapp">Price this one in the builder <i>&uarr;</i></button>
-        <p class="caption" style="margin-top:var(--s18);line-height:1.7">
+        <p class="caption card__more">
           Working samples: our
-          <a href="tools.html#tool-fileshare" style="color:var(--mist);border-bottom:1px solid var(--hair-2)">file sharing</a>,
-          <a href="tools.html#tool-secret" style="color:var(--mist);border-bottom:1px solid var(--hair-2)">secret links</a> and
-          <a href="tools.html#tool-vault" style="color:var(--mist);border-bottom:1px solid var(--hair-2)">password vault</a>
+          <a href="tools.html#tool-fileshare">file sharing</a>,
+          <a href="tools.html#tool-secret">secret links</a> and
+          <a href="tools.html#tool-vault">password vault</a>
           are all this service, free to use.
         </p>
       </div>
@@ -436,7 +448,7 @@
             <span class="card__ix">Service 03</span>
           </span>
         </div>
-        <h3 class="card__t">Mobile apps</h3>
+        <h3 class="card__t"><span class="line"><span style="--d:.12s">Mobile apps</span></span></h3>
         <p class="card__best"><b>Best for</b> a service your customers use repeatedly &mdash; often enough to want an icon on their home screen.</p>
         <p class="card__d">
           Android and iOS from a single cross-platform codebase, so you pay once rather
@@ -444,7 +456,7 @@
           yours the day it goes live.
         </p>
         <div class="card__facts">
-          <div class="card__fact"><b>&#8377;24,999</b><span>From</span></div>
+          <div class="card__fact"><b data-count="24999" data-prefix="&#8377;">&#8377;24,999</b><span>From</span></div>
           <div class="card__fact"><b>5&ndash;10 weeks</b><span>Typical</span></div>
         </div>
         <button class="ghost card__price" type="button" data-price-base="app">Price this one in the builder <i>&uarr;</i></button>
@@ -485,14 +497,14 @@
             <span class="card__ix">Service 04</span>
           </span>
         </div>
-        <h3 class="card__t">Online stores</h3>
+        <h3 class="card__t"><span class="line"><span style="--d:.12s">Online stores</span></span></h3>
         <p class="card__best"><b>Best for</b> anyone currently taking orders through WhatsApp screenshots and a notebook.</p>
         <p class="card__d">
           Catalogue, cart, Indian payment gateways and an order flow you can run from
           your phone. Built so adding a product doesn't require calling us.
         </p>
         <div class="card__facts">
-          <div class="card__fact"><b>&#8377;24,999</b><span>From</span></div>
+          <div class="card__fact"><b data-count="24999" data-prefix="&#8377;">&#8377;24,999</b><span>From</span></div>
           <div class="card__fact"><b>3&ndash;5 weeks</b><span>Typical</span></div>
         </div>
         <button class="ghost card__price" type="button" data-price-base="store">Price this one in the builder <i>&uarr;</i></button>
@@ -533,7 +545,7 @@
             <span class="card__ix">Service 05</span>
           </span>
         </div>
-        <h3 class="card__t">Interactive tools</h3>
+        <h3 class="card__t"><span class="line"><span style="--d:.12s">Interactive tools</span></span></h3>
         <p class="card__best"><b>Best for</b> a business whose price depends on the customer's own numbers &mdash; and who therefore always has to phone first.</p>
         <p class="card__d">
           The calculator, quote engine or configurator that makes people stay. This is
@@ -541,13 +553,13 @@
           that was stopping the sale, without anyone picking up a phone.
         </p>
         <div class="card__facts">
-          <div class="card__fact"><b>&#8377;2,000</b><span>As an add-on</span></div>
+          <div class="card__fact"><b data-count="2000" data-prefix="&#8377;">&#8377;2,000</b><span>As an add-on</span></div>
           <div class="card__fact"><b>3&ndash;5 days</b><span>Typical</span></div>
         </div>
         <button class="ghost card__price" type="button" data-price-opt="tool">Add this one in the builder <i>&uarr;</i></button>
-        <p class="caption" style="margin-top:var(--s18);line-height:1.7">
+        <p class="caption card__more">
           Working sample: our
-          <a href="https://jsonbeautifier.aivoryx.com/" target="_blank" rel="noopener" style="color:var(--mist);border-bottom:1px solid var(--hair-2)">JSON toolkit</a>
+          <a href="https://jsonbeautifier.aivoryx.com/" target="_blank" rel="noopener">JSON toolkit</a>
           is one of these, built the same way and free to use.
         </p>
       </div>
@@ -585,7 +597,7 @@
             <span class="card__ix">Service 06</span>
           </span>
         </div>
-        <h3 class="card__t">AI chat &amp; automation</h3>
+        <h3 class="card__t"><span class="line"><span style="--d:.12s">AI chat &amp; automation</span></span></h3>
         <p class="card__best"><b>Best for</b> anyone answering the same eight questions every week, usually after hours.</p>
         <p class="card__d">
           An assistant that knows your services, your prices and your hours &mdash; answering
@@ -593,13 +605,13 @@
           that turned into something.
         </p>
         <div class="card__facts">
-          <div class="card__fact"><b>&#8377;3,500</b><span>As an add-on</span></div>
+          <div class="card__fact"><b data-count="3500" data-prefix="&#8377;">&#8377;3,500</b><span>As an add-on</span></div>
           <div class="card__fact"><b>4&ndash;7 days</b><span>Typical</span></div>
         </div>
         <button class="ghost card__price" type="button" data-price-opt="ai">Add this one in the builder <i>&uarr;</i></button>
-        <p class="caption" style="margin-top:var(--s18);line-height:1.7">
+        <p class="caption card__more">
           Working sample: our
-          <a href="https://gstreply.aivoryx.com/" target="_blank" rel="noopener" style="color:var(--mist);border-bottom:1px solid var(--hair-2)">GST notice reply generator</a>
+          <a href="https://gstreply.aivoryx.com/" target="_blank" rel="noopener">GST notice reply generator</a>
           is this service pointed at one document type &mdash; free to try.
         </p>
       </div>
@@ -627,7 +639,7 @@
 </section>
 
 <!-- ============================ DELIVERABLES ============================ -->
-<section class="ledger">
+<section class="ledger" data-sect="zoom">
   <div class="wrap">
     <div class="secHead rv">
       <div>
@@ -728,7 +740,7 @@
 </section>
 
 <!-- ============================ WRONG FIT ============================ -->
-<section class="fit">
+<section class="fit" data-sect="slide">
   <div class="wrap">
     <div class="secHead rv">
       <div>
@@ -744,8 +756,8 @@
       </p>
     </div>
 
-    <div class="fit__grid">
-      <div class="fit__item rv">
+    <div class="fit__grid" data-seq>
+      <div class="fit__item">
         <span class="fit__n">01</span>
         <h3 class="fit__t">You need it live tomorrow</h3>
         <p class="fit__d">
@@ -759,7 +771,7 @@
           properly behind it. We'll happily tell you how on the call, free.
         </p>
       </div>
-      <div class="fit__item rv" style="--d:.08s">
+      <div class="fit__item">
         <span class="fit__n">02</span>
         <h3 class="fit__t">Your budget is under &#8377;5,000</h3>
         <p class="fit__d">
@@ -773,7 +785,7 @@
           costing you more in lost leads than a rebuild would cost outright.
         </p>
       </div>
-      <div class="fit__item rv" style="--d:.16s">
+      <div class="fit__item">
         <span class="fit__n">03</span>
         <h3 class="fit__t">You want your builder site maintained</h3>
         <p class="fit__d">
@@ -787,7 +799,7 @@
           to stop paying monthly for the same recurring fault.
         </p>
       </div>
-      <div class="fit__item rv" style="--d:.24s">
+      <div class="fit__item">
         <span class="fit__n">04</span>
         <h3 class="fit__t">You want a guaranteed #1 ranking</h3>
         <p class="fit__d">
@@ -806,7 +818,7 @@
 </section>
 
 <!-- ============================ CLOSING CTA ============================ -->
-<section class="close" id="talk">
+<section class="close" id="talk" data-sect="rise">
   <div class="wrap contact">
     <div class="rv">
       <p class="eyebrow eyebrow--muted">Next step</p>
@@ -848,11 +860,11 @@
         </a>
       </div>
 
-      <p class="caption" style="margin-top:var(--s30);line-height:1.7">
+      <p class="caption close__links">
         Full tiers, the comparison table and a break-even chart live on the
-        <a href="pricing.html" style="color:var(--mist);border-bottom:1px solid var(--hair-2)">pricing page</a>,
+        <a href="pricing.html">pricing page</a>,
         and every day of the build is written out on the
-        <a href="process.html" style="color:var(--mist);border-bottom:1px solid var(--hair-2)">process page</a>.
+        <a href="process.html">process page</a>.
       </p>
     </div>
 
@@ -951,11 +963,11 @@
       <div class="footer__cols">
         <div class="footer__col">
           <h4>Build</h4>
-          <a href="#detail" data-scroll>Business websites</a>
-          <a href="#detail" data-scroll>Web applications</a>
-          <a href="#detail" data-scroll>Mobile apps</a>
-          <a href="#detail" data-scroll>Online stores</a>
-          <a href="#detail" data-scroll>AI chat &amp; automation</a>
+          <a href="#svc-site" data-scroll>Business websites</a>
+          <a href="#svc-webapp" data-scroll>Web applications</a>
+          <a href="#svc-app" data-scroll>Mobile apps</a>
+          <a href="#svc-store" data-scroll>Online stores</a>
+          <a href="#svc-ai" data-scroll>AI chat &amp; automation</a>
         </div>
         <div class="footer__col">
           <h4>Company</h4>
@@ -987,14 +999,14 @@
   <span>WhatsApp</span>
 </a>
 
-<script src="assets/js/config.js?v=20261024" defer></script>
-<script src="assets/js/utils.js?v=20261024" defer></script>
-<script src="assets/js/contact.js?v=20261024" defer></script>
-<script src="assets/js/nav.js?v=20261024" defer></script>
-<script src="assets/js/reveal.js?v=20261024" defer></script>
-<script src="assets/js/form.js?v=20261024" defer></script>
-<script src="assets/js/services.js?v=20261024" defer></script>
-<script src="assets/js/motion.js?v=20261024" defer></script>
-<script src="assets/js/main.js?v=20261024" defer></script>
+<script src="assets/js/config.js?v=20261024b" defer></script>
+<script src="assets/js/utils.js?v=20261024b" defer></script>
+<script src="assets/js/contact.js?v=20261024b" defer></script>
+<script src="assets/js/nav.js?v=20261024b" defer></script>
+<script src="assets/js/reveal.js?v=20261024b" defer></script>
+<script src="assets/js/form.js?v=20261024b" defer></script>
+<script src="assets/js/services.js?v=20261024b" defer></script>
+<script src="assets/js/motion.js?v=20261024b" defer></script>
+<script src="assets/js/main.js?v=20261024b" defer></script>
 </body>
 </html>

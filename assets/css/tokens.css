@@ -1,15 +1,21 @@
 /* ============================================================
    AIVORYX — Design tokens
    Pure black void · single violet accent · amber spark.
-   Hierarchy comes from scale, never from weight.
+   Hierarchy comes from scale, never from weight — but the text under
+   the headlines still has to be read, so it has floors (see "type").
    ============================================================ */
 :root{
   /* palette */
   --void:#000000;
   --bone:#ffffff;
-  --ash:#9a9a9a;
-  --mist:#bdbdbd;
+  --ash:#a3a3a3;
+  --mist:#c6c6c6;
+  /* the darkest grey allowed to carry words — anything below it is
+     decoration (a rule, an icon), never something a person has to read */
+  --dim:#8a8a8a;
   --iris:#8052ff;
+  /* violet as text: --iris itself is too dark to read at label size */
+  --iris-ink:#a68cff;
   --spark:#ffb829;
   --verdant:#15846e;
 
@@ -19,7 +25,13 @@
   /* type */
   --font:'Inter',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 
-  --t-caption:12px;
+  /* Text under a headline. These are floors: every subtitle, description,
+     list and label on a page uses one of them rather than its own px. */
+  --t-label:12px;                       /* uppercase / mono labels — the smallest text */
+  --t-caption:13px;                     /* captions, notes, chips */
+  --t-small:15px;                       /* list items, row descriptions */
+  --t-text:16.5px;                      /* card copy, story paragraphs */
+  --t-lede:clamp(17px,1.35vw,20px);     /* the paragraph that answers a headline */
   --t-nav:14px;
   --t-body:18px;
   --t-2xs:24px;
@@ -28,9 +40,11 @@
   --t-lg:78px;
   --t-display:113px;
 
-  --fw-xl:200;   /* signature ultra-light body */
+  --fw-xl:300;   /* light body — 200 read as a hairline on black */
+  --fw-text:400; /* text at 14px and under: light strokes break up that small */
+  --fw-label:500;/* uppercase labels */
   --fw-r:400;    /* every headline */
-  --fw-sb:600;   /* nav + labels only */
+  --fw-sb:600;   /* nav + buttons */
 
   /* space */
   --s6:6px;   --s12:12px; --s18:18px; --s24:24px;

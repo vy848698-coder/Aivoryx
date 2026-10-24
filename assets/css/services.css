@@ -9,7 +9,44 @@
    inherits --c from its category: amber for the everyday build,
    violet for custom scope, verdant for the two add-ons. The hero
    board, the detail cards and the glyph tiles all read from it.
+   Where --c colours words rather than a rule or a dot, it is mixed
+   toward white first — raw violet is unreadable at label size.
+
+   The scroll story, top to bottom:
+     hero     the intro steps back as the price board rises over it;
+              each row rules itself in and counts its price up
+     builder  head and copy converge; chips and options deal in
+     detail   uncovered from below; each card's glyph, title and
+              lists land in sequence
+     handover settles forward; each line is signed off with a tick,
+              then the stamp lands
+     fit      the four cards resolve with the scroll (motion.js)
+   Section entrances are the shared data-sect variants in motion.css.
    ============================================================ */
+
+/* ============================================================
+   Hero
+   Same atmosphere as the homepage and work heroes, so the three
+   read as one site. services.js publishes --s (0 → 1 as the intro
+   scrolls away): the intro recedes while the board stays in flow
+   and rides up over it.
+   ============================================================ */
+.phero--svc{isolation:isolate}
+.phero--svc > .wrap{position:relative;z-index:2}
+/* This hero runs on past the first screen to hold the whole board, so
+   the grid and grain fade out across it rather than stopping at a hard
+   edge where the next section starts. */
+.phero--svc .hero__atmos{
+  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 38%,transparent 66%);
+  mask-image:linear-gradient(180deg,#000 0,#000 38%,transparent 66%);
+}
+.phero--svc .hero__mesh{transform:translate3d(0,calc(var(--s,0) * 90px),0)}
+.phero__intro{
+  transform-origin:0 0;
+  transform:translate3d(0,calc(var(--s,0) * 48px),0) scale(calc(1 - var(--s,0) * .05));
+  opacity:calc(1 - var(--s,0) * .8);
+}
+.phero--svc .lede{font-size:var(--t-lede);color:var(--mist);max-width:50ch}
 
 /* ============================================================
    Hero price board
@@ -17,20 +54,36 @@
    agencies won't tell you the price — so the price is the first
    thing on it, before a single word of sales copy.
    ============================================================ */
-.board{margin-top:var(--s60);border-top:1px solid var(--hair-2)}
+.board{margin-top:var(--s60);position:relative}
+/* the top rule, and a beam that draws across it as the hero lands —
+   the same move as the homepage HUD */
+.board::before,.board::after{content:"";position:absolute;top:0;left:0;height:1px}
+.board::before{right:0;background:var(--hair-2)}
+.board::after{
+  width:0;z-index:1;
+  background:linear-gradient(90deg,var(--iris),var(--spark),transparent);
+  transition:width 1.6s var(--sect-ease) .75s;
+}
+.is-in .board::after{width:72%}
+
+/* Rows reveal one by one: those on the first screen on load, the rest
+   as they are scrolled to (services.js adds .is-in per row). The rule
+   under each row draws itself left to right as the row lands. */
 .board__row{
   display:grid;
-  grid-template-columns:36px minmax(0,1fr) minmax(0,1.45fr) 132px 108px;
+  grid-template-columns:36px minmax(0,1fr) minmax(0,1.45fr) 132px 112px;
   align-items:center;gap:var(--s24);
-  padding-block:var(--s18);border-bottom:1px solid var(--hair);
+  padding-block:var(--s18);
   position:relative;isolation:isolate;
-  opacity:0;transform:translateY(16px);
+  background:linear-gradient(var(--hair),var(--hair)) left bottom / 0 1px no-repeat;
+  opacity:0;transform:translate3d(0,18px,0);
   transition:
     opacity .8s var(--ease) var(--d,0s),
     transform .8s var(--ease) var(--d,0s),
+    background-size 1.2s var(--sect-ease) calc(var(--d,0s) + .1s),
     padding-left .5s var(--ease);
 }
-.is-in .board__row{opacity:1;transform:none}
+.board__row.is-in{opacity:1;transform:none;background-size:100% 1px}
 .board__row::before{
   content:"";position:absolute;left:0;top:-1px;height:1px;width:0;
   background:var(--c);transition:width .65s var(--ease);
@@ -44,45 +97,68 @@
 .board__row:hover::after{opacity:1}
 .board__row:hover{padding-left:var(--s12)}
 
-.board__ix{font-size:var(--t-caption);letter-spacing:.14em;color:#3d3d3d;font-variant-numeric:tabular-nums;transition:color .35s ease}
+.board__ix{font-size:var(--t-caption);letter-spacing:.14em;color:var(--dim);font-variant-numeric:tabular-nums;transition:color .35s ease}
 .board__row:hover .board__ix{color:var(--c)}
-.board__t{font-size:19px;font-weight:var(--fw-r);letter-spacing:-0.03em;color:#fff;transition:transform .5s var(--ease)}
+.board__t{font-size:20px;font-weight:var(--fw-r);letter-spacing:-0.03em;color:#fff;transition:transform .5s var(--ease)}
 .board__row:hover .board__t{transform:translateX(5px)}
-.board__d{font-size:14px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.5;transition:color .35s ease}
-.board__row:hover .board__d{color:var(--mist)}
-.board__p{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5a5a5a;text-align:right;white-space:nowrap}
+.board__d{font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist);line-height:1.5;transition:color .35s ease}
+.board__row:hover .board__d{color:#fff}
+.board__p{
+  font-size:11px;font-weight:var(--fw-label);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);text-align:right;white-space:nowrap;
+}
 .board__p b{
   display:block;margin-top:5px;
-  font-size:21px;font-weight:var(--fw-r);letter-spacing:-0.035em;
+  font-size:22px;font-weight:var(--fw-r);letter-spacing:-0.035em;
   color:#fff;text-transform:none;font-variant-numeric:tabular-nums;
 }
-.board__w{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--c);text-align:right;white-space:nowrap}
+/* the build time arrives a beat after its row, from the right */
+.board__w{
+  font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--c);color:color-mix(in srgb,var(--c) 60%,#fff);
+  text-align:right;white-space:nowrap;
+  opacity:0;transform:translate3d(12px,0,0);
+  transition:opacity .7s var(--ease) calc(var(--d,0s) + .35s),transform .7s var(--ease) calc(var(--d,0s) + .35s);
+}
+.board__row.is-in .board__w{opacity:1;transform:none}
 .board__foot{
   display:flex;align-items:center;gap:var(--s24);flex-wrap:wrap;
-  margin-top:var(--s24);
-  opacity:0;transform:translateY(14px);
-  transition:opacity .8s var(--ease) 1.3s,transform .8s var(--ease) 1.3s;
+  margin-top:var(--s30);
 }
-.is-in .board__foot{opacity:1;transform:none}
+.board__note{font-size:var(--t-caption);max-width:50ch}
 
 /* ============================================================
    Scope builder
    ============================================================ */
-.build{border-top:1px solid var(--hair);padding-block:var(--s120)}
+.scope{border-top:1px solid var(--hair);padding-block:var(--s120)}
 .build__grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:var(--s60);align-items:start}
 .build__col{position:sticky;top:calc(var(--nav-h) + var(--s30))}
 
 .step__label{
   display:flex;align-items:center;gap:12px;
-  font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.14em;text-transform:uppercase;
   color:var(--spark);margin-bottom:var(--s18);
 }
 .step__label b{
-  width:22px;height:22px;flex:none;border-radius:50%;
-  display:grid;place-items:center;font-size:10px;font-weight:var(--fw-sb);
+  width:24px;height:24px;flex:none;border-radius:50%;
+  display:grid;place-items:center;font-size:11px;font-weight:var(--fw-sb);
   background:rgba(255,184,41,.12);color:var(--spark);
 }
 .step + .step{margin-top:var(--s36)}
+
+/* the choices deal in one after another once their step lands */
+.step .chip,.step .opt{opacity:0;transform:translate3d(0,12px,0)}
+.step.is-in .chip,.step.is-in .opt{opacity:1;transform:none}
+.step .chip{
+  transition:opacity .6s var(--ease) var(--k,0s),transform .7s var(--ease) var(--k,0s),
+             background .3s ease,color .3s ease,border-color .3s ease;
+}
+.step > * > :nth-child(2){--k:.06s}
+.step > * > :nth-child(3){--k:.12s}
+.step > * > :nth-child(4){--k:.18s}
+.step > * > :nth-child(5){--k:.24s}
+.step > * > :nth-child(6){--k:.30s}
+.step > * > :nth-child(7){--k:.36s}
 
 /* feature toggles — a two-column ledger of options with their price */
 .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -91,12 +167,13 @@
   font-family:inherit;cursor:pointer;
   padding:15px 17px;border-radius:14px;
   background:rgba(255,255,255,.035);border:1px solid transparent;
-  transition:background .3s ease,border-color .3s ease,transform .4s var(--ease);
+  transition:opacity .6s var(--ease) var(--k,0s),transform .7s var(--ease) var(--k,0s),
+             background .3s ease,border-color .3s ease;
 }
 .opt:hover{background:rgba(255,255,255,.07)}
 .opt__box{
   width:19px;height:19px;flex:none;border-radius:6px;
-  border:1px solid rgba(255,255,255,.22);position:relative;
+  border:1px solid rgba(255,255,255,.26);position:relative;
   transition:background .3s ease,border-color .3s ease;
 }
 .opt__box::after{
@@ -107,26 +184,39 @@
 .opt[aria-pressed="true"]{background:rgba(128,82,255,.14);border-color:rgba(128,82,255,.5)}
 .opt[aria-pressed="true"] .opt__box{background:var(--iris);border-color:var(--iris)}
 .opt[aria-pressed="true"] .opt__box::after{transform:rotate(45deg) scale(1)}
-.opt__t{display:block;font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.35}
+.opt__t{display:block;font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist);line-height:1.35}
 .opt[aria-pressed="true"] .opt__t{color:#fff}
-.opt__p{display:block;font-size:11px;letter-spacing:.05em;color:#5f5f5f;margin-top:4px}
+.opt__p{display:block;font-size:var(--t-label);font-weight:var(--fw-text);letter-spacing:.03em;color:var(--dim);margin-top:5px}
+.opt[aria-pressed="true"] .opt__p{color:var(--ash)}
 .opt[disabled]{opacity:.35;cursor:not-allowed}
+
+/* the quote panel powers on as it arrives: rises, settles, and its
+   top edge lights — the same entrance as the work page demos */
+.scope .demo.rv{transform:translate3d(0,46px,0) scale(.965)}
+.scope .demo.rv.is-in{transform:none}
+.scope .demo__inner{position:relative}
+.scope .demo__inner::before{
+  content:"";position:absolute;top:0;left:12%;right:12%;height:1px;z-index:2;
+  background:linear-gradient(90deg,transparent,rgba(168,132,255,.85),transparent);
+  transform:scaleX(0);transition:transform 1.4s var(--sect-ease) .35s;
+}
+.scope .demo.is-in .demo__inner::before{transform:scaleX(1)}
 
 /* the running quote */
 .quote__spec{
-  display:flex;flex-direction:column;gap:9px;
+  display:flex;flex-direction:column;gap:10px;
   padding:var(--s18) 0 var(--s24);min-height:96px;
 }
 .quote__spec li{
   display:flex;justify-content:space-between;gap:var(--s18);
-  font-size:14px;font-weight:var(--fw-xl);color:var(--mist);
+  font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist);
   animation:specIn .42s var(--ease) both;
 }
 @keyframes specIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
 .quote__spec li b{font-weight:var(--fw-r);color:#fff}
-.quote__spec li span{color:#6a6a6a;white-space:nowrap}
+.quote__spec li span{color:var(--ash);white-space:nowrap}
 .quote__spec .empty{
-  display:block;color:#5a5a5a;font-size:14px;line-height:1.6;
+  display:block;color:var(--ash);font-size:var(--t-small);line-height:1.6;
   padding:var(--s18);border-radius:12px;
   border:1px dashed var(--hair-2);animation:none;
 }
@@ -135,33 +225,35 @@
   letter-spacing:-0.045em;line-height:1;color:#fff;
   font-variant-numeric:tabular-nums;
 }
-.quote__total small{display:block;font-size:13px;letter-spacing:0;color:var(--ash);margin-top:11px;font-variant-numeric:normal}
+.quote__total small{display:block;font-size:14px;font-weight:var(--fw-text);letter-spacing:0;color:var(--ash);margin-top:12px;font-variant-numeric:normal}
 .quote__total.is-bump{animation:bump .55s var(--ease)}
 @keyframes bump{0%{transform:translateY(0)}28%{transform:translateY(-5px)}100%{transform:translateY(0)}}
 
 /* where the quote lands against the three published tiers —
-   the panel's one piece of graphics, and a check on our own pricing */
-.tier{margin-top:var(--s24);padding-top:var(--s24);border-top:1px solid var(--hair)}
-.tier__k{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);margin-bottom:var(--s30)}
-.tier__track{
+   the panel's one piece of graphics, and a check on our own pricing.
+   Not .tier: that name belongs to the homepage pricing cards in
+   motion.css, which loads on this page too. */
+.qtier{margin-top:var(--s24);padding-top:var(--s24);border-top:1px solid var(--hair)}
+.qtier__k{display:block;font-size:11px;font-weight:var(--fw-label);letter-spacing:.14em;text-transform:uppercase;color:var(--ash);margin-bottom:var(--s30)}
+.qtier__track{
   position:relative;height:3px;border-radius:99px;margin-bottom:14px;
   background:linear-gradient(90deg,rgba(128,82,255,.4),rgba(255,184,41,.4));
 }
-.tier__tick{position:absolute;top:-5px;width:1px;height:13px;background:var(--hair-2);transform:translateX(-50%)}
-.tier__mark{
+.qtier__tick{position:absolute;top:-5px;width:1px;height:13px;background:var(--hair-2);transform:translateX(-50%)}
+.qtier__mark{
   position:absolute;top:50%;left:0;width:13px;height:13px;border-radius:50%;
   background:#fff;box-shadow:0 0 0 5px rgba(128,82,255,.3);
   transform:translate(-50%,-50%);opacity:0;
   transition:left .85s var(--ease),opacity .45s ease;
 }
-.tier.is-set .tier__mark{opacity:1}
-.tier__keys{position:relative;height:15px}
-.tier__keys span{
+.qtier.is-set .qtier__mark{opacity:1}
+.qtier__keys{position:relative;height:16px}
+.qtier__keys span{
   position:absolute;transform:translateX(-50%);white-space:nowrap;
-  font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5a5a5a;
+  font-size:11px;font-weight:var(--fw-label);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);
   transition:color .4s ease;
 }
-.tier__keys span.is-near{color:var(--spark)}
+.qtier__keys span.is-near{color:var(--spark)}
 
 /* ============================================================
    Service detail cards
@@ -182,35 +274,46 @@
 .card:first-of-type::after{display:none}
 
 .card__top{display:flex;align-items:center;gap:var(--s18);margin-bottom:var(--s24)}
+/* the glyph turns into place as its card lands, then answers the pointer */
 .card__glyph{
   width:54px;height:54px;flex:none;border-radius:17px;
   display:grid;place-items:center;color:var(--c);
   border:1px solid var(--hair-2);background:rgba(255,255,255,.03);
-  transition:background .45s ease,border-color .45s ease,transform .6s var(--ease);
+  opacity:0;transform:scale(.6) rotate(-16deg);
+  transition:opacity .6s var(--ease) .15s,transform .9s var(--sect-ease) .15s,
+             background .45s ease,border-color .45s ease;
 }
+.card.is-in .card__glyph{opacity:1;transform:none}
 .card:hover .card__glyph{
   background:rgba(255,255,255,.06);border-color:var(--c);
   transform:translateY(-3px) rotate(-5deg);
+  transition:background .45s ease,border-color .45s ease,transform .6s var(--ease);
 }
-.card__n{display:block;font-size:var(--t-caption);letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
-.card__ix{display:block;font-size:11px;letter-spacing:.22em;color:#3d3d3d;margin-top:7px;font-variant-numeric:tabular-nums}
+.card__n{
+  display:block;font-size:var(--t-caption);font-weight:var(--fw-label);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--c);color:color-mix(in srgb,var(--c) 70%,#fff);
+}
+.card__ix{display:block;font-size:var(--t-label);letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-top:7px;font-variant-numeric:tabular-nums}
 .card__t{font-size:clamp(26px,3.4vw,var(--t-sm));font-weight:var(--fw-r);letter-spacing:-0.04em;line-height:1.1;margin-bottom:var(--s18)}
 
 /* the line that tells someone in one sentence whether to read on */
 .card__best{
-  font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;
-  padding:13px var(--s18);border-radius:12px;margin-bottom:var(--s24);
+  font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;
+  padding:14px var(--s18);border-radius:12px;margin-bottom:var(--s24);
   background:rgba(255,255,255,.028);border-left:2px solid var(--c);
 }
 .card__best b{
   display:block;margin-bottom:6px;
-  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--c);font-weight:var(--fw-sb);
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--c);color:color-mix(in srgb,var(--c) 70%,#fff);font-weight:var(--fw-sb);
 }
-.card__d{font-size:16px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;max-width:42ch}
+.card__d{font-size:var(--t-text);font-weight:var(--fw-xl);color:var(--mist);line-height:1.65;max-width:44ch}
 .card__facts{display:flex;gap:var(--s30);flex-wrap:wrap;margin-top:var(--s30);padding-top:var(--s24);border-top:1px solid var(--hair)}
-.card__fact b{display:block;font-size:var(--t-2xs);font-weight:var(--fw-r);letter-spacing:-0.03em;color:#fff;margin-bottom:3px}
-.card__fact span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ash)}
+.card__fact b{display:block;font-size:var(--t-2xs);font-weight:var(--fw-r);letter-spacing:-0.03em;color:#fff;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.card__fact span{font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.1em;text-transform:uppercase;color:var(--ash)}
+.card__more{margin-top:var(--s18);line-height:1.7}
+.card__more a{color:var(--mist);border-bottom:1px solid var(--hair-2);transition:color .3s ease,border-color .3s ease}
+.card__more a:hover{color:#fff;border-color:currentColor}
 
 /* a ghost link that is really a button — it drives the builder above */
 button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family:inherit}
@@ -220,21 +323,39 @@ button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family
 
 .card__lists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s36)}
 .list__k{
-  display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  display:block;font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.14em;text-transform:uppercase;
   color:var(--ash);margin-bottom:var(--s18);padding-bottom:10px;border-bottom:1px solid var(--hair);
 }
-.list__k--no{color:#6a6a6a}
-.list{display:flex;flex-direction:column;gap:11px}
-.list li{display:flex;gap:12px;align-items:flex-start;font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.5}
-.list li::before{content:"";width:5px;height:5px;flex:none;margin-top:8px;border-radius:50%;background:var(--c)}
-.list--no li{color:#7a7a7a}
-.list--no li::before{background:#5a5a5a;border-radius:0;width:7px;height:1px;margin-top:11px}
+.list__k--no{color:var(--dim)}
+.list{display:flex;flex-direction:column;gap:12px}
+.list li{display:flex;gap:12px;align-items:flex-start;font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist);line-height:1.5}
+.list li::before{content:"";width:5px;height:5px;flex:none;margin-top:9px;border-radius:50%;background:var(--c)}
+.list--no li{color:var(--ash)}
+.list--no li::before{background:#6a6a6a;border-radius:0;width:7px;height:1px;margin-top:12px}
+
+/* the lists fill in a line at a time once the card has landed —
+   what's included first, then what isn't */
+.card .list li{
+  opacity:0;transform:translate3d(-10px,0,0);
+  transition:opacity .6s var(--ease) var(--k,0s),transform .7s var(--ease) var(--k,0s);
+}
+.card.is-in .list li{opacity:1;transform:none}
+.list li:nth-child(1){--k:.30s}
+.list li:nth-child(2){--k:.36s}
+.list li:nth-child(3){--k:.42s}
+.list li:nth-child(4){--k:.48s}
+.list li:nth-child(5){--k:.54s}
+.list li:nth-child(6){--k:.60s}
+.list--no li:nth-child(1){--k:.62s}
+.list--no li:nth-child(2){--k:.68s}
+.list--no li:nth-child(3){--k:.74s}
+.list--no li:nth-child(4){--k:.80s}
 
 /* ============================================================
    Deliverables — a handover manifest, not a card grid.
    The section is about legal ownership, so it's styled as a
    document being signed over: ruled rows, an index column, and a
-   seal that closes on each line.
+   tick that draws itself as each line lands — then the stamp.
    ============================================================ */
 .ledger{border-top:1px solid var(--hair);padding-block:var(--s120)}
 
@@ -245,7 +366,7 @@ button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family
 }
 .manifest__inner{
   border-radius:calc(var(--r-3xl) - 1px);
-  background:radial-gradient(120% 80% at 0% 0%,#0d0b14 0%,#060606 55%);
+  background:#060606;
   overflow:hidden;position:relative;
 }
 /* a single sheet-of-paper highlight along the top edge */
@@ -259,9 +380,9 @@ button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family
   flex-wrap:wrap;padding:var(--s30) var(--s36);border-bottom:1px solid var(--hair);
 }
 .manifest__kicker{
-  font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--spark);
+  font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.2em;text-transform:uppercase;color:var(--spark);
 }
-.manifest__count{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5f5f5f}
+.manifest__count{font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 
 .manifest__list{list-style:none}   /* base.css only resets ul */
 .mrow{
@@ -283,7 +404,7 @@ button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family
 .mrow:last-child{border-bottom:0}
 
 .mrow__n{
-  font-size:var(--t-caption);letter-spacing:.18em;color:#4a4a4a;
+  font-size:var(--t-caption);letter-spacing:.18em;color:var(--dim);
   padding-top:6px;transition:color .35s ease;
   font-variant-numeric:tabular-nums;
 }
@@ -295,17 +416,22 @@ button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family
   font-size:clamp(19px,2.1vw,23px);font-weight:var(--fw-r);
   letter-spacing:-0.035em;line-height:1.2;margin-bottom:9px;
 }
-.mrow__d{font-size:15px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.6;max-width:62ch}
+.mrow__d{font-size:var(--t-text);font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;max-width:62ch}
 
-/* the seal: an open ring that closes into a tick on hover */
+/* the seal: the tick draws itself half a beat after its line lands */
 .mrow__seal{
   justify-self:end;width:34px;height:34px;border-radius:50%;
   display:grid;place-items:center;flex:none;margin-top:2px;
-  border:1px solid var(--hair-2);color:#4a4a4a;
+  border:1px solid rgba(21,132,110,.4);color:#6fbfac;
   transition:border-color .45s ease,color .45s ease,background .45s ease,transform .55s var(--ease);
 }
+.mrow__seal path{
+  stroke-dasharray:24;stroke-dashoffset:24;
+  transition:stroke-dashoffset .7s var(--sect-ease) calc(var(--d,0s) + .5s);
+}
+.manifest.is-in .mrow__seal path{stroke-dashoffset:0}
 .mrow:hover .mrow__seal{
-  border-color:rgba(21,132,110,.75);background:rgba(21,132,110,.14);
+  border-color:rgba(21,132,110,.8);background:rgba(21,132,110,.16);
   color:#8fd8c7;transform:rotate(-8deg) scale(1.06);
 }
 
@@ -314,56 +440,77 @@ button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family
   padding:var(--s24) var(--s36);
   background:rgba(255,255,255,.015);border-top:1px solid var(--hair);
 }
-.manifest__sig{font-size:13px;font-weight:var(--fw-xl);color:var(--mist)}
+.manifest__sig{font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist)}
 .manifest__sig b{color:#fff;font-weight:var(--fw-r)}
+/* stamped, not faded: it lands oversized and settles with a little give */
 .manifest__stamp{
-  margin-left:auto;font-size:10px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--verdant);padding:7px 14px;border-radius:var(--r-full);
-  border:1px solid rgba(21,132,110,.35);background:rgba(21,132,110,.08);
+  margin-left:auto;font-size:11px;font-weight:var(--fw-label);letter-spacing:.2em;text-transform:uppercase;
+  color:#4fd1b0;padding:7px 14px;border-radius:var(--r-full);
+  border:1px solid rgba(21,132,110,.45);background:rgba(21,132,110,.08);
+  opacity:0;transform:scale(1.6) rotate(-12deg);
+  transition:opacity .3s ease 1.05s,transform .65s cubic-bezier(.3,1.5,.5,1) 1.05s;
 }
+.manifest.is-in .manifest__stamp{opacity:1;transform:rotate(-3deg)}
 
 /* ============================================================
    Wrong fit — each objection carries the alternative we'd point
    you at, so the section is useful rather than merely candid.
+   The cards resolve with the scroll (data-seq in motion.css); the
+   hover lift moves to `translate` so it composes with that.
    ============================================================ */
 .fit{border-top:1px solid var(--hair);padding-block:var(--s120)}
 .fit__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s24)}
 .fit__item{
   padding:var(--s30);border-radius:18px;
   background:rgba(255,255,255,.022);border:1px solid var(--hair);
-  transition:border-color .45s ease,background .45s ease,transform .55s var(--ease);
+  transition:border-color .45s ease,background .45s ease,translate .55s var(--ease);
+}
+[data-seq][data-seq] > .fit__item{
+  transition:opacity .14s linear,transform .14s linear,
+             border-color .45s ease,background .45s ease,translate .55s var(--ease);
 }
 .fit__item:hover{
   border-color:rgba(255,184,41,.28);background:rgba(255,184,41,.028);
-  transform:translateY(-4px);
+  translate:0 -4px;
 }
-.fit__n{display:block;font-size:11px;letter-spacing:.2em;color:var(--spark);margin-bottom:var(--s18)}
+.fit__n{display:block;font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.2em;color:var(--spark);margin-bottom:var(--s18)}
 .fit__t{font-size:var(--t-2xs);font-weight:var(--fw-r);letter-spacing:-0.035em;margin-bottom:var(--s12)}
-.fit__d{font-size:15px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.6}
+.fit__d{font-size:var(--t-text);font-weight:var(--fw-xl);color:var(--mist);line-height:1.6}
 .fit__alt{
   margin-top:var(--s24);padding-top:var(--s18);border-top:1px solid var(--hair);
-  font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;
+  font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;
 }
 .fit__alt b{
   display:block;margin-bottom:6px;
-  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--spark);font-weight:var(--fw-sb);
 }
 
+/* ---------------- Closing band ----------------
+   Same fix as the work page: at section-title size the heading broke
+   into five lines, and the form stretched to match it with its rows
+   spread apart. The form keeps its own height and rides along. */
+.close .secHead__title{font-size:clamp(34px,4.6vw,64px)}
+.close .form{align-self:start;align-content:start;position:sticky;top:calc(var(--nav-h) + var(--s30))}
+.close__links{margin-top:var(--s30);line-height:1.7}
+.close__links a{color:var(--mist);border-bottom:1px solid var(--hair-2);transition:color .3s ease,border-color .3s ease}
+.close__links a:hover{color:#fff;border-color:currentColor}
+
 /* ---------------- Responsive ---------------- */
 @media (max-width:1280px){
-  .board__row{grid-template-columns:34px minmax(0,1fr) minmax(0,1.2fr) 118px 96px;gap:var(--s18)}
+  .board__row{grid-template-columns:34px minmax(0,1fr) minmax(0,1.2fr) 118px 100px;gap:var(--s18)}
 }
 
 @media (max-width:1024px){
   /* the one-line description is the first thing to go */
-  .board__row{grid-template-columns:34px minmax(0,1fr) 118px 96px;gap:var(--s18)}
+  .board__row{grid-template-columns:34px minmax(0,1fr) 118px 100px;gap:var(--s18)}
   .board__d{display:none}
 
   .build__grid{grid-template-columns:1fr;gap:var(--s60)}
   .build__col{position:static}
   .card{grid-template-columns:1fr;gap:var(--s36)}
   .card__d{max-width:none}
+  .close .form{position:static}
 }
 
 @media (max-width:760px){
@@ -378,7 +525,7 @@ button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family
     grid-column:2;grid-row:2;text-align:left;
     display:flex;align-items:baseline;gap:10px;
   }
-  .board__p b{margin-top:0;font-size:19px}
+  .board__p b{margin-top:0;font-size:20px}
   .board__w{grid-column:3;grid-row:2;align-self:baseline}
   .board__row:hover{padding-left:0}
 
@@ -391,7 +538,7 @@ button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family
   .mrow{grid-template-columns:minmax(0,1fr) 30px;gap:var(--s18);padding:var(--s24)}
   .mrow__n{
     grid-column:1/-1;padding-top:0;margin-bottom:-8px;
-    font-size:11px;letter-spacing:.2em;color:var(--spark);
+    font-size:var(--t-label);letter-spacing:.2em;color:var(--spark);
   }
   .mrow__seal{width:28px;height:28px}
   .mrow:hover .mrow__body{transform:none}
@@ -402,17 +549,30 @@ button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family
 }
 
 @media (max-width:480px){
-  .board__t{font-size:17px}
-  .tier__keys span{font-size:9px}
+  .board__t{font-size:18px}
+  .qtier__keys span{font-size:10px;letter-spacing:.04em}
 }
 
 @media (hover:none){
   .board__row:hover{padding-left:0}
   .card:hover .card__glyph{transform:none}
-  .fit__item:hover{transform:none}
+  .fit__item:hover{translate:none}
 }
 
 @media (prefers-reduced-motion:reduce){
-  .mrow,.board__row,.board__foot{opacity:1;transform:none}
+  .mrow,.board__row,.board__w,.step .chip,.step .opt,
+  .card__glyph,.card .list li,.manifest__stamp{opacity:1;transform:none}
+  .board__row{background-size:100% 1px}
+  .manifest__stamp{transform:rotate(-3deg)}
+  .mrow__seal path{stroke-dashoffset:0}
+  .phero__intro,.phero--svc .hero__mesh{transform:none;opacity:1}
   .quote__spec li,.quote__total.is-bump{animation:none}
+}
+/* every reveal here is started by script, so without it nothing may
+   start hidden */
+@media (scripting: none){
+  .mrow,.board__row,.board__w,.step .chip,.step .opt,
+  .card__glyph,.card .list li,.manifest__stamp{opacity:1;transform:none}
+  .board__row{background-size:100% 1px}
+  .mrow__seal path{stroke-dashoffset:0}
 }
