@@ -79,7 +79,7 @@ Then open <http://localhost:5500>.
 ## Before going live
 
 1. ~~**`assets/js/config.js`** — WhatsApp number, phone and email.~~ Done:
-   `+91 93995 93499` / `pradeep952025@gmail.com`. Everything on the page reads
+   `+91 93995 93499` / `admin@aivoryx.com`. Everything on the page reads
    from here, so change it in one place if it ever moves.
 2. **`index.html`** — replace `https://aivoryx.com/` in the canonical tag, the Open
    Graph tags and the JSON-LD block with the real domain.

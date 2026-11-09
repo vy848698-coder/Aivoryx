@@ -27,9 +27,9 @@
 /* ============================================================
    Hero
    Same atmosphere as the homepage and work heroes, so the three
-   read as one site. services.js publishes --s (0 → 1 as the intro
-   scrolls away): the intro recedes while the board stays in flow
-   and rides up over it.
+   read as one site. recede() in motion.js publishes --s (0 → 1 as
+   the intro scrolls away): the intro recedes while the board stays in
+   flow and rides up over it.
    ============================================================ */
 .phero--svc{isolation:isolate}
 .phero--svc > .wrap{position:relative;z-index:2}
@@ -39,12 +39,6 @@
 .phero--svc .hero__atmos{
   -webkit-mask-image:linear-gradient(180deg,#000 0,#000 38%,transparent 66%);
   mask-image:linear-gradient(180deg,#000 0,#000 38%,transparent 66%);
-}
-.phero--svc .hero__mesh{transform:translate3d(0,calc(var(--s,0) * 90px),0)}
-.phero__intro{
-  transform-origin:0 0;
-  transform:translate3d(0,calc(var(--s,0) * 48px),0) scale(calc(1 - var(--s,0) * .05));
-  opacity:calc(1 - var(--s,0) * .8);
 }
 .phero--svc .lede{font-size:var(--t-lede);color:var(--mist);max-width:50ch}
 
@@ -67,7 +61,7 @@
 .is-in .board::after{width:72%}
 
 /* Rows reveal one by one: those on the first screen on load, the rest
-   as they are scrolled to (services.js adds .is-in per row). The rule
+   as they are scrolled to (land() in motion.js adds .is-in per row). The rule
    under each row draws itself left to right as the row lands. */
 .board__row{
   display:grid;
@@ -565,7 +559,6 @@ button.ghost{background:none;border:0;padding:0 0 3px;cursor:pointer;font-family
   .board__row{background-size:100% 1px}
   .manifest__stamp{transform:rotate(-3deg)}
   .mrow__seal path{stroke-dashoffset:0}
-  .phero__intro,.phero--svc .hero__mesh{transform:none;opacity:1}
   .quote__spec li,.quote__total.is-bump{animation:none}
 }
 /* every reveal here is started by script, so without it nothing may

@@ -1,6 +1,6 @@
 /* ============================================================
    TOOLS PAGE
-   The device: five working products, handed over before any money
+   The device: seven working products, handed over before any money
    changes hands. The rest of the site argues in prose that we
    hand-build software and you keep it — this page just gives you
    some and lets you check.
@@ -10,15 +10,49 @@
    demonstrates: violet for web applications, verdant for
    interactive tools, amber for AI. The rack tiles, the detail
    rows and the bridge table all read from it.
+
+   The scroll story, top to bottom:
+     hero     the intro steps back as the rack rises over it; each
+              tile lands as it is reached, then fills in from glyph
+              to footer
+     pledge   head and copy converge; the four reasons resolve with
+              the scroll and rule themselves in (motion.js)
+     detail   uncovered from below; each tool's glyph, best-for line
+              and both lists land in sequence
+     bridge   settles forward; each row rules in, its arrow travels
+              to the service, and the price counts up
+     close    rises in, and the form keeps its own height
+   Section entrances are the shared data-sect variants in motion.css;
+   land() and recede() in motion.js drive the hero and the bridge.
    ============================================================ */
 
 /* ============================================================
+   Hero
+   Same atmosphere as the homepage and services heroes. This one
+   runs on past the first screen to hold the whole rack, so the grid
+   and grain fade out across it instead of stopping at a hard edge.
+   ============================================================ */
+.phero--tools{isolation:isolate}
+.phero--tools > .wrap{position:relative;z-index:2}
+.phero--tools .hero__atmos{
+  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 38%,transparent 66%);
+  mask-image:linear-gradient(180deg,#000 0,#000 38%,transparent 66%);
+}
+
+/* ============================================================
    Hero rack
-   Five tiles, every one a live link. The page's claim is that the
+   Seven tiles, every one a live link. The page's claim is that the
    tools are real, so the tools are the first thing on it — no
    sales paragraph standing between the reader and the product.
-   Six columns: three tiles of two on row one, two tiles of three
-   on row two, so the last pair reads as the bigger products.
+   Six columns: three tiles of two on row one, then two rows of
+   wide tiles, so the later ones read as the bigger products.
+
+   Each tile lands on its own (land() adds .is-in) and then builds
+   itself: the accent rule draws, the glyph turns into place, the
+   tag slides in, the features tick in one at a time, and the
+   footer arrives last. Every step is offset from the tile's --d.
+   The hover lift uses `translate`, not transform, so it never
+   inherits the landing delay.
    ============================================================ */
 .rack{
   display:grid;grid-template-columns:repeat(6,minmax(0,1fr));
@@ -31,39 +65,51 @@
   border-radius:var(--r-3xl);border:1px solid var(--hair);
   background:rgba(255,255,255,.028);
   position:relative;isolation:isolate;overflow:hidden;
-  opacity:0;transform:translateY(18px);
+  opacity:0;transform:translate3d(0,40px,0) scale(.965);
   transition:
-    opacity .85s var(--ease) var(--d,0s),
-    transform .85s var(--ease) var(--d,0s),
+    opacity .9s var(--sect-ease) var(--d,0s),
+    transform 1.15s var(--sect-ease) var(--d,0s),
+    translate .55s var(--ease),
     border-color .45s ease,
     background .45s ease;
 }
 .tool--wide{grid-column:span 3}
-.is-in .tool{opacity:1;transform:none}
-.is-in .tool:hover{transform:translateY(-5px);background:rgba(255,255,255,.055);border-color:var(--c)}
+.tool.is-in{opacity:1;transform:none}
+.tool.is-in:hover{translate:0 -5px;background:rgba(255,255,255,.055);border-color:var(--c)}
 
 /* the accent hairline draws itself in as the tile arrives */
 .tool::before{
   content:"";position:absolute;top:0;left:0;right:0;height:1px;
   background:linear-gradient(90deg,var(--c),transparent 78%);
   transform:scaleX(0);transform-origin:left;
-  transition:transform 1.05s var(--ease) var(--d,0s);
+  transition:transform 1.2s var(--sect-ease) calc(var(--d,0s) + .12s);
 }
-.is-in .tool::before{transform:scaleX(1)}
+.tool.is-in::before{transform:scaleX(1)}
 
 .tool__top{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s18);margin-bottom:var(--s24)}
+/* turns into place as its tile lands, then answers the pointer —
+   the landing runs on scale/rotate, the hover on transform */
 .tool__glyph{
   width:46px;height:46px;flex:none;border-radius:14px;
   display:grid;place-items:center;color:var(--c);
   border:1px solid var(--hair-2);background:rgba(255,255,255,.03);
-  transition:background .45s ease,border-color .45s ease,transform .6s var(--ease);
+  opacity:0;scale:.6;rotate:-16deg;
+  transition:
+    opacity .6s var(--ease) calc(var(--d,0s) + .2s),
+    scale .9s var(--sect-ease) calc(var(--d,0s) + .2s),
+    rotate .9s var(--sect-ease) calc(var(--d,0s) + .2s),
+    background .45s ease,border-color .45s ease,transform .6s var(--ease);
 }
+.tool.is-in .tool__glyph{opacity:1;scale:1;rotate:0deg}
 .tool:hover .tool__glyph{background:rgba(255,255,255,.07);border-color:var(--c);transform:translateY(-2px) rotate(-6deg)}
 .tool__tag{
   font-size:10px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--c);padding:5px 11px;border-radius:var(--r-full);
   border:1px solid var(--hair-2);white-space:nowrap;
+  opacity:0;transform:translate3d(14px,0,0);
+  transition:opacity .7s var(--ease) calc(var(--d,0s) + .3s),transform .8s var(--sect-ease) calc(var(--d,0s) + .3s);
 }
+.tool.is-in .tool__tag{opacity:1;transform:none}
 .tool__t{
   font-size:var(--t-2xs);font-weight:var(--fw-r);
   letter-spacing:-0.035em;line-height:1.18;color:#fff;
@@ -75,14 +121,24 @@
 .tool__feats li{
   display:flex;gap:11px;align-items:flex-start;
   font-size:13px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.45;
+  opacity:0;transform:translate3d(-10px,0,0);
+  transition:opacity .6s var(--ease) calc(var(--d,0s) + var(--k,0s)),transform .7s var(--ease) calc(var(--d,0s) + var(--k,0s));
 }
+.tool.is-in .tool__feats li{opacity:1;transform:none}
+.tool__feats li:nth-child(1){--k:.38s}
+.tool__feats li:nth-child(2){--k:.45s}
+.tool__feats li:nth-child(3){--k:.52s}
+.tool__feats li:nth-child(4){--k:.59s}
 .tool__feats li::before{content:"";width:4px;height:4px;flex:none;margin-top:7px;border-radius:50%;background:var(--c)}
 
 /* footer pins to the bottom so a row of tiles ends on one line */
 .tool__foot{
   display:flex;align-items:center;justify-content:space-between;gap:var(--s18);
   margin-top:auto;padding-top:var(--s24);
+  opacity:0;transform:translate3d(0,10px,0);
+  transition:opacity .7s var(--ease) calc(var(--d,0s) + .68s),transform .8s var(--sect-ease) calc(var(--d,0s) + .68s);
 }
+.tool.is-in .tool__foot{opacity:1;transform:none}
 .tool__cost{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6a6a6a}
 .tool__cost b{display:block;font-weight:var(--fw-r);font-size:13px;letter-spacing:.04em;color:#fff;margin-bottom:4px;text-transform:none}
 .tool__go{
@@ -103,23 +159,48 @@
    Why they're free
    The site refuses to hide numbers, so it can't hide a motive
    either. Four reasons, stated plainly, before anyone wonders.
+
+   The grid is drawn by its 1px gaps, so the cells themselves must
+   not fade — the lines would show through as a grey block. The
+   sequence engine's --p drives what is inside each cell instead,
+   each line travelling a little further than the one above it,
+   and a rule draws across the top of the cell as it resolves.
    ============================================================ */
 .pledge{border-top:1px solid var(--hair);padding-block:var(--s120)}
 .pledge__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--hair);border-block:1px solid var(--hair)}
 .pledge__item{
   background:#000;padding:var(--s36) var(--s24);
+  position:relative;
   transition:background .5s ease;
 }
 .pledge__item:hover{background:rgba(255,255,255,.03)}
+.pledge__item::before{
+  content:"";position:absolute;top:-1px;left:0;height:1px;
+  width:calc(var(--p,1) * 100%);
+  background:linear-gradient(90deg,var(--spark),var(--iris));
+}
 .pledge__n{display:block;font-size:11px;letter-spacing:.2em;color:var(--spark);margin-bottom:var(--s18)}
 .pledge__t{font-size:19px;font-weight:var(--fw-r);letter-spacing:-0.03em;color:#fff;margin-bottom:var(--s12);line-height:1.25}
 .pledge__d{font-size:14px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.6}
+
+[data-seq][data-seq] > .pledge__item{opacity:1;transform:none;transition:background .5s ease}
+[data-seq] > .pledge__item > *{
+  opacity:calc(.08 + var(--p,0) * .92);
+  transform:translate3d(0,calc((1 - var(--p,0)) * var(--rise,24px)),0);
+  transition:opacity .14s linear,transform .14s linear;
+}
+[data-seq] > .pledge__item > .pledge__t{--rise:36px}
+[data-seq] > .pledge__item > .pledge__d{--rise:50px}
 
 /* ============================================================
    Detail rows
    One per tool, same two-column ledger the services page uses for
    its scope cards — what it does on the left, what it doesn't on
    the right, because the second list is the one that builds trust.
+   Each row builds itself once it lands: the rule sweeps across,
+   the glyph turns into place, the best-for line wipes open, then
+   both lists fill a line at a time — what it does, then what it
+   doesn't.
    ============================================================ */
 .kits{border-top:1px solid var(--hair);padding-block:var(--s120)}
 .kit{
@@ -141,18 +222,29 @@
   width:54px;height:54px;flex:none;border-radius:17px;
   display:grid;place-items:center;color:var(--c);
   border:1px solid var(--hair-2);background:rgba(255,255,255,.03);
+  opacity:0;transform:scale(.6) rotate(-16deg);
+  transition:opacity .6s var(--ease) .15s,transform .9s var(--sect-ease) .15s,
+             background .45s ease,border-color .45s ease;
+}
+.kit.is-in .kit__glyph{opacity:1;transform:none}
+.kit:hover .kit__glyph{
+  background:rgba(255,255,255,.06);border-color:var(--c);
+  transform:translateY(-3px) rotate(-5deg);
   transition:background .45s ease,border-color .45s ease,transform .6s var(--ease);
 }
-.kit:hover .kit__glyph{background:rgba(255,255,255,.06);border-color:var(--c);transform:translateY(-3px) rotate(-5deg)}
 .kit__n{display:block;font-size:var(--t-caption);letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
 .kit__ix{display:block;font-size:11px;letter-spacing:.22em;color:#3d3d3d;margin-top:7px;font-variant-numeric:tabular-nums}
 .kit__t{font-size:clamp(26px,3.4vw,var(--t-sm));font-weight:var(--fw-r);letter-spacing:-0.04em;line-height:1.1;margin-bottom:var(--s18)}
 
+/* wipes open left to right behind its accent edge, rather than fading */
 .kit__best{
   font-size:14px;font-weight:var(--fw-xl);color:var(--mist);line-height:1.6;
   padding:13px var(--s18);border-radius:12px;margin-bottom:var(--s24);
   background:rgba(255,255,255,.028);border-left:2px solid var(--c);
+  clip-path:inset(0 100% 0 0 round 12px);
+  transition:clip-path 1.1s var(--sect-ease) .3s;
 }
+.kit.is-in .kit__best{clip-path:inset(0 0 0 0 round 12px)}
 .kit__best b{
   display:block;margin-bottom:6px;
   font-size:10px;letter-spacing:.16em;text-transform:uppercase;
@@ -165,28 +257,77 @@
   font-size:var(--t-caption);color:var(--ash);letter-spacing:.04em;
   background:rgba(255,255,255,.05);padding:6px 14px;border-radius:var(--r-full);
 }
+/* the live dot: it is a working address, so it pulses once it lands */
 .kit__url::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--c);flex:none}
+.kit.is-in .kit__url::before{animation:kitLive 2.4s ease-out 1.2s infinite}
+@keyframes kitLive{
+  0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--c) 60%,transparent)}
+  70%,100%{box-shadow:0 0 0 7px transparent}
+}
 
 .kit__cta{display:flex;align-items:center;gap:var(--s24);flex-wrap:wrap;margin-top:var(--s30)}
 
 .kit__lists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s36)}
+
+/* the same ruled lists as the services cards — services.css isn't
+   loaded here, so without these the two columns were bare text */
+.kit .list__k{
+  display:block;font-size:var(--t-label);font-weight:var(--fw-label);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ash);margin-bottom:var(--s18);padding-bottom:10px;border-bottom:1px solid var(--hair);
+}
+.kit .list__k--no{color:var(--dim)}
+.kit .list{display:flex;flex-direction:column;gap:12px}
+.kit .list li{
+  display:flex;gap:12px;align-items:flex-start;
+  font-size:var(--t-small);font-weight:var(--fw-xl);color:var(--mist);line-height:1.5;
+  opacity:0;transform:translate3d(-10px,0,0);
+  transition:opacity .6s var(--ease) var(--k,0s),transform .7s var(--ease) var(--k,0s);
+}
+.kit.is-in .list li{opacity:1;transform:none}
+.kit .list li::before{content:"";width:5px;height:5px;flex:none;margin-top:9px;border-radius:50%;background:var(--c)}
+.kit .list--no li{color:var(--ash)}
+.kit .list--no li::before{background:#6a6a6a;border-radius:0;width:7px;height:1px;margin-top:12px}
+.kit .list li:nth-child(1){--k:.40s}
+.kit .list li:nth-child(2){--k:.46s}
+.kit .list li:nth-child(3){--k:.52s}
+.kit .list li:nth-child(4){--k:.58s}
+.kit .list li:nth-child(5){--k:.64s}
+.kit .list--no li:nth-child(1){--k:.72s}
+.kit .list--no li:nth-child(2){--k:.78s}
+.kit .list--no li:nth-child(3){--k:.84s}
+.kit .list--no li:nth-child(4){--k:.90s}
 
 /* ============================================================
    Bridge
    The point of the page. Each free tool names the paid service it
    is a working sample of, and the number that service starts at —
    so nobody has to guess what having one of their own would cost.
+   Rows land one at a time as they're reached (land() in motion.js):
+   the rule under each draws left to right, the arrow travels from
+   the tool to the service, and the price counts up.
    ============================================================ */
 .bridge{border-top:1px solid var(--hair);padding-block:var(--s120)}
+.bridge__rows{border-top:1px solid var(--hair)}
 .brow{
   display:grid;
   grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr) 132px;
   align-items:center;gap:var(--s24);
-  padding-block:var(--s24);border-bottom:1px solid var(--hair);
+  padding-block:var(--s24);
   position:relative;isolation:isolate;
-  transition:padding-left .5s var(--ease);
+  background:linear-gradient(var(--hair),var(--hair)) left bottom / 0 1px no-repeat;
+  opacity:0;transform:translate3d(0,18px,0);
+  transition:
+    opacity .8s var(--ease) var(--d,0s),
+    transform .8s var(--ease) var(--d,0s),
+    background-size 1.2s var(--sect-ease) calc(var(--d,0s) + .1s),
+    padding-left .5s var(--ease);
 }
-.brow:first-child{border-top:1px solid var(--hair)}
+.brow.is-in{opacity:1;transform:none;background-size:100% 1px}
+.brow::before{
+  content:"";position:absolute;left:0;top:-1px;height:1px;width:0;
+  background:var(--c);transition:width .65s var(--ease);
+}
+.brow:hover::before{width:100%}
 .brow::after{
   content:"";position:absolute;inset:0;z-index:-1;opacity:0;
   background:linear-gradient(90deg,rgba(255,255,255,.05),transparent 62%);
@@ -195,9 +336,21 @@
 .brow:hover::after{opacity:1}
 .brow:hover{padding-left:var(--s12)}
 .brow__from{font-size:16px;font-weight:var(--fw-xl);color:#fff;letter-spacing:-0.02em}
-.brow__arw{font-size:15px;color:#3d3d3d;text-align:center;transition:color .35s ease,transform .5s var(--ease)}
-.brow:hover .brow__arw{color:var(--c);transform:translateX(3px)}
-.brow__to{font-size:14px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.5;transition:color .35s ease}
+.brow__arw{
+  font-size:15px;color:#3d3d3d;text-align:center;
+  opacity:0;translate:-18px 0;
+  transition:opacity .6s var(--ease) calc(var(--d,0s) + .25s),translate .9s var(--sect-ease) calc(var(--d,0s) + .25s),
+             color .35s ease,transform .5s var(--ease);
+}
+.brow.is-in .brow__arw{opacity:1;translate:0 0;color:var(--c)}
+.brow:hover .brow__arw{transform:translateX(3px)}
+.brow__to{
+  font-size:14px;font-weight:var(--fw-xl);color:var(--ash);line-height:1.5;
+  opacity:0;transform:translate3d(14px,0,0);
+  transition:opacity .7s var(--ease) calc(var(--d,0s) + .38s),transform .8s var(--sect-ease) calc(var(--d,0s) + .38s),
+             color .35s ease;
+}
+.brow.is-in .brow__to{opacity:1;transform:none}
 .brow:hover .brow__to{color:var(--mist)}
 .brow__to b{display:block;font-weight:var(--fw-r);font-size:15px;color:var(--c);margin-bottom:4px;letter-spacing:-0.02em}
 .brow__p{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5a5a5a;text-align:right;white-space:nowrap}
@@ -207,39 +360,28 @@
   color:#fff;text-transform:none;font-variant-numeric:tabular-nums;
 }
 
-/* ============================================================
-   Homepage teaser
-   The same rack, shrunk down for the homepage teaser.
-   ============================================================ */
-.rack--teaser{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:0}
-.rack--teaser .tool{grid-column:span 1;padding:var(--s24) var(--s18) var(--s18)}
-.rack--teaser .tool__t{font-size:17px;margin-bottom:10px}
-.rack--teaser .tool__d{font-size:13px}
-.rack--teaser .tool__foot{padding-top:var(--s18)}
-.rack--teaser .tool__go{padding:8px 14px;font-size:12px}
+/* ---------------- Closing band ----------------
+   Same fix as services: at section-title size the heading broke
+   into five lines, and the form stretched to match it with its rows
+   spread apart. The form keeps its own height and rides along. */
+.close .secHead__title{font-size:clamp(34px,4.6vw,64px)}
+.close .form{align-self:start;align-content:start;position:sticky;top:calc(var(--nav-h) + var(--s30))}
 
 /* ============================================================
    Responsive
    ============================================================ */
-/* seven teaser tiles sit as four then three; they stop being readable
-   well before the tiles themselves run out of room, so drop to three */
-@media (max-width:1280px){
-  .rack--teaser{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
-
 @media (max-width:1024px){
   .rack{grid-template-columns:repeat(2,minmax(0,1fr))}
   .tool,.tool--wide{grid-column:span 1}
   .pledge__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .kit{grid-template-columns:1fr;gap:var(--s36)}
-  .rack--teaser{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .close .form{position:static}
 }
 
 @media (max-width:760px){
   .rack{grid-template-columns:1fr}
   .pledge__grid{grid-template-columns:1fr}
   .kit__lists{grid-template-columns:1fr;gap:var(--s30)}
-  .rack--teaser{grid-template-columns:1fr}
 
   /* the bridge collapses to a stacked card — the arrow column and
      the price column stop making sense side by side */
@@ -251,12 +393,27 @@
 }
 
 @media (hover:none){
-  .is-in .tool:hover{transform:none}
+  .tool.is-in:hover{translate:none}
   .brow:hover{padding-left:0}
 }
 
+/* every reveal here is started by script or by scroll, so with
+   reduced motion or without scripting nothing may start hidden */
 @media (prefers-reduced-motion:reduce){
-  .tool{opacity:1;transform:none}
+  .tool,.tool__glyph,.tool__tag,.tool__feats li,.tool__foot,
+  .kit__glyph,.kit .list li,.brow,.brow__arw,.brow__to{opacity:1;transform:none;scale:none;rotate:none;translate:none}
   .tool::before{transform:none}
   .kit::after{width:100%;transition:none}
+  .kit__best{clip-path:none}
+  .kit.is-in .kit__url::before{animation:none}
+  .brow{background-size:100% 1px}
+  [data-seq] > .pledge__item > *{opacity:1;transform:none}
+}
+@media (scripting: none){
+  .tool,.tool__glyph,.tool__tag,.tool__feats li,.tool__foot,
+  .kit__glyph,.kit .list li,.brow,.brow__arw,.brow__to{opacity:1;transform:none;scale:none;rotate:none;translate:none}
+  .tool::before{transform:none}
+  .kit__best{clip-path:none}
+  .brow{background-size:100% 1px}
+  [data-seq] > .pledge__item > *{opacity:1;transform:none}
 }

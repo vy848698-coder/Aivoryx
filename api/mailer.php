@@ -51,24 +51,10 @@ function ax_html_doc($html) {
 }
 
 
-/* The logo travels with the message rather than being linked. A
-   remote <img> is blocked by default in most clients, so the mark
-   would be missing exactly when the mail is read for the first
-   time; an inline part with a Content-ID always renders. SVG is
-   not supported in mail, hence the PNG. */
-define('AX_LOGO_CID', 'axlogo');
-
-function ax_logo_file() {
-  $f = dirname(__DIR__) . '/assets/img/icon-192.png';
-  return is_file($f) && is_readable($f) ? $f : null;
-}
-
-
 /* ---------------- Message assembly ----------------
    multipart/alternative: a plain-text part for clients that want
    it and for spam scoring, and an HTML part for everyone else.
-   When the logo is available the pair is nested inside a
-   multipart/related so the image can be addressed as cid:.
+   No images or attachments, so it reads as an ordinary email.
 
    $auto marks generated mail (the confirmation) with Auto-Submitted,
    which is what RFC 3834 expects and what stops two autoresponders
@@ -99,28 +85,8 @@ function ax_build_message($cfg, $to, $toName, $subject, $html, $text, $replyTo, 
     chunk_split(base64_encode(ax_html_doc($html)), 76, "\r\n") .
     "\r\n--$alt--\r\n";
 
-  $logo = ax_logo_file();
-  if (!$logo) {
-    $headers[] = 'Content-Type: multipart/alternative; boundary="' . $alt . '"';
-    return array('headers' => $headers, 'body' => $alternative);
-  }
-
-  $rel = 'axr' . bin2hex(random_bytes(10));
-  $headers[] = 'Content-Type: multipart/related; type="multipart/alternative"; boundary="' . $rel . '"';
-
-  $body =
-    "--$rel\r\n" .
-    "Content-Type: multipart/alternative; boundary=\"$alt\"\r\n\r\n" .
-    $alternative .
-    "\r\n--$rel\r\n" .
-    "Content-Type: image/png; name=\"aivoryx.png\"\r\n" .
-    "Content-Transfer-Encoding: base64\r\n" .
-    "Content-ID: <" . AX_LOGO_CID . ">\r\n" .
-    "Content-Disposition: inline; filename=\"aivoryx.png\"\r\n\r\n" .
-    chunk_split(base64_encode(file_get_contents($logo)), 76, "\r\n") .
-    "\r\n--$rel--\r\n";
-
-  return array('headers' => $headers, 'body' => $body);
+  $headers[] = 'Content-Type: multipart/alternative; boundary="' . $alt . '"';
+  return array('headers' => $headers, 'body' => $alternative);
 }
 
 
@@ -152,7 +118,17 @@ function ax_smtp_send($cfg, $to, $toName, $subject, $html, $text, $replyTo, $rep
   $secure = isset($s['secure']) ? $s['secure'] : 'tls';
   $target = ($secure === 'ssl' ? 'ssl://' : 'tcp://') . $s['host'] . ':' . (int)$s['port'];
 
-  $fp = @stream_socket_client($target, $errno, $errstr, (int)$s['timeout']);
+  /* Shared hosts often serve a certificate for the server's own name
+     rather than mail.<domain>; verify_cert=false keeps encryption but
+     skips that name check. See config.php. */
+  $verify = !isset($s['verify_cert']) || $s['verify_cert'];
+  $ctx = stream_context_create(array('ssl' => array(
+    'verify_peer'       => $verify,
+    'verify_peer_name'  => $verify,
+    'allow_self_signed' => !$verify,
+  )));
+
+  $fp = @stream_socket_client($target, $errno, $errstr, (int)$s['timeout'], STREAM_CLIENT_CONNECT, $ctx);
   if (!$fp) throw new Exception('connect failed: ' . $errstr);
   stream_set_timeout($fp, (int)$s['timeout']);
 

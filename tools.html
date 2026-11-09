@@ -25,13 +25,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="assets/css/tokens.css?v=20261024b">
-<link rel="stylesheet" href="assets/css/base.css?v=20261024b">
-<link rel="stylesheet" href="assets/css/components.css?v=20261024b">
-<link rel="stylesheet" href="assets/css/sections.css?v=20261024b">
-<link rel="stylesheet" href="assets/css/tools.css?v=20261024b">
-<link rel="stylesheet" href="assets/css/responsive.css?v=20261024b">
-<link rel="stylesheet" href="assets/css/motion.css?v=20261024b">
+<link rel="stylesheet" href="assets/css/tokens.css?v=20261024d">
+<link rel="stylesheet" href="assets/css/base.css?v=20261024d">
+<link rel="stylesheet" href="assets/css/components.css?v=20261024d">
+<link rel="stylesheet" href="assets/css/sections.css?v=20261024d">
+<link rel="stylesheet" href="assets/css/tools.css?v=20261024d">
+<link rel="stylesheet" href="assets/css/responsive.css?v=20261024d">
+<link rel="stylesheet" href="assets/css/motion.css?v=20261024d">
 
 <script type="application/ld+json">
 {
@@ -125,27 +125,39 @@
      The claim is that the tools are real, so the tools go first —
      no sales paragraph standing between the reader and the product.
      ============================================================ -->
-<section class="phero">
+<section class="phero phero--tools" id="pheroSec" data-recede>
+
+  <!-- the homepage's atmosphere, so every page reads as one site -->
+  <div class="hero__atmos" aria-hidden="true">
+    <span class="hero__mesh"></span>
+    <span class="hero__grain"></span>
+  </div>
+
   <div class="wrap">
     <div data-hero-copy>
-      <p class="eyebrow fade" style="--d:.05s">Free tools &mdash; seven of them, none want your card</p>
+      <!-- The intro steps back as the rack scrolls up over it -->
+      <div class="phero__intro">
+        <p class="eyebrow fade" style="--d:.05s">Free tools &mdash; seven of them, none want your card</p>
 
-      <h1 class="display">
-        <span class="line"><span style="--d:.18s">We built seven.</span></span>
-        <span class="line"><span style="--d:.30s">You pay for</span></span>
-        <span class="line"><span style="--d:.42s">none of them.</span></span>
-      </h1>
+        <h1 class="display">
+          <span class="line"><span style="--d:.18s">We built seven.</span></span>
+          <span class="line"><span style="--d:.30s">You pay for</span></span>
+          <span class="line"><span style="--d:.42s"><em class="grad">none of them.</em></span></span>
+        </h1>
 
-      <p class="lede fade" style="--d:.58s">
-        Everything below is live right now and hand-built by us, the same way we'd build
-        yours. They exist for one reason: it's easier to hand you working software than
-        to describe it. <span class="amber">If the free ones are any good</span>, you
-        already know what the paid work looks like.
-      </p>
+        <p class="lede fade" style="--d:.58s">
+          Everything below is live right now and hand-built by us, the same way we'd build
+          yours. They exist for one reason: it's easier to hand you working software than
+          to describe it. <span class="amber">If the free ones are any good</span>, you
+          already know what the paid work looks like.
+        </p>
+      </div>
 
       <!-- Seven tiles. Colour is inherited per tool from the service it
-           demonstrates — violet web app, verdant interactive tool, amber AI. -->
-      <div class="rack">
+           demonstrates — violet web app, verdant interactive tool, amber AI.
+           Tiles on the first screen land on load; the rest land as they're
+           scrolled to (land() in motion.js), then fill in from glyph to footer. -->
+      <div class="rack" data-land>
         <a class="tool" href="https://fileshare.aivoryx.com/" target="_blank" rel="noopener" style="--c:#8052ff;--d:.74s">
           <div class="tool__top">
             <span class="tool__glyph" aria-hidden="true">
@@ -344,7 +356,7 @@
      The rest of the site refuses to hide numbers, so it can't hide a
      motive either. Say it before anyone has to wonder.
      ============================================================ -->
-<section class="pledge">
+<section class="pledge" data-sect="split">
   <div class="wrap">
     <div class="secHead rv">
       <div>
@@ -360,8 +372,8 @@
       </p>
     </div>
 
-    <div class="pledge__grid">
-      <div class="pledge__item rv">
+    <div class="pledge__grid" data-seq>
+      <div class="pledge__item">
         <span class="pledge__n">01</span>
         <h3 class="pledge__t">It's cheaper than an ad</h3>
         <p class="pledge__d">
@@ -369,7 +381,7 @@
           renting thirty seconds of your attention on someone else's platform.
         </p>
       </div>
-      <div class="pledge__item rv" style="--d:.08s">
+      <div class="pledge__item">
         <span class="pledge__n">02</span>
         <h3 class="pledge__t">It's the only honest portfolio</h3>
         <p class="pledge__d">
@@ -377,7 +389,7 @@
           proves somebody can build. Judge us on the second one.
         </p>
       </div>
-      <div class="pledge__item rv" style="--d:.16s">
+      <div class="pledge__item">
         <span class="pledge__n">03</span>
         <h3 class="pledge__t">They cost us very little to run</h3>
         <p class="pledge__d">
@@ -385,7 +397,7 @@
           build you won't cost you &#8377;3,000 a month to keep alive either.
         </p>
       </div>
-      <div class="pledge__item rv" style="--d:.24s">
+      <div class="pledge__item">
         <span class="pledge__n">04</span>
         <h3 class="pledge__t">No catch you find later</h3>
         <p class="pledge__d">
@@ -398,7 +410,7 @@
 </section>
 
 <!-- ============================ DETAIL ============================ -->
-<section class="kits" id="detail">
+<section class="kits" id="detail" data-sect="mask">
   <div class="wrap">
     <div class="secHead rv">
       <div>
@@ -674,7 +686,7 @@
      The point of the page. Each free tool names the paid service it
      is a working sample of, and the number that service starts at.
      ============================================================ -->
-<section class="bridge">
+<section class="bridge" data-sect="zoom">
   <div class="wrap">
     <div class="secHead rv">
       <div>
@@ -691,36 +703,38 @@
       </p>
     </div>
 
-    <div class="rv">
+    <!-- each row lands as it is reached and counts its price up
+         (land() in motion.js) -->
+    <div class="bridge__rows" data-land>
       <a class="brow" href="services.html#svc-webapp" style="--c:#8052ff">
         <span class="brow__from">Secure file sharing</span>
         <span class="brow__arw" aria-hidden="true">&rarr;</span>
         <span class="brow__to"><b>Web applications</b>Uploads, storage, permissions and links that expire</span>
-        <span class="brow__p">From <b>&#8377;24,999</b></span>
+        <span class="brow__p">From <b data-count="24999" data-prefix="&#8377;">&#8377;24,999</b></span>
       </a>
       <a class="brow" href="services.html#svc-webapp" style="--c:#8052ff">
         <span class="brow__from">Self-destructing secrets</span>
         <span class="brow__arw" aria-hidden="true">&rarr;</span>
         <span class="brow__to"><b>Web applications</b>Encryption, one-time tokens and timed deletion</span>
-        <span class="brow__p">From <b>&#8377;24,999</b></span>
+        <span class="brow__p">From <b data-count="24999" data-prefix="&#8377;">&#8377;24,999</b></span>
       </a>
       <a class="brow" href="services.html#svc-webapp" style="--c:#8052ff">
         <span class="brow__from">AI-protected vault</span>
         <span class="brow__arw" aria-hidden="true">&rarr;</span>
         <span class="brow__to"><b>Web applications</b>Real logins, roles, a database and a dashboard behind them</span>
-        <span class="brow__p">From <b>&#8377;24,999</b></span>
+        <span class="brow__p">From <b data-count="24999" data-prefix="&#8377;">&#8377;24,999</b></span>
       </a>
       <a class="brow" href="services.html#svc-tool" style="--c:#4fd1b0">
         <span class="brow__from">JSON beautifier &amp; toolkit</span>
         <span class="brow__arw" aria-hidden="true">&rarr;</span>
         <span class="brow__to"><b>Interactive tools</b>The calculator or configurator that keeps people on your page</span>
-        <span class="brow__p">From <b>&#8377;2,000</b></span>
+        <span class="brow__p">From <b data-count="2000" data-prefix="&#8377;">&#8377;2,000</b></span>
       </a>
       <a class="brow" href="services.html#svc-ai" style="--c:#ffb829">
         <span class="brow__from">AI GST notice reply generator</span>
         <span class="brow__arw" aria-hidden="true">&rarr;</span>
         <span class="brow__to"><b>AI chat &amp; automation</b>A model pointed at your documents, with guard rails on it</span>
-        <span class="brow__p">From <b>&#8377;3,500</b></span>
+        <span class="brow__p">From <b data-count="3500" data-prefix="&#8377;">&#8377;3,500</b></span>
       </a>
     </div>
 
@@ -731,7 +745,7 @@
 </section>
 
 <!-- ============================ CLOSING CTA ============================ -->
-<section class="close" id="talk">
+<section class="close" id="talk" data-sect="rise">
   <div class="wrap contact">
     <div class="rv">
       <p class="eyebrow eyebrow--muted">Next step</p>
@@ -765,11 +779,11 @@
           <span><span class="channel__k">Call</span><span class="channel__v" data-phone-text>+91 93995 93499</span></span>
         </a>
 
-        <a class="channel" href="mailto:pradeep952025@gmail.com" data-mail>
+        <a class="channel" href="mailto:admin@aivoryx.com" data-mail>
           <span class="channel__ico" aria-hidden="true">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm9 8L4.4 7.2 4 7v.6l8 6 8-6V7l-.4.2L12 13z"/></svg>
           </span>
-          <span><span class="channel__k">Email</span><span class="channel__v" data-mail-text>pradeep952025@gmail.com</span></span>
+          <span><span class="channel__k">Email</span><span class="channel__v" data-mail-text>admin@aivoryx.com</span></span>
         </a>
       </div>
 
@@ -894,7 +908,7 @@
           <h4>Talk</h4>
           <a href="https://wa.me/919399593499" data-wa target="_blank" rel="noopener">WhatsApp</a>
           <a href="tel:+919399593499" data-tel data-phone-text>+91 93995 93499</a>
-          <a href="mailto:pradeep952025@gmail.com" data-mail data-mail-text>pradeep952025@gmail.com</a>
+          <a href="mailto:admin@aivoryx.com" data-mail data-mail-text>admin@aivoryx.com</a>
         </div>
       </div>
     </div>
@@ -911,13 +925,13 @@
   <span>WhatsApp</span>
 </a>
 
-<script src="assets/js/config.js?v=20261024b" defer></script>
-<script src="assets/js/utils.js?v=20261024b" defer></script>
-<script src="assets/js/contact.js?v=20261024b" defer></script>
-<script src="assets/js/nav.js?v=20261024b" defer></script>
-<script src="assets/js/reveal.js?v=20261024b" defer></script>
-<script src="assets/js/form.js?v=20261024b" defer></script>
-<script src="assets/js/motion.js?v=20261024b" defer></script>
-<script src="assets/js/main.js?v=20261024b" defer></script>
+<script src="assets/js/config.js?v=20261024d" defer></script>
+<script src="assets/js/utils.js?v=20261024d" defer></script>
+<script src="assets/js/contact.js?v=20261024d" defer></script>
+<script src="assets/js/nav.js?v=20261024d" defer></script>
+<script src="assets/js/reveal.js?v=20261024d" defer></script>
+<script src="assets/js/form.js?v=20261024d" defer></script>
+<script src="assets/js/motion.js?v=20261024d" defer></script>
+<script src="assets/js/main.js?v=20261024d" defer></script>
 </body>
 </html>

@@ -1,60 +1,54 @@
 <?php
 /* ============================================================
-   MAIL CONFIG — TEMPLATE
+   MAIL CONFIG — TEMPLATE (BigRock)
 
-   Copy this file to config.php on the server and fill it in.
-   config.php is in .gitignore and must never be committed: it
-   holds a working password for the mailbox.
+   Copy this file to config.php and fill it in. config.php is in
+   .gitignore and holds the real password; this template is
+   committed, so keep real values out of it.
 
-   Keep this template free of real values too — it IS committed,
-   and the repository is public.
-
-   On BigRock: cPanel → File Manager → api/ → copy
-   config.example.php → config.php → Edit → fill in → Save.
+   Fill in the four CHANGE-ME values below, nothing else.
    ============================================================ */
 
 if (!defined('AX_MAIL')) { http_response_code(403); exit; }
 
 return array(
 
-  /* Where enquiries land. */
-  'to'        => 'you@example.com',
+  /* 1. The inbox where enquiries arrive (the one you read). */
+  'to'        => 'CHANGE-ME-inbox@aivoryx.com',
   'to_name'   => 'Aivoryx',
 
-  /* What the enquirer sees in their inbox as the sender.
-     With Gmail SMTP this must be the Gmail account itself, or an
-     alias you have verified under Gmail → Settings → Accounts →
-     "Send mail as". Anything else gets rewritten by Google. */
-  'from'      => 'you@example.com',
+  /* 2. The mailbox the site sends FROM. Must be the same address
+        as 'user' below, or BigRock will refuse / rewrite it. */
+  'from'      => 'CHANGE-ME-sender@aivoryx.com',
   'from_name' => 'Aivoryx',
 
-  /* SMTP. For Gmail, 'pass' is a 16-character App Password from
-     myaccount.google.com → Security → 2-Step Verification →
-     App passwords. It is NOT the account's normal password, and
-     the option only appears once 2-Step Verification is on.
-
-     Paste it without spaces.
-
-     Set 'enabled' => false to skip SMTP entirely and use the
-     server's own mail() — see the note in mailer.php about why
-     that delivers worse. */
+  /* BigRock mailbox SMTP.
+     - host: mail.<your-domain>. If BigRock's email settings page
+       shows a different "Outgoing server", use that instead.
+     - 465 + ssl is BigRock's standard. If it ever fails, try
+       587 + tls.
+     - verify_cert: BigRock shared servers often present a
+       certificate for the server's own hostname, not for
+       mail.<your-domain>, and PHP then refuses the connection.
+       false keeps the connection encrypted but skips that name
+       check. Set true if your host has a matching certificate. */
   'smtp' => array(
-    'enabled' => true,
-    'host'    => 'smtp.gmail.com',
-    'port'    => 587,          // 587 with STARTTLS, or 465 with SSL
-    'secure'  => 'tls',        // 'tls' for 587, 'ssl' for 465
-    'user'    => 'you@example.com',
-    'pass'    => 'xxxxxxxxxxxxxxxx',   // 16-char App Password, no spaces
-    'timeout' => 20,
+    'enabled'     => true,
+    'host'        => 'mail.aivoryx.com',
+    'port'        => 465,
+    'secure'      => 'ssl',          // 'ssl' for 465, 'tls' for 587
+    'user'        => 'CHANGE-ME-sender@aivoryx.com',   // same as 'from'
+    'pass'        => 'CHANGE-ME-password',             // 3. the sender mailbox password
+    'timeout'     => 20,
+    'verify_cert' => false,
   ),
 
-  /* Send the enquirer a "we've got it" reply. */
+  /* Send the enquirer a short "we've received it" reply. */
   'autoreply' => true,
 
-  /* Most submissions accepted from one IP per hour, before the
-     endpoint starts refusing. Stops a bot hammering the form. */
-  'rate_limit' => 6,
+  /* Most submissions accepted from one IP per hour. */
+  'rate_limit' => 10,
 
-  /* Public site address, used in the auto-reply's links. */
+  /* Used for the link in the signature. */
   'site' => 'https://aivoryx.com',
 );

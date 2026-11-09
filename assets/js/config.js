@@ -13,7 +13,7 @@ window.AX.config = {
   phone: '+919399593499',
   phoneDisplay: '+91 93995 93499',
 
-  email: 'pradeep952025@gmail.com',
+  email: 'admin@aivoryx.com',
 
   /* Prefilled first line when someone taps WhatsApp */
   waGreeting: "Hi Aivoryx, I'd like to discuss a project",

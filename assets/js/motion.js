@@ -10,6 +10,8 @@
    · media()   screenshots that settle as they cross the viewport
    · opener()  case studies that open from a card to full width
    · track()   a reading line that fills as a story is read
+   · land()    list items that arrive one by one as they're reached
+   · recede()  a hero intro that steps back as the page rises over it
    ============================================================ */
 AX.module(function motion(){
   'use strict';
@@ -495,6 +497,91 @@ AX.module(function motion(){
     frame();
   }
 
+  /* ============================================================
+     Land
+     Children of [data-land] arrive one at a time. Animating a whole
+     list on load meant the rows below the fold had already finished
+     by the time anyone scrolled to them. Those on the first screen
+     keep their art-directed --d; the rest land as they arrive,
+     staggered within whatever batch the scroll brings in. A
+     [data-count] inside a child counts up as it lands.
+     ============================================================ */
+  function land(){
+    var groups = $$('[data-land]');
+    if(!groups.length) return;
+    var kids = [];
+    groups.forEach(function(g){ kids = kids.concat(Array.prototype.slice.call(g.children)); });
+
+    function arrive(el, delay){
+      el.style.setProperty('--d', delay.toFixed(2) + 's');
+      el.classList.add('is-in');
+      var n = AX.$('[data-count]', el);
+      if(n && AX.count) setTimeout(function(){ AX.count(n); }, delay * 1000);
+    }
+
+    if(reduce || !window.IntersectionObserver){
+      kids.forEach(function(k){ k.classList.add('is-in'); });
+      return;
+    }
+
+    var later = [], vh = window.innerHeight;
+    kids.forEach(function(k){
+      if(k.getBoundingClientRect().top < vh * .94){
+        arrive(k, parseFloat(k.style.getPropertyValue('--d')) || 0);
+      } else {
+        later.push(k);
+      }
+    });
+
+    var io = new IntersectionObserver(function(entries){
+      var n = 0;
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        io.unobserve(en.target);
+        arrive(en.target, n++ * .08);
+      });
+    }, {threshold:.2, rootMargin:'0px 0px -6% 0px'});
+    later.forEach(function(k){ io.observe(k); });
+  }
+
+  /* ============================================================
+     Recede
+     Publishes --s on a [data-recede] hero: 0 at the top, 1 once its
+     .phero__intro has scrolled most of the way off. The CSS steps
+     the intro back and lets the background grid lag, so whatever
+     follows the intro reads as rising over it.
+     ============================================================ */
+  function recede(){
+    var hero = AX.$('[data-recede]'), intro = hero && AX.$('.phero__intro', hero);
+    if(!intro || reduce) return;
+
+    var end = 1, ticking = false;
+
+    /* offsetTop ignores transforms, so the intro moving can never feed
+       back into its own measurement */
+    function measure(){
+      var y = 0;
+      for(var e = intro; e; e = e.offsetParent) y += e.offsetTop;
+      end = Math.max(1, (y + intro.offsetHeight) * .85);
+    }
+    function frame(){
+      ticking = false;
+      /* stacked on a narrow screen the intro is most of the first
+         screen; moving it there only costs frames */
+      if(window.innerWidth <= 1024){ hero.style.setProperty('--s', 0); return; }
+      var s = Math.max(0, Math.min(1, window.pageYOffset / end));
+      hero.style.setProperty('--s', s.toFixed(4));
+    }
+
+    window.addEventListener('scroll', function(){
+      if(!ticking){ ticking = true; requestAnimationFrame(frame); }
+    }, {passive:true});
+    window.addEventListener('resize', function(){ measure(); requestAnimationFrame(frame); });
+    window.addEventListener('load', function(){ measure(); frame(); });
+    measure();
+    frame();
+  }
+
   smooth();
   stage();
   deck();
@@ -504,4 +591,6 @@ AX.module(function motion(){
   creed();
   opener();
   track();
+  land();
+  recede();
 });
