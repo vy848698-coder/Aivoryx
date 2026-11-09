@@ -79,6 +79,32 @@ AX.module(function form(){
     if(kind) note.classList.add(kind);
   }
 
+  /* BigRock's bot filter answers any .php request that lacks its
+     "humans_NNNN" cookie with a 409 page whose only content is a script
+     setting that cookie and reloading. Static .html pages are never
+     challenged, so a visitor's browser never has the cookie when the form
+     posts. When that page comes back, set the cookie it names and try once
+     more. The name is read from the response, not hard-coded, in case the
+     host rotates it. */
+  function post(payload, canRetry){
+    return fetch('api/send.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify(payload)
+    })
+    .then(function(res){
+      return res.text().then(function(body){
+        var m = /document\.cookie\s*=\s*["']([^"';]+)/.exec(body);
+        if(canRetry && m && !res.ok){
+          document.cookie = m[1] + '; path=/; SameSite=Lax';
+          return post(payload, false);
+        }
+        try { return JSON.parse(body); } catch(e){ return { ok:false }; }
+      });
+    });
+  }
+
   /* WhatsApp is its own channel on this page — the buttons beside the
      form open it directly. Submitting the form sends email and nothing
      else, so a visitor is never bounced into an app they didn't ask for. */
@@ -120,14 +146,7 @@ AX.module(function form(){
     if(btn) btn.disabled = true;
     say('Sending…');
 
-    fetch('api/send.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    .then(function(res){
-      return res.json().catch(function(){ return { ok:false }; });
-    })
+    post(payload, true)
     .then(function(data){
       if(data && data.ok){
         f.reset();
