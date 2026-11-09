@@ -15,7 +15,7 @@ Aivoryx/
 ├── services.html           Six services + the scope builder that prices your build
 ├── process.html            The fifteen-day build, opened up day by day
 ├── pricing.html            Three tiers, a comparison table and the break-even chart
-├── tools.html              Five free tools, and the service each one demonstrates
+├── tools.html              Eight free tools, and the service each one demonstrates
 ├── 404.html                Not-found page
 ├── robots.txt
 ├── sitemap.xml

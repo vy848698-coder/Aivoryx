@@ -64,20 +64,43 @@
   /* Six links plus the brand and the CTA stop fitting below ~960px: the pill
      wrapped to two lines and took the whole bar with it. The menu moves to
      the burger here rather than at 760. */
-  .nav__links{
-    position:fixed;inset:0;flex-direction:column;justify-content:center;gap:var(--s12);
-    padding:var(--s96) var(--s24);
-    background:rgba(0,0,0,.97);backdrop-filter:blur(22px);
-    -webkit-backdrop-filter:blur(22px);
-    opacity:0;pointer-events:none;transition:opacity .45s ease;
+  /* While the menu is open the bar drops its blur, instantly. backdrop-filter
+     makes the nav the containing block for its fixed children, so once the
+     page had scrolled (.is-stuck) the "full-screen" menu was only as tall as
+     the bar: links spilled upward, got cut off, and the page showed through.
+     transition:none matters — a fading blur still traps it for .45s. */
+  .nav.is-open{
+    background:transparent;box-shadow:none;transition:none;
+    backdrop-filter:none;-webkit-backdrop-filter:none;
   }
-  .nav.is-open .nav__links{opacity:1;pointer-events:auto}
+  .nav__links{
+    position:fixed;inset:0;z-index:1;
+    width:100%;height:100vh;height:100dvh;
+    flex-direction:column;justify-content:flex-start;align-items:stretch;gap:2px;
+    padding:calc(var(--nav-h) + 12px) var(--s24) calc(var(--s30) + env(safe-area-inset-bottom));
+    overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+    background:#000;
+    opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .35s ease,visibility 0s linear .35s;
+  }
+  .nav.is-open .nav__links{
+    opacity:1;visibility:visible;pointer-events:auto;
+    transition:opacity .35s ease,visibility 0s;
+  }
+  /* auto margins centre the list when it fits and fall to zero when it
+     doesn't, so a short screen scrolls instead of clipping the first link */
+  .nav__links .nav__link:first-of-type{margin-top:auto}
+  .nav__links .nav__link:last-of-type{margin-bottom:auto}
   .nav__pill{display:none}
   .nav__link{
-    font-size:30px;text-transform:none;letter-spacing:-0.04em;
-    color:#fff;font-weight:var(--fw-r);padding:10px 0;text-align:center;
+    display:block;width:100%;max-width:420px;margin-inline:auto;
+    font-size:clamp(26px,8vw,34px);line-height:1.15;text-transform:none;letter-spacing:-0.04em;
+    color:#fff;font-weight:var(--fw-r);padding:12px 0;text-align:center;
     opacity:0;transform:translateY(20px);
   }
+  .nav.is-open .nav__link.is-active{color:var(--iris)}
+  /* the close button and the quote button stay above the open menu */
+  .nav.is-open .nav__right{position:relative;z-index:2}
   .nav.is-open .nav__link{animation:menuIn .6s var(--ease) forwards}
   .nav.is-open .nav__link:nth-child(3){animation-delay:.06s}
   .nav.is-open .nav__link:nth-child(4){animation-delay:.12s}
@@ -231,4 +254,12 @@
   .nav,.progress,.wa,.strip,.scrollcue,.hero__stage,.hero__atmos,.form{display:none}
   body{background:#fff;color:#000}
   .rv,.fade,.step,.plan,.svc__row,.work__tag,.line > span{opacity:1;transform:none}
+}
+
+/* ---------------- Short screens (phones on their side) ----------------
+   Six links at full size need ~440px of height. Below that the menu
+   tightens instead of making someone scroll a navigation list. */
+@media (max-width:1024px) and (max-height:520px){
+  .nav__links{padding-top:calc(var(--nav-h) + 4px);gap:0}
+  .nav__link{font-size:22px;padding:7px 0}
 }

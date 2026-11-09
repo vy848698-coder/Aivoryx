@@ -85,19 +85,34 @@ AX.module(function nav(){
   }
 
   /* ---------------- Mobile menu ---------------- */
+  /* html and body both: iOS Safari keeps scrolling the page under an
+     overlay when only body is locked */
+  function lockScroll(on){
+    document.documentElement.style.overflow = on ? 'hidden' : '';
+    document.body.style.overflow = on ? 'hidden' : '';
+  }
   function closeMenu(){
     nav.classList.remove('is-open');
     burger.setAttribute('aria-expanded','false');
     burger.setAttribute('aria-label','Open menu');
-    document.body.style.overflow = '';
+    lockScroll(false);
   }
   burger.addEventListener('click', function(){
     var open = nav.classList.toggle('is-open');
     burger.setAttribute('aria-expanded', String(open));
     burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    document.body.style.overflow = open ? 'hidden' : '';
+    lockScroll(open);
   });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMenu(); });
+  /* a link to another page closes the menu, so the back button (which
+     restores the page from cache) doesn't land on it still open */
+  links.forEach(function(l){ l.addEventListener('click', closeMenu); });
+  window.addEventListener('pageshow', closeMenu);
+  /* turning a tablet to landscape past 1024 hides the burger — don't
+     leave the page locked behind a menu nobody can close */
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 1024 && nav.classList.contains('is-open')) closeMenu();
+  });
 
   /* ---------------- The scroll loop ---------------- */
   var ticking = false;

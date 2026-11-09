@@ -1,5 +1,5 @@
 /* ============================================================
-   WORK PAGE — the hero deck, the index peek and the four live demos.
+   WORK PAGE — the hero deck, the index peek and the six live demos.
    Each demo rebuilds the mechanism that made its project worth
    doing, so a visitor can use it instead of reading about it.
    ============================================================ */
@@ -143,7 +143,119 @@ AX.module(function work(){
   })();
 
   /* ============================================================
-     01 — MarketIQ: the lead qualifier
+     Solar Saathi: the first step, in the visitor's language
+     Saathi's real lines from saathi.clansmachina.com. Picking a
+     language rewrites the bubble, the stage label and the button,
+     the way the live assistant does.
+     ============================================================ */
+  (function saathi(){
+    var root = $('#saathiLang');
+    if(!root) return;
+
+    var LINES = {
+      or: { name:'ଓଡ଼ିଆ', ok:'ବହୁତ ଭଲ! ଏବେ ମୁଁ ଆପଣଙ୍କ ସହ ଓଡ଼ିଆରେ କଥା ହେବି।',
+            ask:'ଆସନ୍ତୁ, ପରସ୍ପରକୁ ଜାଣିବା। ଆପଣଙ୍କ ପୂରା ନାମ କ\'ଣ?', stage:'ଆପଣଙ୍କ ବିଷୟରେ · 1/5', btn:'ଆଗକୁ' },
+      hi: { name:'हिन्दी', ok:'बहुत बढ़िया! अब हम हिंदी में बात करेंगे। हर स्टेप पर मैं आपके साथ हूँ।',
+            ask:'चलिए शुरू करते हैं! आपका पूरा नाम क्या है?', stage:'आपके बारे में · 1/5', btn:'आगे बढ़ें' },
+      en: { name:'English', ok:'Wonderful! Let\'s talk in English. I\'ll guide you at every step.',
+            ask:'Let\'s get started! May I know your full name?', stage:'About you · 1/5', btn:'Next' }
+    };
+
+    var chips = $$('.chip', root);
+    var out = $('#saathiOut'), elStage = $('#saathiStage'), elBtn = $('#saathiBtn');
+    var timer = null;
+
+    function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+    function render(code){
+      var L = LINES[code];
+      out.setAttribute('lang', code);
+      elStage.setAttribute('lang', code);
+      elBtn.setAttribute('lang', code);
+      put(elStage, L.stage);
+      put(elBtn, L.btn);
+
+      var head = '<b>Saathi</b>\n\n';
+      var full = L.ok + '\n\n' + L.ask;
+      clearInterval(timer);
+      if(AX.reduce){ out.innerHTML = head + esc(full); return; }
+
+      /* typed out, a few characters a tick, the way the bubble fills on the live site */
+      var chars = Array.from(full), i = 0;
+      timer = setInterval(function(){
+        i = Math.min(chars.length, i + 2);
+        out.innerHTML = head + esc(chars.slice(0, i).join('')) +
+          (i < chars.length ? '<span class="ph">▍</span>' : '');
+        if(i >= chars.length) clearInterval(timer);
+      }, 28);
+    }
+
+    chips.forEach(function(c){
+      c.addEventListener('click', function(){
+        chips.forEach(function(o){ o.setAttribute('aria-pressed', String(o === c)); });
+        render(c.dataset.lang);
+      });
+    });
+    render('en');
+  })();
+
+  /* ============================================================
+     Jay Jagannath Marine Eximss: the shipment calculator
+     Same rules as the live site — bags are tonnage over bag size,
+     containers assume ~20 MT per 20' box, bulker is loose bulk.
+     ============================================================ */
+  (function shipment(){
+    var slider = $('#shipSlider');
+    if(!slider) return;
+
+    var PER_BOX = 20;   // MT per 20' container, indicative
+    var getPack = (function(){
+      var chips = $$('#shipPack .chip');
+      chips.forEach(function(c){
+        c.addEventListener('click', function(){
+          chips.forEach(function(o){ o.setAttribute('aria-pressed', String(o === c)); });
+          render();
+        });
+      });
+      return function(){
+        var on = chips.filter(function(c){ return c.getAttribute('aria-pressed') === 'true'; })[0];
+        return on ? +on.dataset.kg : 50;
+      };
+    })();
+
+    var elAmt = $('#shipAmt'), elBags = $('#shipBags'), elBagsK = $('#shipBagsK'),
+        elSize = $('#shipSize'), elSizeK = $('#shipSizeK'),
+        elWeight = $('#shipWeight'), elBoxes = $('#shipBoxes');
+
+    function n(v){ return Math.round(v).toLocaleString('en-IN'); }
+
+    function render(){
+      var mt = parseInt(slider.value, 10), kg = getPack();
+      var pct = (mt - slider.min) / (slider.max - slider.min) * 100;
+      slider.style.setProperty('--fill', pct + '%');
+      elAmt.textContent = n(mt) + ' MT';
+
+      if(kg){
+        elBagsK.textContent = 'Bags required';
+        elSizeK.textContent = 'Bag size';
+        put(elBags, n(Math.ceil(mt * 1000 / kg)));
+        put(elSize, kg === 50 ? '50 kg' : (kg / 1000) + ' MT jumbo');
+      } else {
+        elBagsK.textContent = 'Loading mode';
+        elSizeK.textContent = 'Discharge';
+        put(elBags, 'Loose bulk');
+        put(elSize, 'Pneumatic');
+      }
+      put(elWeight, n(mt) + ' MT');
+      put(elBoxes, '≈ ' + n(Math.ceil(mt / PER_BOX)));
+    }
+
+    slider.addEventListener('input', render);
+    render();
+  })();
+
+  /* ============================================================
+     MarketIQ: the lead qualifier
      Pick a service and a budget, watch the WhatsApp message build.
      ============================================================ */
   (function qualifier(){
@@ -177,7 +289,7 @@ AX.module(function work(){
   })();
 
   /* ============================================================
-     02 — Clans Machina: the solar savings calculator
+     Clans Machina: the solar savings calculator
      Deliberately simple and openly illustrative. The live site runs
      the client's own tariff and subsidy tables.
      ============================================================ */
@@ -243,7 +355,7 @@ AX.module(function work(){
   })();
 
   /* ============================================================
-     03 — Odisha Workforce: the dual-path split
+     Odisha Workforce: the dual-path split
      One site, two audiences, two inboxes.
      ============================================================ */
   (function dualPath(){
@@ -271,7 +383,7 @@ AX.module(function work(){
   })();
 
   /* ============================================================
-     04 — Kamini Labs: the priced booking
+     Kamini Labs: the priced booking
      Tick tests, see the bill against the usual rate, and see what the
      front desk receives. Prices are the clinic's published ones.
      ============================================================ */
@@ -326,6 +438,8 @@ AX.module(function work(){
 
     var out = $('#pickerOut'), cta = $('#pickerCta');
     var LINES = {
+      'A guided assistant': 'an assistant that talks people through my enquiry in their own language, like the Solar Saathi build',
+      'A spec-led catalogue': 'a product catalogue with specs and a quote calculator for buyers, like the Jay Jagannath Marine Eximss build',
       'Lead qualification': 'a site that qualifies enquiries before they reach me, like the MarketIQ build',
       'An interactive tool': 'a calculator or quote tool built into the site, like the Clans Machina build',
       'Two audiences': 'one site that serves two different audiences without mixing them up, like the Odisha Workforce build',
